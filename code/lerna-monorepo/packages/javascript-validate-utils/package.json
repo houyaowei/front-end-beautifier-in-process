@@ -1,0 +1,30 @@
+{
+  "name": "javascript-validate-utils",
+  "version": "0.2.3",
+  "main": "dist/javascript-validate-utils.js",
+  "author": "houyuewei <houyaowei@163.com>",
+  "description": "a validate tool for variables and functions",
+  "license": "MIT",
+  "scripts": {
+    "build": "rollup -c",
+    "test": "jest"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/houyaowei/javascript-validate-utils.git"
+  },
+  "bugs": {
+    "url": "https://github.com/houyaowei/javascript-validate-utils/issues"
+  },
+  "homepage": "https://github.com/houyaowei/javascript-validate-utils#readme",
+  "devDependencies": {
+    "jest": "^27.4.7",
+    "jest-esm-transformer": "^1.0.0",
+    "rollup": "^2.64.0"
+  },
+  "dependencies": {}
+}
