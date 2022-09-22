@@ -6,6 +6,15 @@
 
 如果有一种工程管理方式，能够将相关的工程统一管理起来,不仅仅是因为你的版本控制系统迫使你以特定的方式组织事物。 使用单个 repo 还可以减少管理依赖项的开销.
 
-#### 前置工具（yarn workspace,lerna）
+#### yarn workspace + lerna
+lerna创建过程
+
+安装本工程的包依赖
+
+安装3rd包、启动、运行
+
+
+#### yarn workspace 
+
 
 #### Monorepo的好处

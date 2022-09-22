@@ -1,15 +1,10 @@
 {
   "name": "root",
   "private": true,
-  "scripts": {
-    "bootstrap": "lerna bootstrap --use-workspaces",
-    "dev": "lerna run dev"
-  },
+  "workspaces": [
+    "packages/*"
+  ],
   "devDependencies": {
     "lerna": "^5.5.2"
-  },
-  "workspaces": [
-    "packages/*",
-    "app/*"
-  ]
+  }
 }
