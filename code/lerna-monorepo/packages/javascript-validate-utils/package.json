@@ -15,7 +15,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/houyaowei/javascript-validate-utils.git"
+    "url": "git+https://github.com/houyaowei/javascript-validate-utils.git",
+    "directory": "packages/javascript-validate-utils"
   },
   "bugs": {
     "url": "https://github.com/houyaowei/javascript-validate-utils/issues"

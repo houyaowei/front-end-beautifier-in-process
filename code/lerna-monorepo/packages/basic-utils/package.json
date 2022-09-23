@@ -8,6 +8,11 @@
     "build": "node ./lib/basic-utils.js",
     "test": "jest"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/houyaowei/lerna-npm-test.git",
+    "directory": "packages/basic-utils"
+  },
   "dependencies": {
     "javascript-validate-utils": "^0.2.3",
     "jest": "^29.0.3",
