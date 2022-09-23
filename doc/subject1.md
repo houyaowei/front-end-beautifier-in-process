@@ -13,7 +13,19 @@ lerna创建过程
 
 安装3rd包、启动、运行
 
+注意问题：
+"private": true会确保根目录不被发布出去。
 
+包名不能重复：lerna ERR! E403 You do not have permission to publish "basic-utils". Are you logged in as the correct user?
+解决办法： 检查包名
+
+命令行少参数： lerna ERR! E401 [UNAUTHORIZED] Login first。 
+解决办法是加 --conventional-commits
+
+不能发私有包：npm ERR! You must sign up for private packages 。 
+解决办法： npm publish --access public
+ 
+ 
 #### yarn workspace 
 
 
