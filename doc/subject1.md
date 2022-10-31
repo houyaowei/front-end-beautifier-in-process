@@ -49,6 +49,12 @@ node-modules/.bin/react --version  （原）
 npx react --version  (新)
 ```
 
+创建lerna工程
+```javascript
+    npx lerna@latest init
+```
+生成lerna工程的骨架，包含基本的lerna配置，package.json和基本的packages文件夹。
+
 
 对于多项目管理
 
