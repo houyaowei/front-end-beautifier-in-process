@@ -17,6 +17,38 @@
 下面我们看下单一仓库monorepo的实现。
 ![monorepo](media/monorepo.jpeg)
 
+monorepo项目管理的方式有几种，分别是lerna、pnpm workspace和yarn workspace，npm workspace的方式。
+
+//TODO, 这里需要链接到工具选择专题（pnpm和yarn）
+lerna方式
+
+推荐是用npx 快速安装最新版的lerna进行项目初始化。关于npx稍微做下扩展，npx从npm@5.2后默认安装，它会自动查找当前依赖包中的可执行文件，如果在当前依赖包中找不到或者不存在依赖包是，就会向上在PATH对应的包里寻找。如果再找不到，就会帮自动下载安装。
+
+总体来讲，npx可以做以下几方面的工作：
+（1）项目初始化
+
+React项目初始化，不用全局安装脚手架也可以进行项目初始化
+```javascript
+     npx create-react-app react-app
+```
+
+(2) 启动前端web服务。在本本机没有安装lite-server模块，下面的命令会自动下载该模块，在当前目录启动一个 Web 服务。如下：
+```javascript
+    npx lite-server
+```
+(3)临时切换node版本执行命令
+```javascript
+    npx -p node@14.16.0 node -v 
+```
+命令先指定安装node@14.16.0，然后再执行node -v命令.
+
+(4)调用已经安装的模块
+```javascript
+node-modules/.bin/react --version  （原）
+
+npx react --version  (新)
+```
+
 
 对于多项目管理
 
