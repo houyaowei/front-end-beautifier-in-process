@@ -1,0 +1,8 @@
+{
+  "name": "sharp-UI",
+  "version": "0.0.1",
+  "private": false,
+  "scripts": {},
+  "main": "index.ts",
+  "dependencies": {}
+}
