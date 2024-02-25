@@ -113,16 +113,192 @@
 | -------------------- | ----------- | -------- |
 | verdaccio            | node        | 15.6K    |
 | Nexus-public         | Java        | 1.6k     |
-| Cnpmcore             | eggjs(node) | 495      |
+| Cnpmcore             | eggjs(node) | 524      |
 | Cnpmjs（已停止维护） | Node        |          |
 
 ​    作为前端，我们首先选择Node工程作为私有仓库搭建工具，当然如果公司有有同步管理 maven、docker等需求，也可以考虑Nexus-public。 基于Node的verdaccio界面简洁，功能齐全，社区活跃，是一个不错的选择，并且也非常轻量，安装和配置都非常简单，但是身份验证、存储和通知等功能需要定制，这些默认只提供了简陋的实现。cnpmcore 是淘宝 NPM 镜像站服务 npmmirror.com 背后的核心，基于 eggjs 开发的，并有很好的二次开发能力。
 
    企业服务，要求数据和服务分离，既要保证数据的安全和可靠性，又要保证服务的持续升级迭代。私有仓库更关注内网私有化部署，除了满足内网 npm 基本服务要求，更多的是企业定制化需求，不用面对公网的流量。
 
-  所以cnpmcore对于企业级 npm 私有仓库部署方案来说，是一个不错的解决方案。下面我们将详细介绍cnpmcore的建设过程。
+  所以cnpmcore对于企业级 npm 私有仓库部署方案来说，是一个不错的解决方案。下面我们将围绕cnpmcore详细介绍其建设过程。
 
- 
+  在生产环境中，可以直接部署 cnpmcore 系统，实现完整的 Registry 镜像功能。 但是，通常在企业内部会有一些内部的服务、要求，例如文件存储、缓存服务、登录鉴权流程等需要集成。
+
+   cnpmcore除了提供了源码部署、二次开发的方式，还提供了 npm 包的方式，便于在 tegg（Strong Type framework with eggjs） 应用中进行集成。 这样既可以享受到丰富的自定义扩展能力，又可以享受到 cnpmcore 持续迭代的能力。需要注意的是，cnpmcore依赖数据库（mysql或者mariadb）服务、redis服务、包存储默认是本地文件系统，推荐使用对象存储（OSS或者s3）服务。
+
+   先看下cnpmcore的分层架构依赖图：
+
+<img src="./media/1-6.jpeg" style="zoom:50%;" />
+
+<center>图1-6</center>
+
+对这个架构图做下简要的说明：
+
+- 总体：按照功能分层，包括 common（包括通用工具、服务调用、抽象类、适配器等）、core（核心业务逻辑，实体、服务、事件）、repository（数据存储和查询）、port（HTTP 控制器）、infra（基于 PaaS 的基础设置实现）等
+- Controller：处理 HTTP 请求，主要继承 AbstractController 和 MiddlewareController。AbstractController 封装了一些基础的数据 Entity 访问方法，MiddlewareController 主要负责编排中间件的加载顺序
+- 请求合法性校验：请求合法性校验包括请求参数校验、用户认证和资源操作权限校验。请求参数校验使用 egg-typebox-validate，用户认证和资源操作权限校验通过 UserRoleManager 进行
+- Service：依赖 Repository，然后由 Controller 依赖。
+- Repository：依赖 Model，然后由Service 和 Controller 依赖。Repository 类方法命名规则包括 findSomething（查询）、saveSomething（保存）、removeSomething（删除）和 listSomethings（查询）
+
+从功能的角度看，有如下几个：
+
+- npm镜像功能：加速安装
+- 私有包发布：企业内部私有包发布
+- 多registory同步：无痛历史迁移
+- bug-version：快速应急开源社区问题
+- 二次研发：开发属于自己的npmcore
+
+   根据cnpmcore官方建议，该项目依赖MySQL 数据服务、Redis 缓存服务。包存储默认是本地文件系统，为了性能考虑推荐使用对象存储服务或者s3服务，这里我使用了minio，你当然可以选择阿里云oss，七牛oss，腾讯oss，或者是亚马逊的S3。官方也提供了支持mysql5.x 、mysql8.x版本完整的sql脚本 ，需要全部导入 。
+
+<img src="./media/1-7.jpeg" style="zoom:50%;" />
+
+<center>图1-7</center>
+
+接这基于minio新建bucket，输入必须的bucket名称、accessKeyId、accessKeySecret、端口等
+
+<img src="./media/1-8.jpeg" style="zoom:50%;" />
+
+<center>图1-8</center>
+
+启动redis服务，并确认连接信息
+
+<img src="./media/1-9.jpeg" style="zoom:50%;" />
+
+<center>图1-9</center>
+
+先初始化一个tegg项目：
+
+```js
+mkdir tegg-cnpm
+cd tegg-cnpm
+npm init egg --type=ts
+```
+
+依次安装以下依赖
+
+```js
+yarn add cnpmcore
+yarn add egg-redis
+yarn add @eggjs/tegg-orm-plugin
+yarn add egg-typebox-validate
+yarn add oss-cnpm
+```
+
+在config/plugin.ts中启用新安装的插件
+
+```js
+const plugin: EggPlugin = {
+  ... //其他默认配置
+  redis: {
+    enable: true,
+    package: 'egg-redis',
+  },
+  teggOrm: {
+    enable: true,
+    package: '@eggjs/tegg-orm-plugin',
+  },
+  typeboxValidate: {
+    enable: true,
+    package: 'egg-typebox-validate',
+  },
+};
+```
+
+在config/module.json中，配置需要声明的module，一般情况下，无需在项目中手动声明包含了哪些 module，tegg 会自动在项目目录下进行扫描。但是会存在一些特殊的情况，tegg 无法扫描到，比如是通过 npm 包的方式发布的。
+
+```js
+[
+  {
+    "path": "../app/infra"
+  },
+  {
+    "package": "cnpmcore/common"
+  },
+  ... //已有的配置
+]
+```
+
+配置config/config.default.ts文件，该文件主要由npm仓库核心配置、同步配置、数据库配置、redis配置等，全量核心配置如下：
+
+```js
+config.cnpmcore = {
+    name: 'cnpm',
+    sourceRegistry: 'https://registry.npmmirror.com',
+    // sync mode
+    //  - none: don't sync npm package, just redirect it to sourceRegistry
+    //  - all: sync all npm packages
+    //  - exist: only sync exist packages, effected when `enableCheckRecentlyUpdated` or 	       `enableChangesStream` is enabled
+    syncMode: SyncMode.admin,
+    syncDeleteMode: SyncDeleteMode.delete,
+    registry: process.env.CNPMCORE_CONFIG_REGISTRY || 'http://localhost:7001', // 填写自己的域名
+    // white scope list
+    allowScopes: [
+      '@myscope', // 这里添加自己的 scope
+    ],
+    admins: {
+      // name: email
+      cnpmcore_admin: 'houyaowei@163.com',
+    },
+  };
+```
+
+name: npm仓库名称
+
+sourceRegistry：原接入点。如果下载的包在目标resgstry中不存在是，会从该字段定义的registry中下载
+
+syncModel：定义npm库同步模式
+
+registry： registry的接入域名，请注意，该域名是已经备案的
+
+allowScopes：定于支持的scope名称。scope是一种把相关的模块组织到一起的一种方式，如包@eggjs/tegg-orm-plugin中@eggjs就是scope名称
+
+Admins: npm系统默认管理员
+
+
+
+接下来，继续在config/config.default.ts中配置mysql、redis和minio的连接信息
+
+```js
+config.orm = {
+    client: 'mysql',
+    database: process.env.MYSQL_DATABASE,
+    host: process.env.MYSQL_HOST ,
+    port: process.env.MYSQL_PORT,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    charset: 'utf8mb4',
+  };
+config.redis = {
+    client: {
+      port: 6379,
+      host: '101.201.34.107',
+      password: 'jhkdjhkjdhsIUTYURTU_MGs8Sh',
+      db: 0,
+    },
+  };
+config.nfs = {
+    client: null,
+    dir: join(config.dataDir, 'nfs'),
+  };
+  // enable oss nfs store by env values
+  if (process.env.CNPMCORE_NFS_TYPE === 'oss') {
+    config.nfs.client = new OSSClient({
+      cdnBaseUrl: process.env.CNPMCORE_NFS_OSS_CDN,
+      endpoint: process.env.CNPMCORE_NFS_OSS_ENDPOINT,
+      bucket: process.env.CNPMCORE_NFS_OSS_BUCKET,
+      accessKeyId: process.env.CNPMCORE_NFS_OSS_ID,
+      accessKeySecret: process.env.CNPMCORE_NFS_OSS_SECRET,
+      defaultHeaders: {
+        'Cache-Control': 'max-age=0, s-maxage=60',
+      },
+    });
+  }
+
+```
+
+
+
+
 
 ### 1.3 开发框架选择
 
