@@ -120,9 +120,9 @@
 
    企业服务，要求数据和服务分离，既要保证数据的安全和可靠性，又要保证服务的持续升级迭代。私有仓库更关注内网私有化部署，除了满足内网 npm 基本服务要求，更多的是企业定制化需求，不用面对公网的流量。
 
-  所以cnpmcore对于企业级 npm 私有仓库部署方案来说，是一个不错的解决方案。下面我们将围绕cnpmcore详细介绍其建设过程。
+  所以cnpmcore对于企业级 npm 私有仓库部署方案来说，是一个不错的解决方案。这是下面我们将围绕cnpmcore详细介绍其建设过程。
 
-  在生产环境中，可以直接部署 cnpmcore 系统，实现完整的 Registry 镜像功能。 但是，通常在企业内部会有一些内部的服务、要求，例如文件存储、缓存服务、登录鉴权流程等需要集成。
+  在生产环境中，可以直接部署 cnpmcore 系统，实现完整的 Registry 镜像功能，尚无web管理功能。 但是，通常在企业内部会有一些内部的服务、要求，例如文件存储、缓存服务、登录鉴权流程等需要集成。
 
    cnpmcore除了提供了源码部署、二次开发的方式，还提供了 npm 包的方式，便于在 tegg（Strong Type framework with eggjs） 应用中进行集成。 这样既可以享受到丰富的自定义扩展能力，又可以享受到 cnpmcore 持续迭代的能力。需要注意的是，cnpmcore依赖数据库（mysql或者mariadb）服务、redis服务、包存储默认是本地文件系统，推荐使用对象存储（OSS或者s3）服务。
 
@@ -154,7 +154,7 @@
 
 <center>图1-7</center>
 
-接这基于minio新建bucket，输入必须的bucket名称、accessKeyId、accessKeySecret、端口等
+接着，基于minio新建bucket，输入必须的bucket名称、accessKeyId、accessKeySecret、端口等
 
 <img src="./media/1-8.jpeg" style="zoom:50%;" />
 
@@ -166,7 +166,7 @@
 
 <center>图1-9</center>
 
-先初始化一个tegg项目：
+这三个服务的配置信息需要在tegg项目config/config.default.ts中修改，`config.default.ts` 是任何环境都使用的默认配置，你也可以创建 config.local.ts或者config.prod.ts来区分不同环境的配置。我们先初始化一个tegg项目，也可以以egg-js仓库中的tegg例子为模板添加配置：
 
 ```js
 mkdir tegg-cnpm
@@ -256,7 +256,7 @@ Admins: npm系统默认管理员
 
 
 
-接下来，继续在config/config.default.ts中配置mysql、redis和minio的连接信息
+接下来，需要在config/config.default.ts中配置mysql、redis和minio的连接信息，联通各个服务。
 
 ```js
 config.orm = {
@@ -297,6 +297,10 @@ config.nfs = {
 ```
 
 
+
+配置完成后，启动服务
+
+<img src="./media/1-10.jpeg" style="zoom:50%;" />
 
 
 
