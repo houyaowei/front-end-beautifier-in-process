@@ -148,77 +148,52 @@
 - bug-version：快速应急开源社区问题
 - 二次研发：开发属于自己的npmcore
 
-   根据cnpmcore官方建议，该项目依赖MySQL 数据服务、Redis 缓存服务。包存储默认是本地文件系统，为了性能考虑推荐使用对象存储服务或者s3服务，这里我使用了minio，你当然可以选择阿里云oss，七牛oss，腾讯oss，或者是亚马逊的S3。官方也提供了支持mysql5.x 、mysql8.x版本完整的sql脚本 ，需要全部导入 。
+   根据cnpmcore官方建议，该项目依赖MySQL 数据服务、Redis 缓存服务。包存储默认是本地文件系统，为了性能考虑推荐使用对象存储服务或者s3服务，这里我使用了阿里云OSS，你当然也可以选择七牛云存储，又拍云云存储，青云云存储服务，或者是腾讯云的Cos服务，官方都封装成了npm包，开箱即用。
+   
+   Cnpmcore提供了完整的SQL接入服务，官方库的sql目录下提供了支持mysql5.x 、mysql8.x版本完整的脚本 ，需要全部导入 。
 
 <img src="./media/1-7.jpeg" style="zoom:50%;" />
 
 <center>图1-7</center>
 
-接着，基于minio新建bucket，输入必须的bucket名称、accessKeyId、accessKeySecret、端口等
+接着，准备aliyun OSS服务，新建bucket
 
-<img src="./media/1-8.jpeg" style="zoom:50%;" />
+<img src="./media/1-8.jpeg" style="zoom:30%;" />
 
 <center>图1-8</center>
 
-启动redis服务，并确认连接信息
+接入点地址和bucket名称需要在oss初始化使用，请妥善保存，`oss-cnpm`包还需要accessKeyId和accessKeySecret。
+
+```js
+const Client = require('oss-cnpm');
+const client = new Client({
+  accessKeyId: 'your id',
+  accessKeySecret: 'your secret',
+  endpoint: 'https://oss-cn-shenzhen.aliyuncs.com',
+  bucket: 'your bucket',
+  mode: 'public or private',
+});
+```
+
+accessKeyId和accessKeySecret需要在accessKey管理中生成。
+
+安装redis服务，新建连接
 
 <img src="./media/1-9.jpeg" style="zoom:50%;" />
 
 <center>图1-9</center>
 
-这三个服务的配置信息需要在tegg项目config/config.default.ts中修改，`config.default.ts` 是任何环境都使用的默认配置，你也可以创建 config.local.ts或者config.prod.ts来区分不同环境的配置。我们先初始化一个tegg项目，也可以以egg-js仓库中的tegg例子为模板添加配置：
+基础服务准备就绪，下面开始服务搭建。
+
+首先，克隆master分支。
 
 ```js
-mkdir tegg-cnpm
-cd tegg-cnpm
-npm init egg --type=ts
+git clone https://github.com/cnpm/cnpmcore.git
 ```
 
-依次安装以下依赖
+mysql，oss和redis这三个服务的配置信息需要在tegg项目config/config.default.ts中修改，`config.default.ts` 是任何环境都使用的默认配置，你也可以创建 config.local.ts或者config.prod.ts来区分不同环境的配置。
 
-```js
-yarn add cnpmcore
-yarn add egg-redis
-yarn add @eggjs/tegg-orm-plugin
-yarn add egg-typebox-validate
-yarn add oss-cnpm
-```
-
-在config/plugin.ts中启用新安装的插件
-
-```js
-const plugin: EggPlugin = {
-  ... //其他默认配置
-  redis: {
-    enable: true,
-    package: 'egg-redis',
-  },
-  teggOrm: {
-    enable: true,
-    package: '@eggjs/tegg-orm-plugin',
-  },
-  typeboxValidate: {
-    enable: true,
-    package: 'egg-typebox-validate',
-  },
-};
-```
-
-在config/module.json中，配置需要声明的module，一般情况下，无需在项目中手动声明包含了哪些 module，tegg 会自动在项目目录下进行扫描。但是会存在一些特殊的情况，tegg 无法扫描到，比如是通过 npm 包的方式发布的。
-
-```js
-[
-  {
-    "path": "../app/infra"
-  },
-  {
-    "package": "cnpmcore/common"
-  },
-  ... //已有的配置
-]
-```
-
-配置config/config.default.ts文件，该文件主要由npm仓库核心配置、同步配置、数据库配置、redis配置等，全量核心配置如下：
+先修改基础配置：
 
 ```js
 config.cnpmcore = {
@@ -237,7 +212,7 @@ config.cnpmcore = {
     ],
     admins: {
       // name: email
-      cnpmcore_admin: 'houyaowei@163.com',
+      admin: 'houyaowei@163.com',
     },
   };
 ```
@@ -252,9 +227,7 @@ registry： registry的接入域名，请注意，该域名是已经备案的
 
 allowScopes：定于支持的scope名称。scope是一种把相关的模块组织到一起的一种方式，如包@eggjs/tegg-orm-plugin中@eggjs就是scope名称
 
-Admins: npm系统默认管理员
-
-
+admins: npm系统默认管理员，因为cnpmcore独立于npm的账号体系，需要通过admin账号添加用户。
 
 接下来，需要在config/config.default.ts中配置mysql、redis和minio的连接信息，联通各个服务。
 
@@ -271,28 +244,22 @@ config.orm = {
 config.redis = {
     client: {
       port: 6379,
-      host: '101.201.34.107',
+      host: 'example.com',
       password: 'jhkdjhkjdhsIUTYURTU_MGs8Sh',
       db: 0,
     },
   };
-config.nfs = {
-    client: null,
-    dir: join(config.dataDir, 'nfs'),
-  };
-  // enable oss nfs store by env values
-  if (process.env.CNPMCORE_NFS_TYPE === 'oss') {
-    config.nfs.client = new OSSClient({
-      cdnBaseUrl: process.env.CNPMCORE_NFS_OSS_CDN,
-      endpoint: process.env.CNPMCORE_NFS_OSS_ENDPOINT,
-      bucket: process.env.CNPMCORE_NFS_OSS_BUCKET,
-      accessKeyId: process.env.CNPMCORE_NFS_OSS_ID,
-      accessKeySecret: process.env.CNPMCORE_NFS_OSS_SECRET,
-      defaultHeaders: {
-        'Cache-Control': 'max-age=0, s-maxage=60',
-      },
-    });
-  }
+const client = new OSSClient({
+    accessKeyId: 'accessKeyId',
+    accessKeySecret: 'accessKeySecret',
+    endpoint: 'http://oss-cn-beijing.aliyuncs.com',
+    bucket: 'npm-bucket',
+    defaultHeaders: {
+      'Cache-Control': 'max-age=0, s-maxage=60',
+    },
+  });
+  //配置OSS
+  config.nfs.client = client;
 
 ```
 
@@ -300,9 +267,46 @@ config.nfs = {
 
 配置完成后，启动服务
 
-<img src="./media/1-10.jpeg" style="zoom:50%;" />
+<img src="./media/1-10.jpeg" style="zoom:40%;" />
 
+<center>图1-10</center>
 
+添加管理员
+
+<img src="./media/1-11.jpeg" style="zoom:50%;" />
+
+<center>图1-11</center>
+
+<img src="./media/1-12.jpeg" style="zoom:40%;" />
+
+<center>图1-12</center>
+
+输入在`config.default.ts`中配置的admins配置项，即可完成管理员的注册，接着可以使用npm类似的操作
+
+```js
+登录 npm login --registry=http://localhost:7001
+发布包  npm login --registry=http://localhost:7001
+查看登录账号  npm whoami --registry=http://localhost:7001
+...
+```
+
+下面开始测试发布npm包
+
+<img src="./media/1-13.jpeg" style="zoom:40%;" />
+
+<center>图1-13</center>
+
+我们需要在数据库的package(s)表中确实是否都已经落库和OSS服务文件存储情况的，
+
+<img src="./media/1-14.jpeg" style="zoom:40%;" />
+
+<center>图1-14</center>
+
+<img src="./media/1-15.jpeg" style="zoom:40%;" />
+
+<center>图1-16</center>
+
+到这里，我们的私有npm服务已经搭建完成。
 
 ### 1.3 开发框架选择
 
