@@ -265,7 +265,7 @@ const client = new OSSClient({
 
 
 
-配置完成后，启动服务
+配置完成后，启动服务。
 
 <img src="./media/1-10.jpeg" style="zoom:40%;" />
 
@@ -281,22 +281,29 @@ const client = new OSSClient({
 
 <center>图1-12</center>
 
-输入在`config.default.ts`中配置的admins配置项，即可完成管理员的注册，接着可以使用npm类似的操作
+输入在`config.default.ts`中配置的admins配置项（admin，houyaowei@163.com），即可完成管理员的注册。注册成功就可以使用兼容npm的操作：登录、发布包、查看登录信息、配置等等。
 
 ```js
 登录 npm login --registry=http://localhost:7001
 发布包  npm login --registry=http://localhost:7001
 查看登录账号  npm whoami --registry=http://localhost:7001
+配置  npm config set xxx  --registry=http://localhost:7001
 ...
 ```
 
-下面开始测试发布npm包
+下面测试发布npm包的功能：
 
-<img src="./media/1-13.jpeg" style="zoom:40%;" />
+（1）准备一套待发布的npm仓库，如：https://github.com/houyaowei/javascript-common-tools
+
+（2）执行 npm login --registry=http://localhost:7001
+
+（3）执行 npm publish --registry=http://localhost:7001
+
+<img src="./media/1-13.jpeg" style="zoom:50%;" />
 
 <center>图1-13</center>
 
-我们需要在数据库的package(s)表中确实是否都已经落库和OSS服务文件存储情况的，
+发布完成后，我们需要在数据库的package(s)表中确实是否都已经落库和阿里云服务器中包文件是否存在。
 
 <img src="./media/1-14.jpeg" style="zoom:40%;" />
 
@@ -306,7 +313,9 @@ const client = new OSSClient({
 
 <center>图1-16</center>
 
-到这里，我们的私有npm服务已经搭建完成。
+到这里，预期的效果已经达到，我们的私有npm服务也已经搭建完成。
+
+cnpmcore虽然提供了npm包管理的完整功能，但是从该库名字能够发现未集成web端，不过也没有关系，因为web端是独立的项目cnpmweb，这是基于Nextjs纯静态部署的项目，只需要修改config.js中的registry即可运行。
 
 ### 1.3 开发框架选择
 
