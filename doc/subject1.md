@@ -432,6 +432,128 @@ cnpmcore虽然提供了npm包管理的完整功能，但是从该库名字能够
 
 ### 1.5 业务组件库建设
 
+​    几乎每个企业都有『降本增效』的诉求，用最小的资源投入收获最大的效益，也要求前端在保证质量的情况下，提高快速开发能力，快速交付。我们先看下页面开发的常规流程：
+
+<img src="./media/1-23.jpeg" style="zoom:50%;"/>
+
+<center>图1-23</center>
+
+就日常前端开发任务而言，有几部分组成，大概的占比是这样的：
+
+<img src="./media/1-24.jpeg" style="zoom:30%;"/>
+
+<center>图1-24 前端各部分占比</center>
+
+- 流程相关（20%）： 工程创建、发布、打包等
+- 组件相关开发（40% ）：如果有合适组件，直接使用；如果没有，花时间开发
+-  交互场景（30%）：接口联调
+-  其他（10%）：如业务沟通
+
+   组件开发在前端开发中占着非常大的比重，如果能把已经实现的组件抽取到组件库，一来免掉了拷贝组件代码的麻烦，再者集中的组件库也更方便维护。
+
+   下面我们以Vue3、Typescript为基础框架，以Vite@5作为构建工具。介绍前端组件库MVP版的核心步骤的处理过程：
+
+首先创建Vite工程
+
+```js
+pnpm create vite
+```
+
+新建文件目录如下
+
+<img src="./media/1-25.jpeg" style="zoom:30%;"/>
+
+<center>图1-25</center>
+
+docs目录是文档工程（可以基于vitepress快速生成项目），提供效果展示和代码拷贝。业务组件主要存放在packages/components目录下，如现在有的button和list组件。为了让组件库既允许全局调用：
+
+```js
+import { createApp } from 'vue'
+import App from './App.vue'
+import MVui from 'm-vui'
+const app = createApp(App)
+app.use(MVui).mount('#app')
+```
+
+也允许局部调用：
+
+```js
+ import { MVuiButton } from 'm-vui'
+ Vue.component('m-vui-button', MVuiButton)
+```
+
+在component.ts中汇聚所有的组件
+
+```js
+import Button from './components/button'
+import List from './components/list'
+
+export default [Button, List]
+
+export {
+    Button,
+    List
+}
+```
+
+在packages/index.ts中，遍历并注册所有组件.
+
+```js
+import { App } from 'vue'
+export * from './component'
+import components from './component'
+
+// 完整引入组件
+const install = function (app: App) {
+    components.forEach(component => {
+        app.use(component as unknown as { install: () => any })
+    })
+}
+
+export default {
+    install
+}
+```
+
+完成了上述组件库目录的初始化以后，此时我们的 m-vui 是已经可以被业务侧直接使用了。回到根目录下找到 `src/main.ts` 文件，我们把整个 m-vui引入：
+
+```js
+import { createApp } from 'vue'
+import App from './App.vue'
+import MVui from 'm-vui'
+const app = createApp(App)
+app.use(MVui).mount('#app')
+```
+
+运行 `pnpm dev` 开启 Vite 的服务器以后，就可以直接在浏览器上看到效果了：
+
+<img src="./media/1-26.jpeg" style="zoom:30%;"/>
+
+<center>图1-26</center>
+
+ UI组件库会频繁的开发、发布。在本地开发中应该怎么调试？这里推荐两种方式
+
+（1）基于vite.config.js中配置alias，通过匹配名称，映射到packages包
+
+ ```js
+ const alias: Alias[] = [
+     {
+         find: '@',
+         replacement: `${resolve(__dirname, './.vitepress/vitepress')}/`,
+     },
+     {
+         find: /^m-vui$/,
+         replacement: `${resolve(__dirname, '../packages/index')}/`,
+     },
+ ]
+ ```
+
+（2）借助第三方包yalc
+
+yalc是开发npm包常用的本地调试工具，通过软链接的方式链接到源代码。yalc publish将npm包发布到本地的yalc store，在需要的工程中使用 yalc add 安装。
+
+
+
 ### 1.6  发布自己的npm包
 
 ### 1.7 其他建设
