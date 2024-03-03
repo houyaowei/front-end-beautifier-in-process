@@ -1,0 +1,90 @@
+{
+    "name": "m-vui",
+    "private": false,
+    "packageManager": "pnpm@8.15",
+    "version": "1.0.0",
+    "author": "hyw",
+    "license": "MIT",
+    "keywords": [],
+    "scripts": {
+        "cz": "git-cz",
+        "start": "npm run dev",
+        "dev": "vite",
+        "lib:build": "vue-tsc --noEmit && vite build",
+        "docs:dev": "npm run -C docs dev",
+        "docs:build": "npm run -C docs build",
+        "preview": "vite preview",
+        "clean:lib": "rimraf lib",
+        "clean:modules": "rimraf node_modules",
+        "prepare": "husky install",
+        "lint": "eslint --ext .vue,.js,.jsx,.ts,.tsx  --ignore-path .gitignore --fix packages",
+        "format": "prettier .  --write",
+        "release": "standard-version",
+        "release:alpha": "standard-version --prerelease alpha",
+        "release:rc": "standard-version --prerelease rc",
+        "release:major": "npm run release -- --release-as major",
+        "release:minor": "npm run release -- --release-as minor",
+        "release:patch": "npm run release -- --release-as patch"
+    },
+    "files": [
+        "lib/*",
+        "packages/*",
+        "package.json"
+    ],
+    "main": "./lib/m-vui.umd.js",
+    "module": "./lib/m-vui.mjs",
+    "exports": {
+        ".": {
+            "import": "./lib/m-vui.umd.js",
+            "require": "./lib/m-vui.mjs"
+        },
+        "./lib/style.css": "./lib/style.css"
+    },
+    "peerDependencies": {
+        "vue": "^3.2.33"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^17.0.0",
+        "@commitlint/config-conventional": "^17.0.0",
+        "@types/node": "^18.0.0",
+        "@typescript-eslint/eslint-plugin": "^5.27.0",
+        "@typescript-eslint/parser": "^5.27.0",
+        "@vitejs/plugin-vue": "5.0.4",
+        "@vitejs/plugin-vue-jsx": "3.1.0",
+        "chalk": "^4.1.2",
+        "commitizen": "^4.2.4",
+        "cross-env": "^7.0.3",
+        "cz-conventional-changelog": "^3.3.0",
+        "eslint": "^8.17.0",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-define-config": "^1.5.0",
+        "eslint-plugin-prettier": "^4.0.0",
+        "eslint-plugin-vue": "^9.1.0",
+        "less": "^4.2.0",
+        "less-loader": "^12.2.0",
+        "husky": "^8.0.1",
+        "prettier": "^2.6.2",
+        "rimraf": "^3.0.2",
+        "standard-version": "^9.5.0",
+        "typescript": "^4.7.2",
+        "vite": "^5.1.4",
+        "vite-plugin-dts": "^1.2.0",
+        "vite-plugin-md": "^0.21.5",
+        "vite-plugin-meta-env": "^1.0.0",
+        "vue": "^3.2.33",
+        "vue-tsc": "^0.40.1"
+    },
+    "config": {
+        "commitizen": {
+            "path": "cz-conventional-changelog"
+        }
+    },
+    "husky": {
+        "hooks": {
+            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+        }
+    },
+    "engines": {
+        "node": ">=16.0.0"
+    }
+}

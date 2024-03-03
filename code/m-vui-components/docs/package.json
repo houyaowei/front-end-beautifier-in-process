@@ -1,0 +1,49 @@
+{
+    "name": "m-vui-doc",
+    "private": false,
+    "version": "1.0.0",
+    "author": "houyw",
+    "license": "MIT",
+    "keywords": [],
+    "scripts": {
+        "dev": "vitepress dev . --host --port 5001",
+        "build": "cross-env NODE_ENV=production && vitepress build .",
+        "serve": "cross-env NODE_ENV=production vitepress serve . --port 5001"
+    },
+    "dependencies": {
+        "arraybuffer-loader": "^1.0.8",
+        "axios": "^0.27.2",
+        "clipboard-copy": "^4.0.1",
+        "dayjs": "^1.11.4",
+        "m-vui": "file:.yalc/m-vui",
+        "markdown-it": "^13.0.1",
+        "normalize.css": "^8.0.1",
+        "nprogress": "^0.2.0",
+        "prismjs": "^1.28.0",
+        "vue": "^3.2.33"
+    },
+    "devDependencies": {
+        "@types/sass": "^1.43.1",
+        "@vitejs/plugin-vue": "5.0.4",
+        "@vitejs/plugin-vue-jsx": "3.1.0",
+        "@vue/shared": "^3.2.33",
+        "@vueuse/core": "^9.1.1",
+        "chalk": "^4.1.2",
+        "consola": "^2.15.3",
+        "cross-env": "^7.0.3",
+        "escape-html": "^1.0.3",
+        "fast-glob": "^3.2.11",
+        "markdown-it-container": "^3.0.0",
+        "sass": "^1.51.0",
+        "unocss": "^0.58.5",
+        "unplugin-icons": "^0.14.3",
+        "unplugin-vue-components": "^0.26.0",
+        "unplugin-vue-define-options": "^1.4.2",
+        "vite": "^5.1.4",
+        "vite-plugin-inspect": "^0.8.3",
+        "vite-plugin-meta-env": "^1.0.0",
+        "vite-plugin-mkcert": "^1.6.0",
+        "vite-plugin-pwa": "^0.19.2",
+        "vitepress": "1.0.0-rc.44"
+    }
+}

@@ -1,0 +1,9 @@
+{
+  "version": "v1",
+  "packages": {
+    "m-vui": {
+      "signature": "744d4f4de480be82009080b16a9399c3",
+      "file": true
+    }
+  }
+}

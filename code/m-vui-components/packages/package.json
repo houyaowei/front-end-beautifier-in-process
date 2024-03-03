@@ -1,0 +1,10 @@
+{
+  "name": "m-vui",
+  "version": "0.0.1",
+  "private": false,
+  "author": "houyw",
+  "scripts": {},
+  "main": "index.ts",
+  "license": "MIT",
+  "dependencies": {}
+}
