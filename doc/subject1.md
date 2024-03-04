@@ -552,9 +552,60 @@ app.use(MVui).mount('#app')
 
 yalc是开发npm包常用的本地调试工具，通过软链接的方式链接到源代码。yalc publish将npm包发布到本地的yalc store，在需要的工程中使用 yalc add 安装。
 
+其他主要打包配置，vite部分：
+
+```js
+build: {
+      outDir: 'lib',
+      lib: {
+          entry: resolve(__dirname, './packages/index.ts'),
+          name: 'm-vui',
+          fileName: 'm-vui'
+      },
+      rollupOptions: {
+          // 确保外部化处理那些你不想打包进库的依赖
+          external: ['vue'],
+          output: {
+              // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
+              globals: {
+                  vue: 'Vue'
+              }
+          }
+      }
+  }
+```
+
+根据官方库模式配置说明，需要在build的outDir指定bundle文件输出的目录，lib中指定包的入口文件，包名称和文件名称。rollupOptions是传递给rollup的配置，打包是剔除vue依赖，并且在 UMD 构建模式下为外部化的依赖提供一个全局变量。
+
+在package.json中指定包的入口文件和自定义导出规则：
+
+```js
+"main": "./lib/m-vui.umd.js",
+"module": "./lib/m-vui.mjs",
+"exports": {
+    ".": {
+        "import": "./lib/m-vui.umd.js",
+        "require": "./lib/m-vui.mjs"
+    },
+    "./lib/style.css": "./lib/style.css"
+},
+```
+
+main中指定commonjs引入方式的程序入口文件，module中指定esmodule引入方式的程序入口文件。
+
 
 
 ### 1.6  发布自己的npm包
+
+​    前端的模块化已经作为前端必备的一个技能，不管是工具的模块化还是组件的模块化，都是前端实现『降本增效』一个很重要的手段。模块化也带来项目的规模不断变大，项目中的的依赖越来越多。随着项目的多元化，项目和包的依赖也形成了一对多的关系，再需要手动拷贝到各个项目中也变得越来越困难，如果有bug修复或者升级需求，简直就是噩梦操作。如果把功能相似的模块或组件抽取到npm包中，发布到官方或者私有npm仓库，不断迭代升级会是一个很好的方案。
+
+   在上一节中我们介绍了UI组件库的建设，本节主要介绍如何发布一个工具包。
+
+   在发布一个npm包前，有几个问题需要提前确认好：
+
+​    （1）包名称
+
+​    
 
 ### 1.7 其他建设
 
