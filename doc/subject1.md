@@ -605,7 +605,11 @@ main中指定commonjs引入方式的程序入口文件，module中指定esmodule
 
 ​    （1）包名称
 
-​    
+​    根据npm官方规则，包名不能重复。比如笔者发布过一个名为javascript-common-tools的包，那么以包名为javascript-common-tools的新包将无法继续发布。在npm的包管理系统中，有一种scoped packages机制，用于将一些npm包以 @npm/package-name 的命名形式集中在一个命名空间下面，实现scope级的包管理，如@scope-name/javascript-common-tools可以继续使用。
+
+​    scope级包不仅不用担心会和已有的包名重复，而且也方便对功能类似的包或者一个系列的包进行统一的划分和管理。如Vue3项目模板中的@vitejs/plugin-vue和@vitejs/plugin-vue-jsx，都属于@vitejs scope下的包。
+
+  
 
 ### 1.7 其他建设
 
