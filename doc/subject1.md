@@ -609,7 +609,27 @@ main中指定commonjs引入方式的程序入口文件，module中指定esmodule
 
 ​    scope级包不仅不用担心会和已有的包名重复，而且也方便对功能类似的包或者一个系列的包进行统一的划分和管理。如Vue3项目模板中的@vitejs/plugin-vue和@vitejs/plugin-vue-jsx，都属于@vitejs scope下的包。
 
-  
+  （2）资源加载
+
+npm包有以下几种类型：
+
+- 浏览器里使用的
+- node端使用的
+- 浏览器和node端都能使用的
+
+这几种运行环境在package.json中都有想对应的入口文件配置，如main字段，是nodejs的默认入口文件，是一个相对包根目录的相对路径，也就是说在引用某个包时，如require("javascript-common-tools")，会返回入口文件的export对象。
+
+如果没有指定该字段，默认会指向根目录的index.js文件。也可能需要指定完整的文件路径导入需要的功能。
+
+```js  
+require("包名/路径名/文件名")
+```
+
+   module指定esmodule 模块文件，对于很多的打包工具天然支持esModule，像webpack、rollup、Vite、Bun等，包含node从v8.9.0开始添加--experimental-modules支持，所以在开发npm包的时候支持esm是一个很好的选择。
+
+ 
+
+
 
 ### 1.7 其他建设
 
