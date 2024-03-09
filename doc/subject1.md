@@ -659,13 +659,131 @@ require("包名/路径名/文件名")
 
 - 不带符号的：完全匹配，必须使用当前版本号
 - 有对比符号的：<，>，>=， <=，如vue@3.4.21的engines指定 "node": ">=18.12.0"
-- ~号：固定主版本号和次版本号，修订号可以随意更改，例如`~5.0.0`，可以使用 5.0.0、5.0.2 、5.0.9 的版本
-- ^号：固定主版本号，次版本号和修订号可以随意更改，例如`^2.0.0`，可以使用 2.0.1、2.2.2 、2.9.9 的版本
+- ~号：固定主版本号和次版本号，修订号可以随意更改，例如`~5.0.0`，可以安装 5.0.0、5.0.2 、5.0.9 的版本
+- ^号：固定主版本号，次版本号和修订号可以随意更改，例如`^2.0.0`，可以安装 2.0.1、2.2.2 、2.9.9 的版本
 - || 符号：设置多个版本号限制规则，例如 >= 12.0.0 || <= 14.2.0
 
+（4）需要发布的文件
 
+​     发布npm包时，可以选择哪些文件发布到仓库中，比如只发布压缩后的代码，过滤源代码；当然也可以通过配置文件来进行指定，大概有以下几种情况：
 
+- 存在`.npmignore`文件： 以`.npmignore`文件为准，优先级最高，配置规则同.gitignore。在该文件中的内容都会被忽略，不会上传；即使有.gitignore配置，也不会生效。
+- 不存在.npmignore文件：以`.gitignore`文件为准，一般是无关内容，例如.vscode配置，测试用例。
+- 不存在.npmignore和.gitignore： 所有文件都会上传。
+- `package.json`中存在files字段：files中指定的文件或目录会被上传。
 
+（5）其他常用配置
+
+​    packageManager： 定义了在处理当前项目时预期使用的包管理器（npm，yarn，pnpm）。 它可以设置为任何支持的包管理器，使用该配置可以团队使用完全相同的包管理器版本。
+
+   engines:  包运行依赖的node版本。
+
+   dependencies：表示生产环境下的依赖管理
+
+   devDependencies：表示开发环境下的依赖管理
+
+   types： 如果包需要支持Typescript，需要替更类型声明文件
+
+​    repository： 该npm包的源码地址
+
+   readme文件：详细介绍包的背景、安装、内置方法、协议、注意事项等。每次发布版本，如果新增、调整功能、API变动等，都需要修改该文件，以保证功能和文档的统一。
+
+​    
+
+​    笔者已发布的javascript-validate-utils@0.2.3，该库提供了一些原生javascript实现了的校验方法，下面已这个库为基础，更新一个npm版本。
+
+<img src="./media/1-27.jpeg" style="zoom:50%;"/>
+
+<center>图1-27</center>
+
+该库使用rollup为构建工具，使用jest单元测试。package.json中使用两个script命令，一个运行单元测试，一个用来打包；
+
+```js
+"scripts": {
+    "build": "rollup -c",
+    "test": "jest"
+  },
+```
+
+在src下增加一个isEqual.js，我们新增一个判断两个对象是否相等的工具方法：
+
+```js
+import { isObject } from "./basic";
+import { _toString } from "./setup";
+import Types from "./types/types";
+
+function isObjectEqual(obj1, obj2) {
+  let isObj = (isObject(obj1) && isObject(obj2));
+  if (!isObj) {
+    return false;
+  }
+  let _keys1 = Object.keys(obj1);
+  let _key2 = Object.keys(obj2);
+  //如果长度不相等直接返回false
+  if (_keys1.length !== _key2.length) {
+    return false;
+  }
+
+  for (const key in obj1) {
+    if (obj2.hasOwnProperty.call(obj2, key)) {
+      let obj1Type = _toString.call(obj1[key]);
+      let obj2Type = _toString.call(obj2[key]);
+      if(obj1Type === Types.OBJECT || obj2Type === Types.OBJECT) {
+        if(!isObjectEqual(obj1[key], obj2[key])) {
+          return false;
+        }
+      } else if (obj1[key] !== obj2[key]) {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+  return true; 
+}
+```
+
+思路并不复杂，很容易理解：
+
+- 判断两个参数是否都是对象，如果不相同返回false
+- 判断对象key的个数是否相等，如果不相等，返回false
+- 循环、递归遍历对象，判断每个key是否相等
+
+有了实现了的方法，下面进行单元测试。在"__test__"目录下新增测试文件，jest会默认执行test目录下文件名包含spec的文件：
+
+<img src="./media/1-28.jpeg" style="zoom:50%;"/>
+
+<center>图1-28</center>
+
+使用命令 yarn run test执行单元测试用例，看是否能通过
+
+```js
+➜  javascript-validate-utils git:(main) ✗ yarn test
+yarn run v1.22.21
+$ jest
+ PASS  __test__/testObject.spec.js
+ PASS  __test__/basic-extend.spec.js
+ PASS  __test__/basic.spec.js
+
+Test Suites: 3 passed, 3 total
+Tests:       23 passed, 23 total
+Snapshots:   0 total
+Time:        0.343 s, estimated 1 s
+Ran all test suites.
+✨  Done in 1.20s.
+```
+
+单元测试通过。前面我们介绍过，每上线一个版本，都需要修改版本号、修改readme文件。下面就可以开始打包、发布，一定需要注意的是，如果是私有仓库发布需要加上私有registry地址。
+
+```js
+yarn build
+npm login,需要输入OTP码
+npm publish
+```
+
+<img src="./media/1-29.jpeg" style="zoom:30%;"/>
+
+<center>图1-29</center>
 
 
 
