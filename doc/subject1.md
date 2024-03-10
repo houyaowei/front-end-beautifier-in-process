@@ -840,6 +840,27 @@ yarn add -D prettier
 
 Git提交规范约束
 
+Git信息提交同样很重要，特别是在代码回退的时候。所以我们需要通过cz-customizable、husky和lint-staged保证每次提交的规范性。cz-customizable用来自定义提交信息格式，husky可以帮助我们在 git 阶段检查提交消息、运行测试、检查代码等，方便添加git hooks，lint-staged对暂存区的文件执行格式化的操作。
+
+```js
+yarn add --dev husky lint-staged   //安装包
+npx husky init  // 初始化.husky目录和pre-commit hook
+npm pkg set scripts.prepare="husky install" //在package.json中增加script命令prepare
+echo "npx lint-staged" > .husky/pre-commit  //修改pre-commit中的hook命令
+```
+
+在package.json中添加以下内容：
+
+```js
+{
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  }
+}
+```
+
+当执行git commit时执行pre-commit中指定的hook。
+
 
 
 
