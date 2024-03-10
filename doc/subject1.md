@@ -812,6 +812,36 @@ npm publish
 
 ​     如果是新启动的新产品，新产品也有多个子系统组成。 这中情况下需要进行技术方案调研和设计，并输出详细的设计文档、交互文档、技术架构图、部署架构图。涉及到更关键的节点，还需要将数据流流向、组件设计、技术点等通过脑图的形式呈现出来。
 
+   在没有自己的开发流程的前提下，我认为比较实用的开发流程是这样的，供大家参考：
+
+<img src="./media/1-30.jpeg" style="zoom:50%;"/>   
+
+<center>图1-30</center>
+
+代码格式化
+
+   大家使用的工具不尽相同，这里以基数庞大的VSCode为例，统一使用prettier在适时的时候进行格式化。
+
+   安装依赖
+
+```js
+yarn add -D prettier
+```
+
+​    新建prettier配置文件.preitterrc.json（也可以创建js风格的prettier.config.js和.prettierrc.js，也可以是yaml风格的.prettierrc or .prettierrc.yaml）和.preitterignore，分别配置格式化规则和格式化需要忽略的文件。并在vscode中启用 FormatOnSave，保存试自动格式化。
+
+   为了确保效果的一致性，有时候需要在打包前进行文件格式检查并修复，这需要新建一个script命令，并在适当的时机触发么，例如检查src下的所有js文件、tsx文件和less文件。
+
+```js
+"prettier": "prettier --write src/**/*.{js,tsx,less}"
+```
+
+
+
+Git提交规范约束
+
+
+
 
 
 #### 1.7.2 部署管理
