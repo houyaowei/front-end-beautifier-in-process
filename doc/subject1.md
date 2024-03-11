@@ -970,7 +970,7 @@ react18-test git:(master) ✗ npx git-cz
 
 JS, CSS规范部分
 
-不同的团队主流的JS规范有这么几个，Airebnb
+指定JS规范的过程是非常繁琐的，需要囊括到方方面面的，否则规范很难执行下去。好在前端社区的全面开花给开发提供了几套可用的规范，开箱即用，有Airbnb的，Google的，JavaScript standard，idiomatic。这几个规范中，以Airbnb的为最受大家推广，因为不但覆盖js基础，而且还涵盖React，最方便的还得说提供了eslint扩展，集成更方便。
 
 
 
