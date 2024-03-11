@@ -824,25 +824,21 @@ npm publish
 
    安装依赖
 
-```js
+```shell
 yarn add -D prettier
 ```
 
-​    新建prettier配置文件.preitterrc.json（也可以创建js风格的prettier.config.js和.prettierrc.js，也可以是yaml风格的.prettierrc or .prettierrc.yaml）和.preitterignore，分别配置格式化规则和格式化需要忽略的文件。并在vscode中启用 FormatOnSave，保存试自动格式化。
+​    新建prettier配置文件.pretterrc.json（也可以创建js风格的prettier.config.js和.prettierrc.js，也可以是yaml风格的.prettierrc or .prettierrc.yaml）和.pretterignore，分别配置格式化规则和格式化需要忽略的文件。并在vscode中启用 FormatOnSave，保存试自动格式化。
 
-   为了确保效果的一致性，有时候需要在打包前进行文件格式检查并修复，这需要新建一个script命令，并在适当的时机触发么，例如检查src下的所有js文件、tsx文件和less文件。
+   为了确保效果的一致性，有时候需要在打包前进行文件格式检查并修复，这需要新建一个script命令，并在适当的时机触发么，例如检查src下的所有js文件、tsx文件。
 
 ```js
-"prettier": "prettier --write src/**/*.{js,tsx,less}"
+"prettier": "prettier --write src/**/*.{js,tsx}"
 ```
 
+安装husky和lint-staged，  husky可以帮助我们在 git 阶段检查提交消息、运行测试、检查代码等，方便添加git hooks，lint-staged对暂存区的文件执行格式化。
 
-
-Git提交规范约束
-
-Git信息提交同样很重要，特别是在代码回退的时候。所以我们需要通过cz-customizable、husky和lint-staged保证每次提交的规范性。cz-customizable用来自定义提交信息格式，husky可以帮助我们在 git 阶段检查提交消息、运行测试、检查代码等，方便添加git hooks，lint-staged对暂存区的文件执行格式化的操作。
-
-```js
+```shell
 yarn add --dev husky lint-staged   //安装包
 npx husky init  // 初始化.husky目录和pre-commit hook
 npm pkg set scripts.prepare="husky install" //在package.json中增加script命令prepare
@@ -861,7 +857,120 @@ echo "npx lint-staged" > .husky/pre-commit  //修改pre-commit中的hook命令
 
 当执行git commit时执行pre-commit中指定的hook。
 
+测试下效果
 
+```shell
+react18-test git:(master) ✗ git add . && git commit -m "add prettier and husky"
+✔ Preparing lint-staged...
+✔ Running tasks for staged files...
+✔ Applying modifications from tasks...
+✔ Cleaning up temporary files...
+[master 126743e] add prettier and husky
+ 6 files changed, 2151 insertions(+), 814 deletions(-)
+ create mode 100644 .gitignore
+ create mode 100644 .husky/pre-commit
+ create mode 100644 .pretterignore
+ create mode 100644 .pretterrc.json
+```
+
+
+
+Git提交规范约束
+
+Git信息提交同样很重要，特别是在代码回退的时候。所以我们需要通过cz-customizable及其辅助工具对提交进行规范。
+
+首先增加commitlint
+
+```shell
+yarn add -D @commitlint/{cli,config-conventional}
+yarn add commitlint-config-cz -D //定制化提交说明进行校验
+```
+
+在根目录下新建.commitlintrc.js,配置声明继承cz
+
+```js
+module.exports = {
+  extends: ["cz"],
+  rules: {
+    "type-empty": [2, "never"],
+    "subject-empty": [2, "never"],
+  },
+};
+```
+
+```shell
+yarn add -D commitizen
+yarn add cz-customizable -D   //增加规范化提交信息的适配器
+```
+
+在根目录新增.cz-config.js文件，根据团队情况配置
+
+```js
+module.exports = {
+  types: [
+    {
+      value: "feat",
+      name: "✨ feat（新功能）",
+    },
+    {
+      value: "fix",
+      name: "🐛 fix（Bug 修复）",
+    },
+    //其他类型配置
+    {
+      value: "chore",
+      name: "🔨 chore（构建相关的代码或工具库，如文档生成等）",
+    },
+  ],
+  messages: {
+    type: "请选择提交类型：（必填）",
+    customScope: "请输入影响范围：（可选）",
+    subject: "请输入简要描述：（必填）",
+    body: '请输入详细描述，使用 "|" 分行：（可选）',
+    breaking: "请列出所有的破坏性变更，例如：描述、理由或迁移方式等：（可选）",
+    footer: "请列出需关闭的 issue，例如：#31, #34：（可选）",
+    confirmCommit: "请确认此提交信息？",
+  },
+  subjectLimit: 100, // subject文字长度默认
+  allowCustomScopes: true,
+  allowBreakingChanges: ["feat", "fix"],
+  skipQuestions: ["scope", "footer"], //默认跳过
+};
+```
+
+在package.json中配置
+
+```js
+“commit”: “./node_modules/cz-customizable/standalone.js”
+```
+
+
+
+types定义提交的类型，如新功能，bug修复等，message配置提示消息。
+
+测试下效果
+```shell
+git add .
+npx git-cz   //使用cz-customizable 内置的git-cz代替git commit
+```
+
+```js
+react18-test git:(master) ✗ npx git-cz
+? 请选择提交类型：（必填） (Use arrow keys)
+❯ ✨ feat（新功能） 
+  🐛 fix（Bug 修复） 
+  📝 docs（文档更新） 
+  💄 style（代码样式更改，例如空格、格式、缺少分号等） 
+  💡 refactor（重构代码） 
+  ⚡️ perf（性能优化） 
+  ✅ test（添加缺失或修正测试代码）
+```
+
+
+
+JS, CSS规范部分
+
+不同的团队主流的JS规范有这么几个，Airebnb
 
 
 
