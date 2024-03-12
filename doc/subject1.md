@@ -1015,4 +1015,8 @@ yarn add stylelint -D
 
 ### 1.7.3  知识库建设
 
-  
+​    大家都知道，只靠口头相传的知识往往会出现断层，也不利于及时共享。所以需要将知识点、最佳实践、答疑集中到知识库中，形成前端的『知识说明书』，让大家有疑问的时候首先想到去知识库去查找。将口头相传的东西尽可能降低。
+
+  流行的前端知识库建设的工具有 VuePress，VitePress和RsPress。 VuePress并且已经进入维护模式，只会有小幅度的bug更新。下一代基于Vue和Vite的建站工具VitePress还在快速演进中，在继续发布RC版本。另外支持React和Rspack的Rspress也在小步快跑，不断迭代新的特性。
+
+   VitePress和Rspress该如何选择呢？笔者的个人感觉是，如果你偏爱Vue，可以选择VitePress，如果钟爱React或者Rspack，Rspress会是你不错的选择。
