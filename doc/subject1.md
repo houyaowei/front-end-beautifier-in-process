@@ -970,10 +970,49 @@ react18-test git:(master) ✗ npx git-cz
 
 JS, CSS规范部分
 
-指定JS规范的过程是非常繁琐的，需要囊括到方方面面的，否则规范很难执行下去。好在前端社区的全面开花给开发提供了几套可用的规范，开箱即用，有Airbnb的，Google的，JavaScript standard，idiomatic。这几个规范中，以Airbnb的为最受大家推广，因为不但覆盖js基础，而且还涵盖React，最方便的还得说提供了eslint扩展，集成更方便。
+​     指定JS规范的过程是非常繁琐的，需要囊括到方方面面的，否则规范很难执行下去。好在前端社区的全面开花给开发提供了几套可用的规范，开箱即用，有Airbnb的，Google的，JavaScript standard，idiomatic。这几个规范中，以Airbnb的为最受大家推广，因为不但覆盖js基础，而且还涵盖React，最方便的还得说提供了eslint扩展（eslint-config-airbnb），集成更方便，如果你不需要的React hooks 的验证规则只需要集成eslint-config-airbnb-base即可。
+
+   常用的CSS规范检查工具有csslint、stylelint。因为csslint已废弃多年，所以推荐使用stylelint。stylelint官方提供了两个版本：stylelint-config-recommended 和stylelint-config-standard， standard继承recommended，并启用了其他规则来强制执行CSS规范中的约定。
+
+```shell
+yarn add stylelint-config-standard -D
+```
+
+新建.stylelintrc.json文件，
+
+```
+{
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "selector-class-pattern": null,
+    "property-no-vendor-prefix": [
+      true,
+      {
+        "severity": "warning"
+      }
+    ]
+   }
+  }
+}
+```
+
+这个配置文件中我们设置两条规则，设置成null即关闭class选择期的匹配规则，禁止非标准的供应商前缀，并warning提示。如果想在script中或者git commit 时检查需要额外安装stylelint并配置lint-staged
+
+```shell
+yarn add stylelint -D
+```
+
+```js
+"lint-staged": {
+    "**/*": "prettier --write --ignore-unknown src/**/*.{js,tsx}",
+    "**/*.{less,css}": "stylelint --fix" //对css文件进行检测
+  }
+```
 
 
 
 #### 1.7.2 部署管理
 
 ### 1.7.3  知识库建设
+
+  
