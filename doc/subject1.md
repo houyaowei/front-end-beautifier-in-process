@@ -1017,6 +1017,59 @@ yarn add stylelint -D
 
 ​    大家都知道，只靠口头相传的知识往往会出现断层，也不利于及时共享。所以需要将知识点、最佳实践、答疑集中到知识库中，形成前端的『知识说明书』，让大家有疑问的时候首先想到去知识库去查找。将口头相传的东西尽可能降低。
 
-  流行的前端知识库建设的工具有 VuePress，VitePress和RsPress。 VuePress并且已经进入维护模式，只会有小幅度的bug更新。下一代基于Vue和Vite的建站工具VitePress还在快速演进中，在继续发布RC版本。另外支持React和Rspack的Rspress也在小步快跑，不断迭代新的特性。
+  容易上手的前端知识库建设的工具有 VuePress，VitePress和Rspress。 从VuePress官方消息看，该库已经进入维护模式，只会有小幅度的bug更新。下一代基于Vue和Vite的建站工具VitePress还在快速演进中，在继续发布RC版本，相信距离GA版本已经不远了。使用过VuePress的再切换到VitePress也很容易上手。另外一个是支持React和Rust的Rspress，也在小步快跑，不断迭代新的特性。
 
-   VitePress和Rspress该如何选择呢？笔者的个人感觉是，如果你偏爱Vue，可以选择VitePress，如果钟爱React或者Rspack，Rspress会是你不错的选择。
+   VitePress和Rspress该如何选择呢？笔者的个人感觉是，如果你偏爱Vue，可以选择VitePress，如果钟爱React或者Rspack，Rspress会是你不错的选择。对建设静态站点来说，两者都是不错的，根据自己熟悉度选择即可。
+
+  下面我们简要介绍下Rspress的建设知识库的过程。
+
+ 根据官方文档的脚手架说明自动创建失败，所以咱们手动创建 。
+
+```shell
+mkdir rspress-doc-demo && cd rspress-doc-demo  //创建根目录
+npm init -y                                    //初始化package.json
+yarn add rspress typescript ts-node -D         //安装依赖
+```
+
+在package.json中增加Rspress命令
+
+```js
+{
+  "scripts": {
+    "dev": "rspress dev",
+    "build": "rspress build",
+    "preview": "rspress preview"
+  }
+}
+```
+
+增加Rspress配置文件 repress.config.js，设置文档的根目录为docs
+
+```js
+import { defineConfig } from 'rspress/config';
+export default defineConfig({
+  root: 'docs',  //根目录
+});
+```
+
+增加ts基本配置
+
+```js
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "jsx": "react-jsx"
+  }
+}
+```
+
+   既然设置了docs为根目录，在docs新增index.md。因为Rspress已经内置了对MDX的支持，这是一种功能强大的内容开发方式，不但可以直接编写markdown文件，还可以直接引入React组件。我们先测试输入一行简单语句，然后启动服务查看效果：
+
+<img src="./media/1-31.jpeg" style="zoom:50%;"/>    
+
+<center>图1-31</center>
+
+通过页面源码分析可以看出来，Repress生成的页面已经有了顶部导航、左侧导航和右侧导航的占位。下面我看下这几部分是怎么配置的。
+
+docs 目录下的 `_meta.json` 为导航栏的配置，你可以根据默认的配置项追加更多的导航栏菜单
+
