@@ -1,0 +1,17 @@
+[
+  {
+    "type": "dir",
+    "name": "basic",
+    "label": "基础用法"
+  },
+  {
+    "type": "dir",
+    "name": "advance",
+    "label": "高级用法"
+  },
+  {
+    "type": "dir",
+    "name": "extend",
+    "label": "扩展"
+  }
+]
