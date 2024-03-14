@@ -1021,7 +1021,7 @@ yarn add stylelint -D
 
    VitePress和Rspress该如何选择呢？笔者的个人感觉是，如果你偏爱Vue，可以选择VitePress，如果钟爱React或者Rspack，Rspress会是你不错的选择。对建设静态站点来说，两者都是不错的，根据自己熟悉度选择即可。
 
-  下面我们简要介绍下Rspress的建设知识库的过程。
+  下面我们简要介绍下Rspress的建设知识库的过程，因为静态网站的建设大多是配置性的，所以我只介绍基本效果的配置，更炫酷更多的交互请广大读者朋友参考官网API补充。
 
  根据官方文档的脚手架说明自动创建失败，所以咱们手动创建 。
 
@@ -1071,5 +1071,60 @@ export default defineConfig({
 
 通过页面源码分析可以看出来，Repress生成的页面已经有了顶部导航、左侧导航和右侧导航的占位。下面我看下这几部分是怎么配置的。
 
-docs 目录下的 `_meta.json` 为导航栏的配置，你可以根据默认的配置项追加更多的导航栏菜单
+docs 目录下的 `_meta.json` 为上方右侧导航栏的配置，你可以在这里追加更多的导航栏菜单
 
+```json
+[
+  {
+    "text": "入门",
+    "link": "/guide/",
+    "activeMatch": "/guide/"
+  },
+  {
+    "text": "Repress API",
+    "link": "https://rspress.dev/api/index.html"
+  }
+]
+```
+
+​    Rspress 使用的是文件系统路由，自动扫描根目录和子目录，将页面的文件路径映射为路由路径。如文件夹的名称为guide，会被映射成路由 /guide。/guide/basic.md映射成/guide/basic。
+
+​     在左侧导航区，我们在guide目录下新建三个菜单分别显示：基础用法、高级用法、扩展阅读。分别对应三个文件夹。每个文件夹下配置`_meta.json`，表示需要引入的组件
+
+```json
+["index","basic"]   //引入index.md,basic.md
+```
+
+Rspress会更加该文件和文章的标题生成目录，guide目录下`_meta.json`文件内容如下：
+
+```json
+[
+  {
+    "type": "dir",
+    "name": "basic",
+    "label": "基础用法"
+  },
+  {
+    "type": "dir",
+    "name": "advance",
+    "label": "高级用法"
+  },
+  {
+    "type": "dir",
+    "name": "extend",
+    "label": "扩展"
+  }
+]
+```
+
+这里我们注册了 guide 目录下的 basic、advance和extend子目录的内容。因为预览模式效果更好，所以我们在docs下的index.md下开启预览模式。
+
+```json
+---
+overview: true
+---
+```
+
+我们看下最后的效果：
+
+<img src="./media/1-32.jpeg" style="zoom:20%;"/>
