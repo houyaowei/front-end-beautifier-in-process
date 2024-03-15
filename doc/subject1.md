@@ -1017,7 +1017,7 @@ yarn add stylelint -D
 
 ​    大家都知道，只靠口头相传的知识往往会出现断层，也不利于及时共享。所以需要将知识点、最佳实践、答疑集中到知识库中，形成前端的『知识说明书』，让大家有疑问的时候首先想到去知识库去查找。将口头相传的东西尽可能降低。
 
-  容易上手的前端知识库建设的工具有 VuePress，VitePress和Rspress。 从VuePress官方消息看，该库已经进入维护模式，只会有小幅度的bug更新。下一代基于Vue和Vite的建站工具VitePress还在快速演进中，在继续发布RC版本，相信距离GA版本已经不远了。使用过VuePress的再切换到VitePress也很容易上手。另外一个是支持React和Rust的Rspress，也在小步快跑，不断迭代新的特性。
+   前端的静态站点建设工具有很多，知名的如Gatsby，Hexo，Hugo， VuePress，VitePress和Rspress等，但是从容易上手程度上来看，笔者建议可以了解VuePress，VitePress和Rspress。 从VuePress官方消息看，该库已经进入维护模式，只会有小幅度的bug更新。下一代基于Vue和Vite的建站工具VitePress还在快速演进中，在继续发布RC版本，相信距离GA版本已经不远了。使用过VuePress的再切换到VitePress也很容易上手。另外一个是支持React和Rust的Rspress，也在小步快跑，不断迭代新的特性。
 
    VitePress和Rspress该如何选择呢？笔者的个人感觉是，如果你偏爱Vue，可以选择VitePress，如果钟爱React或者Rspack，Rspress会是你不错的选择。对建设静态站点来说，两者都是不错的，根据自己熟悉度选择即可。
 
