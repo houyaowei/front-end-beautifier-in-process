@@ -1020,18 +1020,26 @@ yarn add stylelint -D
    （1）稳定分支，即长期存在的分支：
 
 - master分支：生产版本，通过tag记录每次发布。
-- developer分支：开发的基线分支，每次特性分支都从该分支拉子分支
-- test分支：集成测试环境以此为基线
+- developer分支：开发的基线分支，每次特性分支都从该分支拉子分支，集成测试时merge到test分支。
+- test分支：集成测试环境以此为基线发布。
+- 灰度发布分支
+
+  分支的合并顺序是这样的，特性开发完成后feature分支合入developer，集成测试时由developer合入test，集成测试完成由test合入灰度发布完成，灰度发布测试通过合入master分支，打tag并发布。
 
   （2）不稳定分支，即有一定生命周期的分支：
 
 - feature分支：功能开发分支，当需要开发新功能时，以developer分支为基线拉新分支，起名为feature/**，开发完成后需要合并到developer分支，合并完成后删除。
+- hotfix分支：以master分支为基线，当线上出现bug需要紧急修复时，拉分支取名为hotfix/bug-no，测试完成后，由管理员合入master分支，并同步test、developer和灰度发布分支，然后删除该分支。
+- fix分支：该分支以日常修复bug为主，以test分支为基线，分支名为fix/bug-no。修复完成后需要同步developer分支，然后删除该分支。
 
-- hotfix分支：以master分支为基线，当线上出现bug需要紧急修复时，拉分支取名为hotfix/bug-no，测试完成后，有管理员合入master分支，并同步test和developer分支。
+前端的部署有几种方式：
 
-- fix分支：该分支以日常修复bug为主，以test分支为基线，分支名为fix/bug-no。修复完成后需要同步developer分支。
+- 手动打包部署到nginx
+- 利用Gitlab集成部署
 
-  
+
+
+
 
 ### 1.7.3  知识库建设
 
