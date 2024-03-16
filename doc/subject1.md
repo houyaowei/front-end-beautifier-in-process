@@ -1036,10 +1036,39 @@ yarn add stylelint -D
 
 - 手动打包部署到nginx
 - 利用Gitlab集成部署
+- Docker部署
 
+（1）手动部署
 
+   在没有Docker环境没有jenkins环境的情况下，服务器配置和部署都需要手动完成。前端部署也通常依赖nginx这款轻量、高并发、高性能的服务器。完整的web服务需要配置静态资源地址、跨域访问、接口代理。当然也会有其他的服务如oss服务、负载均衡等。
 
+（2）Gitlab集成部署
 
+  代码私有托管工具尽管有多种，像gitee，gerrit，gitweb，华为云、阿里云，Gitlab等有很多选择，但是Gitlab依然是企业里使用率非常高的代码托管服务。因为不但支持私有化部署，这一点非常重要，恐怕没有哪一家公司的代码愿意暴露在公网上。而且Gitlab非常稳定、方便协作和持续集成，还有很高的扩展性和安全性。
+
+  对开发服务器而言，提供持续自动部署能力，即能方便开发也能提高集成测试效率。只有Gitlab代码托管服务是无法实现持续部署的，需要和持续集成工具配合才行。优秀的持续集成工具（非平台）又以jenkins为最突出，可视化操作、独立部署、社区支持、可定制、自动化部署、继续集成、生成测试报告等，覆盖了开发中的各个环节。
+
+  Gitlab和jenkins的连接服务是通过Gitlab的webhook实现。webhook是用户的自定义HTTP回调。它们通常由事件触发，例如将代码推push、merge或对问题发表评论。当事件发生时，源应用会向为webhook配置的URI发出HTTP请求。通知jenkins进行构建。jenkins构建完成以后将构建后的代码发布的到线上服务器。
+
+<img src="./media/1-31.jpeg" style="zoom:50%;"/> 
+
+<center>图1-31</center>
+
+jenkins中和Gitlab相关的配置有几项：
+
+- 安装Git，Gitlab插件
+- 在Gitlab生成access token
+- 登录jenkins，在系统管理->系统设置->gitlab，配置Gitlab连接信息和Credentials，Credentials即为Gitlab中生成的access token
+- 项目配置，配置需要构建的库URL，分支
+
+在Gitlab中配置webhook，如下：
+
+- 登录Gitlab，设置，选择webhook
+- jenkins，设置API TOKEN中设置访问token
+- 输入URL，格式如  jenkins用户: jenkins中的token@jenkins地址/jenkins/project/测试服务名，选择需要触发的事件
+- 保存
+
+​    	
 
 ### 1.7.3  知识库建设
 
@@ -1093,9 +1122,9 @@ export default defineConfig({
 
    既然设置了docs为根目录，在docs新增index.md。因为Rspress已经内置了对MDX的支持，这是一种功能强大的内容开发方式，不但可以直接编写markdown文件，还可以直接引入React组件。我们先测试输入一行简单语句，然后启动服务查看效果：
 
-<img src="./media/1-31.jpeg" style="zoom:50%;"/>    
+<img src="./media/1-32.jpeg" style="zoom:50%;"/>    
 
-<center>图1-31</center>
+<center>图1-32</center>
 
 通过页面源码分析可以看出来，Repress生成的页面已经有了顶部导航、左侧导航和右侧导航的占位。下面我看下这几部分是怎么配置的。
 
@@ -1155,4 +1184,6 @@ overview: true
 
 我们看下最后的效果：
 
-<img src="./media/1-32.jpeg" style="zoom:20%;"/>
+<img src="./media/1-33.jpeg" style="zoom:20%;"/>
+
+<center>图1-32</center>
