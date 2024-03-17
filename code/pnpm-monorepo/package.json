@@ -8,7 +8,7 @@
     "build" : "pnpm run --filter '*' build",
     "publish:repo": "pnpm publish --no-git-checks",
     "dev:web": "pnpm run -C packages/people-admin dev",
-    "build:utils": "pnpm run -C packages/javascript-validate-utils build"
+    "build:tools": "pnpm run -C packages/javascript-validate-tools build"
   },
   "keywords": [],
   "author": "",

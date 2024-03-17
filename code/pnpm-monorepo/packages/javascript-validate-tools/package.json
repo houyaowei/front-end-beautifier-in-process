@@ -1,7 +1,7 @@
 {
-  "name": "javascript-validate-utils",
+  "name": "javascript-validate-tools",
   "version": "0.2.3",
-  "main": "dist/javascript-validate-utils.js",
+  "main": "dist/javascript-validate-tools.js",
   "author": "houyuewei <houyaowei@163.com>",
   "description": "a validate tool for variables and functions",
   "license": "MIT",

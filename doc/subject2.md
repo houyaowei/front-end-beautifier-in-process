@@ -64,7 +64,7 @@ packages:
   - 'packages/*'
 ```
 
-packages下包含两个示例工程：一个完整的web工程，另一个是笔者在前面演示工具集javascript-validate-utils。在本次示例中，我们演示在不发布工具包的情况下如何在web工程里测试工具包里的方法，同样的方法也适用测试组件库。
+packages下包含两个示例工程：一个完整的web工程，另一个工具集javascript-validate-tools。在本次示例中，我们演示在不发布工具包的情况下如何在web工程里测试工具包里的方法，同样的方法也适用测试组件库。
 
 <img src="./media/ch2/2-4.jpeg" style="zoom:30%;"/>
 
@@ -91,13 +91,25 @@ pnpm install ant-design-vue --filter people-admin
     "clean": "rm -rf node_modules **/*/node_modules",
     "build" : "pnpm run --filter '*' build",
     "dev:web": "pnpm run -C packages/people-admin dev",
-    "build:utils": "pnpm run -C packages/javascript-validate-utils build"
+    "build:tools": "pnpm run -C packages/javascript-validate-tools build"
   },
 ```
 
 这里我们配置了两个全局执行的命令，一个是删除所有子应用的node_modules目录，另一个是所有子项目的一键打包。还配置了两个子应用的单独执行命令，避免开发过程中频繁切换目录。
 
+在people-admin项目中增加javascript-validate-tools依赖：
 
+```shell
+pnpm add javascript-validate-tools -r --filter people-admin
+```
+
+执行完，people-admin项目中增加了一条依赖
+
+```js
+"javascript-validate-tools": "workspace:^",
+```
+
+还有一个问题需要解决的是，当javascript-validate-tools发布到仓库后，需要将web工程中内部依赖变成外部依赖。当执行了`pnpm publish`后，会把基于的workspace的依赖变成外部依赖，如：
 
 一起发布：
 

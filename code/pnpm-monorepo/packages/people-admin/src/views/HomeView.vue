@@ -33,7 +33,7 @@
 </template>
 <script setup>
 import { reactive } from 'vue';
-import { isArray } from "javascript-validate-utils"
+import { isArray } from "javascript-validate-tools"
 
 const formState = reactive({
   username: '',
@@ -43,7 +43,7 @@ const formState = reactive({
 const submit = () => {
   const arr = [formState.username]
   console.log("arr is :", arr)
-  
+
   if(isArray(arr)) {
     alert("OK")
   } else {
