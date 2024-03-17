@@ -15,11 +15,57 @@
 还有什么好办法吗？也许你还会想到 git submodules，把这些相同的部分放到 git 仓库里面，通过 submodules 的形式来集成进来。submodules 确实可以缓解这个问题，但还不能规避调重复安装依赖的问题。
 
 下面我们看下单一仓库monorepo的实现。
-![monorepo](media/monorepo.jpeg)
 
-monorepo项目管理的方式有几种，分别是lerna、pnpm workspace和yarn workspace，npm workspace的方式。
+<img src="./media/ch2/2-1.jpeg" style="zoom:35%;"/>
 
-//TODO, 这里需要链接到工具选择专题（pnpm和yarn）
+<center>图2-1</center>
+
+​     到目前为止，现在的node包管理工具都已经支持monorepo式代码管理管理，pnpm workspace和yarn workspace，npm workspace的方式，除了这些，最常用的恐怕就是lerna了。
+
+​    在本章中，我们就以pnpm workspace和lerna介绍monorepo的代码组织形式。在node包管理工具中我们为什么会选择pnpm这是一个值得探索的问题。
+
+  （1）速度提升
+
+  pnpm 相比较于 yarn、npm 这两个常用的包管理工具在性能上也有了极大的提升，根据最新（2024.3.10）官方提供的 benchmark 数据可以看出在一些综合场景下比 npm和yarn 快了大概两倍。
+
+<img src="./media/ch2/2-2.jpeg" style="zoom:30%;"/>
+
+<center>图2-2</center>
+
+（2）依赖管理方式
+
+​    pnpm安装的node_modules之所以比其他包管理装的体积小，是因为采取了Hard Link的机制。Hard Link 使得用户可以通过不同的路径引用方式去寻找文件。pnpm 会在全局的 store 目录（如果在.npmrc中没有指定的话默认是 node_module/.pnpm）里存储项目包的 Hard Link。安装依赖时，如果某个依赖在 store 目录中已经存在，那么就会直接从 store 目录里面去执行hard-link，避免了重复安装带来的消耗，如果不存在的话，就会下载一次。
+
+   如果展开展开根目录下的node_modules目录可以看出来，各个node包都是symlink（符号链接）去找到对应虚拟磁盘目录下(.pnpm 目录)的依赖
+
+<img src="./media/ch2/2-3.jpeg" style="zoom:30%;"/>   
+
+<center>图2-3</center>
+
+（3）解决了node包幽灵依赖的问题
+
+（4）通过Hard Link解决了对同一个包不同版本依赖的问题
+
+（5）对monorepo很好的支持
+
+下面开始创建pnpm monorepo工程。
+
+首先创建项目，初始化package.json和pnpm-workspaces.yaml文件
+
+```shell
+pnpm init -y
+touch pnpm-workspaces.yaml
+```
+
+在pnpm-workspaces.yaml中配置子工程
+
+```yam
+packages:
+  - 'packages/*'
+```
+
+
+
 lerna方式
 
 推荐是用npx 快速安装最新版的lerna进行项目初始化。关于npx稍微做下扩展，npx从npm@5.2后默认安装，它会自动查找当前依赖包中的可执行文件，如果在当前依赖包中找不到或者不存在依赖包是，就会向上在PATH对应的包里寻找。如果再找不到，就会帮自动下载安装。
@@ -76,8 +122,8 @@ lerna创建过程
 
 不能发私有包：npm ERR! You must sign up for private packages 。 
 解决办法： npm publish --access public
- 
- 
+
+
 #### yarn workspace 
 
 
