@@ -25,7 +25,7 @@
   "homepage": "https://github.com/houyaowei/javascript-validate-utils#readme",
   "devDependencies": {
     "jest": "^27.4.7",
-    "jest-esm-transformer": "^1.0.0",
+    "jest-esm-transformer-2": "^1.0.0",
     "rollup": "^2.64.0"
   },
   "dependencies": {}

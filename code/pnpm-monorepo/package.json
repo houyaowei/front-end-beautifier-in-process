@@ -6,7 +6,9 @@
   "scripts": {
     "clean": "rm -rf node_modules **/*/node_modules",
     "build" : "pnpm run --filter '*' build",
-    "publish:repo": "pnpm publish --no-git-checks"
+    "publish:repo": "pnpm publish --no-git-checks",
+    "dev:web": "pnpm run -C packages/people-admin dev",
+    "build:utils": "pnpm run -C packages/javascript-validate-utils build"
   },
   "keywords": [],
   "author": "",

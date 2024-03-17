@@ -57,12 +57,78 @@ pnpm init -y
 touch pnpm-workspaces.yaml
 ```
 
-在pnpm-workspaces.yaml中配置子工程
+在pnpm-workspaces.yaml中packages部分配置子工程
 
 ```yam
 packages:
   - 'packages/*'
 ```
+
+packages下包含两个示例工程：一个完整的web工程，另一个是笔者在前面演示工具集javascript-validate-utils。在本次示例中，我们演示在不发布工具包的情况下如何在web工程里测试工具包里的方法，同样的方法也适用测试组件库。
+
+<img src="./media/ch2/2-4.jpeg" style="zoom:30%;"/>
+
+<center>图2-4</center>
+
+monorepo工程中，pnpm可以集中控制各个包的操作，如装包、开发启动、打包等。
+
+给所有子工程安装node包
+
+ ```shell
+ pnpm install
+ ```
+
+如果是只给people-admin子应用安装包，需要增加--filter（或 -F）
+
+```shell
+pnpm install ant-design-vue --filter people-admin
+```
+
+主应用中的scripts配置：
+
+```shell
+"scripts": {
+    "clean": "rm -rf node_modules **/*/node_modules",
+    "build" : "pnpm run --filter '*' build",
+    "dev:web": "pnpm run -C packages/people-admin dev",
+    "build:utils": "pnpm run -C packages/javascript-validate-utils build"
+  },
+```
+
+这里我们配置了两个全局执行的命令，一个是删除所有子应用的node_modules目录，另一个是所有子项目的一键打包。还配置了两个子应用的单独执行命令，避免开发过程中频繁切换目录。
+
+
+
+一起发布：
+
+```shell
+➜  pnpm-monorepo git:(main) ✗ pnpm build
+
+> pnpm-monorepo@1.0.0 build /Users/houyaowei/Documents/git-resource/github/front-end-beautifier-in-process/code/pnpm-monorepo
+> pnpm run --filter '*' build
+
+Scope: 2 of 3 workspace projects
+packages/javascript-validate-utils build$ rollup -c
+│ 
+│ ./src/main.js → dist/javascript-validate-utils.js...
+│ created dist/javascript-validate-utils.js in 33ms
+└─ Done in 127ms
+packages/people-admin build$ vite build
+[5 lines collapsed]
+│ dist/index.html                         0.43 kB │ gzip:   0.29 kB
+│ dist/assets/AboutView-C6Dx7pxG.css      0.09 kB │ gzip:   0.10 kB
+│ dist/assets/index-Oheu5IqK.css          5.78 kB │ gzip:   2.01 kB
+│ dist/assets/AboutView--YemTVeN.js       0.23 kB │ gzip:   0.20 kB
+│ dist/assets/index-hVoq-Wdx.js       1,518.44 kB │ gzip: 472.47 kB
+│ ✓ built in 3.49s
+│ (!) Some chunks are larger than 500 kB after minification. Consider:
+│ - Using dynamic import() to code-split the application
+│ - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+│ - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+└─ Done in 3.8s
+```
+
+
 
 
 
