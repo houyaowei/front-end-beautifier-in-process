@@ -14,15 +14,15 @@
 
 还有什么好办法吗？也许你还会想到 git submodules，把这些相同的部分放到 git 仓库里面，通过 submodules 的形式来集成进来。submodules 确实可以缓解这个问题，但还不能规避调重复安装依赖的问题。
 
-下面我们看下单一仓库monorepo的实现。
+下面我们看下单一仓库Monorepo的实现。
 
 <img src="./media/ch2/2-1.jpeg" style="zoom:35%;"/>
 
 <center>图2-1</center>
 
-​     到目前为止，现在的node包管理工具都已经支持monorepo式代码管理管理，pnpm workspace和yarn workspace，npm workspace的方式，除了这些，最常用的恐怕就是lerna了。
+​     到目前为止，现在的node包管理工具都已经支持monorepo式代码管理管理，pnpm workspace和yarn workspace，npm workspace的方式，轻量化的Monorepo方案除了这些实现，还有Lerna可以选择。还有一种monorepo管理方案是构建型，如Vercel团队的Turborepo，微软团队的Rush，Nrwl团队的Nx，该团队同时也在维护Lerna。构建型工具，主要解决大仓库 Monorepo 构建效率低的问题。随着项目代码仓库越来越庞大，工作流（构建、部署、单元测试、集成测试）也会越来越慢，这类工具，是专门针对这样的场景进行极致的性能优化。适用于包非常多、代码体积非常大的 Monorepo 项目。
 
-​    在本章中，我们就以pnpm workspace和lerna介绍monorepo的代码组织形式。在node包管理工具中我们为什么会选择pnpm这是一个值得探索的问题。
+​    在本章中，我们就以pnpm workspace和lerna介绍Monorepo的代码组织形式。在node包管理工具中我们为什么会选择pnpm这是一个值得探索的问题。
 
   （1）速度提升
 
@@ -109,9 +109,57 @@ pnpm add javascript-validate-tools -r --filter people-admin
 "javascript-validate-tools": "workspace:^",
 ```
 
-还有一个问题需要解决的是，当javascript-validate-tools发布到仓库后，需要将web工程中内部依赖变成外部依赖。当执行了`pnpm publish`后，会把基于的workspace的依赖变成外部依赖，如：
+还有一个问题需要解决的是，当javascript-validate-tools发布到仓库后，需要将web工程中内部依赖变成外部依赖。当然pnpm也提供了命令publish，当执行了`pnpm publish`后，会把基于的workspace的依赖变成外部依赖，如：
 
-一起发布：
+```json
+// before  
+"dependencies": {
+    "javascript-validate-tools": "workspace:^",
+  },
+// after
+"dependencies": {
+    "javascript-validate-tools": "^0.0.1",
+  },
+```
+
+到目前为止，monorepo基本配置已经完成，下面我们测试下javascript-validate-tools包中的方法，测试前需要先执行打包命令，在dist目录下生成bundle文件，这是因为在package.json main字段中配置的是该路径：
+
+```shell
+pnpm run build:tools
+```
+
+使用Vue3实现一个简单的登录页面，通过reactive绑定各输入项，在submit事件中测试isArray方法是否能正常访问到并且如期望的效果工作：
+
+```js
+<script setup>
+import { reactive } from 'vue';
+import { isArray } from "javascript-validate-tools"
+const formState = reactive({
+  username: '',
+  password: '',
+  remember: true,
+});
+const submit = () => {
+  const arr = [formState.username]
+  console.log("arr is :", arr)
+  if(isArray(arr)) {
+    console.log("test successfully!")
+  } else {
+    alert('test Failed!');
+  }
+};
+</script>
+```
+
+<img src="./media/ch2/2-5.jpeg" style="zoom:30%;"/>
+
+<center>图2-5</center>
+
+<img src="./media/ch2/2-6.jpeg" style="zoom:40%;"/>
+
+<center>图2-6</center>
+
+当然Monorepo也支持全量打包：
 
 ```shell
 ➜  pnpm-monorepo git:(main) ✗ pnpm build
@@ -140,11 +188,11 @@ packages/people-admin build$ vite build
 └─ Done in 3.8s
 ```
 
+​    根据构建日志可以看出packages下的各包依次执行build script进行构建。这种模式对于日常开发中工具包和应用的同步更新、发布非常方便，并且也支持独立更新、发布。
 
 
 
-
-lerna方式
+Lerna方式
 
 推荐是用npx 快速安装最新版的lerna进行项目初始化。关于npx稍微做下扩展，npx从npm@5.2后默认安装，它会自动查找当前依赖包中的可执行文件，如果在当前依赖包中找不到或者不存在依赖包是，就会向上在PATH对应的包里寻找。如果再找不到，就会帮自动下载安装。
 
