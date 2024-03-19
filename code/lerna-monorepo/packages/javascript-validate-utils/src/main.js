@@ -13,6 +13,7 @@ import isKeyExist from "./isKeyExist";
 import isWeakMap from "./isWeakMap";
 import isWeakSet from "./isWeakSet";
 import isElement from "./isElement";
+import isEqual from "./isEqual"
 
 export {
   isString,
@@ -34,5 +35,6 @@ export {
   isUndefined,
   isWeakMap,
   isWeakSet,
-  isElement
+  isElement,
+  isEqual
 }

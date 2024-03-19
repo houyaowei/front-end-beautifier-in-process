@@ -3,5 +3,5 @@
   "useNx": false,
   "useWorkspaces": true,
   "version": "independent",
-  "npmClient": "yarn"
+  "npmClient": "pnpm"
 }

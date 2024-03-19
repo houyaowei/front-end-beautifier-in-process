@@ -192,9 +192,11 @@ packages/people-admin build$ vite build
 
 
 
-Lerna方式
+另一种比较常用的使用Lerna方式
 
-推荐是用npx 快速安装最新版的lerna进行项目初始化。关于npx稍微做下扩展，npx从npm@5.2后默认安装，它会自动查找当前依赖包中的可执行文件，如果在当前依赖包中找不到或者不存在依赖包是，就会向上在PATH对应的包里寻找。如果再找不到，就会帮自动下载安装。
+   Lerna是有效的Monorepo仓库管理工具，擅长管理依赖关系和发布。并提供了很多的工作流（Task），解决了**多包依赖**、**发版手动维护版本**等问题。
+
+   推荐是用npx 快速安装最新版的lerna进行项目初始化。关于npx稍微做下扩展，npx从npm@5.2后默认安装，它会自动查找当前依赖包中的可执行文件，如果在当前依赖包中找不到或者不存在依赖包是，就会向上在PATH对应的包里寻找。如果再找不到，就会帮自动下载安装。
 
 总体来讲，npx可以做以下几方面的工作：
 （1）项目初始化
@@ -221,16 +223,28 @@ node-modules/.bin/react --version  （原）
 npx react --version  (新)
 ```
 
-创建lerna工程
+下面开始创建lerna工程：
 ```javascript
     npx lerna@latest init
 ```
-生成lerna工程的骨架，包含基本的lerna配置，package.json和基本的packages文件夹。
+生成lerna工程的骨架，包含基本的lerna配置文件lerna.json，package.json和基本的packages文件夹。
+
+```json
+packages
+lerna.json
+package.json
+yarn.lock
+```
+
+Lerna 允许使用两种模式来管理项目：
+
+- 固定模式(Fixed)：Lerna 把所有的package当做一个整体工程，每次发布所有package版本号按照lerna.json中的version配置统一升级，保持版本一致，即使是在每个package中都指定了版本号。默认是固定方式。
+- 独立模式(Independent)：单独管理每个package的版本号，每次执行发布指令，Git 检查文件变动，只发布有调整的软件包。为了使该模式生效有两种办法，一种是在初始化项目时添加参数--independent，另一种办法是手动修改erna.json中的version，修改为independent。
 
 
-对于多项目管理
 
-#### yarn workspace + lerna
+
+
 lerna创建过程
 
 安装本工程的包依赖
@@ -250,7 +264,4 @@ lerna创建过程
 解决办法： npm publish --access public
 
 
-#### yarn workspace 
-
-
-#### Monorepo的好处
+#### 

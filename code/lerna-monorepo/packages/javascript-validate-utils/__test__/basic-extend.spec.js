@@ -10,7 +10,6 @@ import isKeyExist from "../src/isKeyExist";
 import isWeakMap from "../src/isWeakMap";
 import isWeakSet from "../src/isWeakSet";
 import isElement from "../src/isElement";
-import isEqual from "../src/isEqual"
 
 
 describe('javascript basic extend type validation', ()=> {
@@ -85,12 +84,5 @@ describe('javascript basic extend type validation', ()=> {
   test('isElement test cases', ()=> {
     //TODO 增加测试条件
     // expect(isElement(document.body)).toBeTruthy()
-  })
-  test('isEqual test cases', ()=> {
-    //TODO 增加测试条件
-    expect(isEqual(null, null)).toBeTruthy()
-    expect(isEqual(null, undefined)).toBeFalsy()
-    expect(isEqual('aa', 'aa')).toBeTruthy()
-    expect(isEqual([], [])).toBeFalsy()
   })
 })

@@ -42,8 +42,6 @@ console.log(isObject({}))
 - isWeakMap
 - isWeakSet
 - isElement
-
-待实现的：
 - isEqual
 
 
@@ -70,6 +68,8 @@ isKeyExist(value, key): 判断key是否在value中是否存在,支持对象,map,
 
 ### 友情提醒
 `isDate` 支持日期实例或者合法的字符，如：`2021-1-21 12:20:21`
+
+`isEqual`是判断对象字面量是否相等
 
 
 
