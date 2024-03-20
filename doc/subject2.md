@@ -255,7 +255,13 @@ lerna create package_name
 
 <center>图2-7</center>
 
+给所有package安装依赖，会自动为每个依赖包进行 `npm install` 和 `npm link` 操作
 
+```shell
+lerna bootstrap
+```
+
+为某子应用安装依赖
 
 注意问题：
 "private": true会确保根目录不被发布出去。

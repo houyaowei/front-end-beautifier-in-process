@@ -1,16 +1,16 @@
 {
-  "name": "npm-lerna-test",
+  "name": "npm-lerna-demo",
   "main": "",
   "private": true,
-  "packages": [
+  "workspaces": [
     "packages/*"
   ],
   "scripts": {
     "bootstrap": "npx lerna run bootstrap",
     "build": "npx lerna run build",
-    "test:basic-utils": "lerna exec --scope basic-utils -- yarn test",
+    "install:web": "npx lerna exec --scope people-admin -- pnpm install",
+    "dev:web": "npx lerna exec --scope people-admin -- yarn dev",
     "test:validat-utils": "lerna exec --scope javascript-validate-utils -- yarn test",
-    "test:all": "lerna run test",
     "publish:repo": "lerna publish --skip-git --conventional-commits"
   },
   "devDependencies": {
