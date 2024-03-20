@@ -1,7 +1,8 @@
 {
   "name": "npm-lerna-test",
   "main": "",
-  "workspaces": [
+  "private": true,
+  "packages": [
     "packages/*"
   ],
   "scripts": {
