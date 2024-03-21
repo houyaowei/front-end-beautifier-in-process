@@ -241,7 +241,7 @@ Lerna 允许使用两种模式来管理项目：
 - 固定模式(Fixed)：Lerna 把所有的package当做一个整体工程，每次发布所有package版本号按照lerna.json中的version配置统一升级，保持版本一致，即使是在每个package中都指定了版本号。默认是固定方式。
 - 独立模式(Independent)：单独管理每个package的版本号，每次执行发布指令，Git 检查文件变动，只发布有调整的软件包。为了使该模式生效有两种办法，一种是在初始化项目时添加参数--independent，另一种办法是手动修改erna.json中的version，修改为independent。
 
-​     我们的示例采用独立模式。同时需要修改package.json中的private为true。另外Lerna初始化后，默认沿用了workspace配置，如果继续采用Node包管理，那么workspace需要保留。如果采用Lerna，需要把workspace修改为packages。
+​     我们的示例采用独立模式。同时需要修改package.json中的private为true。另外Lerna初始化后，默认沿用了workspace配置，如果继续采用Node包管理，那么workspace需要保留，如果使用pnpm管理，如前面介绍的那样还需要pnpm-workspaces.yaml。
 
 为了方便用户操作，Lerna提供了自动创建package的命令，包名需要在本地保持唯一。
 
@@ -255,11 +255,9 @@ lerna create package_name
 
 <center>图2-7</center>
 
-给所有package安装依赖，会自动为每个依赖包进行 `npm install` 和 `npm link` 操作
+​     在V7版本前，使用lerna bootstrap命令给所有package安装依赖，也就是从V7版本以后，内置的lerna bootstrap , lerna add 和lerna link三个命令。根据官方建议Lerna不再负责在repo中intall和link依赖项，因为包管理工具更适合做这些事情。
 
-```shell
-lerna bootstrap
-```
+   
 
 为某子应用安装依赖
 

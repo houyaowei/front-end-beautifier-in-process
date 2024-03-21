@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "ant-design-vue": "^4.1.2",
-    "javascript-validate-tools": "workspace:^",
     "pinia": "^2.1.7",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"

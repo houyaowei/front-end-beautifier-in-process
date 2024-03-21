@@ -35,7 +35,7 @@
 </template>
 <script setup>
 import { reactive } from 'vue';
-import { isArray } from "javascript-validate-tools"
+import { isArray } from "javascript-validate-utils"
 
 const formState = reactive({
   username: '',
