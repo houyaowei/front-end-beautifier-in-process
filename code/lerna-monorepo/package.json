@@ -6,13 +6,9 @@
     "packages/*"
   ],
   "scripts": {
-    "bootstrap": "npx lerna run bootstrap",
-    "install:all": "yarn run install:web && yarn run install:utils",
-    "install:web": "npx lerna exec --scope people-admin -- pnpm install",
+    "install:all": "yarn run install:tools && yarn run install:utils",
+    "install:tools": "npx lerna exec --scope javascript-common-tools -- pnpm install",
     "install:utils": "npx lerna exec --scope javascript-validate-utils -- pnpm install",
-    "dev:web": "npx lerna exec --scope people-admin -- yarn dev",
-    "build:utils": "npx lerna exec --scope javascript-validate-utils -- yarn build",
-    "test:validat-utils": "lerna exec --scope javascript-validate-utils -- yarn test",
     "publish:repo": "lerna publish --skip-git --conventional-commits"
   },
   "devDependencies": {

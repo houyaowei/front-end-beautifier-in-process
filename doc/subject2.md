@@ -249,17 +249,60 @@ Lerna 允许使用两种模式来管理项目：
 lerna create package_name
 ```
 
-为了对比pnpm monorepo仓库管理，这里的package和pnpm中的保持一致。
+在这个示例中，我们在packages下增加javascript-common-tools和java-validate-utils两个工具包，前者包含了常用的工具如电话号码格式化、小数四舍五入、字符串去空格等，后者包含一些常用的校验方法如：是否是数组isArray，是否是数字isNumber等，作为前端可能维护更多的npm仓库。
 
 <img src="./media/ch2/2-7.jpeg" style="zoom:40%;"/>
 
 <center>图2-7</center>
 
-​     在V7版本前，使用lerna bootstrap命令给所有package安装依赖，也就是从V7版本以后，内置的lerna bootstrap , lerna add 和lerna link三个命令。根据官方建议Lerna不再负责在repo中intall和link依赖项，因为包管理工具更适合做这些事情。
+​     在V7版本前，使用lerna bootstrap命令给所有package安装依赖，也就是从V7版本以后，内置的lerna bootstrap , lerna add 和lerna link三个命令。根据官方建议Lerna不再负责在repo中intall和link依赖项，因为包管理工具更适合做这些事情。但是在每个package中需要提供test和build的script。   
 
-   
+   既然lerna已经不支持bootstrap，那么我们通过命令一键安装依赖：
 
-为某子应用安装依赖
+```shell
+"scripts": {
+    "install:all": "yarn run install:tools && yarn run install:utils",
+    "install:tools": "npx lerna exec --scope javascript-common-tools -- pnpm install",
+    "install:utils": "npx lerna exec --scope javascript-validate-utils -- pnpm install"
+  },
+```
+
+执行所有package的test，执行测试用例。
+
+```shell
+npx lerna run test
+```
+
+执行build也是同理。如果是执行单个包的用例，需要添加scope，
+
+```shell
+npx lerna run test --scope=javascript-common-tools
+```
+
+Lerna为包管理提供了多任务的并发处理机制，提供快速的包管理能力，但是需要注意的是，在lerna.json中：
+
+```shell
+npx lerna run test,build
+```
+
+```shell
+➜  lerna-monorepo git:(main) ✗ npx lerna run test,build
+lerna notice cli v8.1.2
+lerna info versioning independent
+
+   ✔  javascript-common-tools:build (692ms)
+   ✔  javascript-validate-utils:build (716ms)
+   ✔  javascript-common-tools:test (1s)
+   ✔  javascript-validate-utils:test (1s)
+
+—————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+ Lerna (powered by Nx)   Successfully ran targets test, build for 2 projects (1s)
+```
+
+
+
+  
 
 注意问题：
 "private": true会确保根目录不被发布出去。

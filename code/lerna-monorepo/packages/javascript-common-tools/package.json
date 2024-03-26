@@ -5,13 +5,13 @@
   "author": "houyuewei <houyaowei@163.com>",
   "description": "javascript common tools",
   "license": "MIT",
-  "type": "module",
   "scripts": {
-    "build": "rollup -c",
+    "build": "rollup -c --bundleConfigAsCjs",
     "test": "jest"
   },
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "repository": {
     "type": "git",
