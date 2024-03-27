@@ -1,7 +1,7 @@
 {
   "targetDefaults": {
-    "test": {
-      "dependsOn": ["^build"]
+    "build": {
+      "dependsOn": ["test"]
     }
   }
 }

@@ -279,7 +279,7 @@ npx lerna run test
 npx lerna run test --scope=javascript-common-tools
 ```
 
-​       Lerna为包管理提供了多任务的并发处理机制，提供快速的包管理能力，但是需要注意的是，在lerna.json中，需要屏蔽掉useNx配置，Nx 是 Nrwl团队开发的，可以与 Learn 5.1及以上集成使用，核心的目的是通过缓存、增量构建、并行构建以及分布式构建等方式加速Lerna构建效率。
+​       Lerna为包管理提供了多任务的并发处理机制，提供快速的包管理能力，但是需要注意的是，在lerna.json中，需要屏蔽掉useNx配置（如果你设置了useNx为false的话）。Nx 是由 Nrwl团队开发的，可以与 Learn 5.1及以上集成使用，核心的目的是通过缓存、增量构建、并行构建以及分布式构建等方式加速Lerna构建效率。
 
 ```shell
 npx lerna run test,build
@@ -296,11 +296,38 @@ lerna info versioning independent
    ✔  javascript-validate-utils:test (1s)
 
 —————————————————————————————————————————————————————————————————————————————————————————————————————————
-
  Lerna (powered by Nx)   Successfully ran targets test, build for 2 projects (1s)
 ```
 
+通过上述构建提示信息也验证了Nx的多任务构建能力。
 
+开发npm包的时候，流程通常是开发、单元测试（test）、构建（build）、发布。对于可以自动化实现的单元测试和构建是有前后依赖关系的，只有单元测试通过的才能进行构建，否则构建就没有任何意义了。Nx在提供了并行构建的同时，也提供了定义了Task的依赖配置。需要新建Nx配置nx.json，并增加如下配置：
+
+```json
+{
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["test"]
+    }
+  }
+}
+```
+
+再看下执行结果：
+
+```shell
+➜  lerna-monorepo git:(main) ✗ npx lerna run test,build
+lerna notice cli v8.1.2
+lerna info versioning independent
+   ✔  javascript-common-tools:test (1s)
+   ✔  javascript-validate-utils:test (1s)
+   ✔  javascript-common-tools:build (502ms)
+   ✔  javascript-validate-utils:build (484ms)
+—————————————————————————————————————————————————————————————————————————————————————————————————————————
+ Lerna (powered by Nx)   Successfully ran targets test, build for 2 projects (2s)
+```
+
+这次是先执行各个package的test再执行打包，符合npm包开发的预期效果。
 
   
 

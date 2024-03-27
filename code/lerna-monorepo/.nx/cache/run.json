@@ -1,40 +1,18 @@
 {
   "run": {
     "command": "lerna run test,build",
-    "startTime": "2024-03-27T13:43:24.932Z",
-    "endTime": "2024-03-27T13:43:27.498Z",
+    "startTime": "2024-03-27T14:33:58.326Z",
+    "endTime": "2024-03-27T14:34:00.191Z",
     "inner": false
   },
   "tasks": [
     {
-      "taskId": "javascript-common-tools:build",
-      "target": "build",
-      "projectName": "javascript-common-tools",
-      "hash": "13651240121555766638",
-      "startTime": "2024-03-27T13:43:24.940Z",
-      "endTime": "2024-03-27T13:43:25.937Z",
-      "params": "",
-      "cacheStatus": "cache-miss",
-      "status": 0
-    },
-    {
-      "taskId": "javascript-validate-utils:build",
-      "target": "build",
-      "projectName": "javascript-validate-utils",
-      "hash": "18193611506877526607",
-      "startTime": "2024-03-27T13:43:24.940Z",
-      "endTime": "2024-03-27T13:43:25.952Z",
-      "params": "",
-      "cacheStatus": "cache-miss",
-      "status": 0
-    },
-    {
       "taskId": "javascript-common-tools:test",
       "target": "test",
       "projectName": "javascript-common-tools",
-      "hash": "17029233809671609285",
-      "startTime": "2024-03-27T13:43:24.940Z",
-      "endTime": "2024-03-27T13:43:27.282Z",
+      "hash": "18220436989212400888",
+      "startTime": "2024-03-27T14:33:58.333Z",
+      "endTime": "2024-03-27T14:33:59.594Z",
       "params": "",
       "cacheStatus": "cache-miss",
       "status": 0
@@ -43,9 +21,31 @@
       "taskId": "javascript-validate-utils:test",
       "target": "test",
       "projectName": "javascript-validate-utils",
-      "hash": "4724115511208505123",
-      "startTime": "2024-03-27T13:43:24.940Z",
-      "endTime": "2024-03-27T13:43:27.498Z",
+      "hash": "8823217252499397905",
+      "startTime": "2024-03-27T14:33:58.333Z",
+      "endTime": "2024-03-27T14:33:59.706Z",
+      "params": "",
+      "cacheStatus": "cache-miss",
+      "status": 0
+    },
+    {
+      "taskId": "javascript-common-tools:build",
+      "target": "build",
+      "projectName": "javascript-common-tools",
+      "hash": "7118541428621681999",
+      "startTime": "2024-03-27T14:33:59.595Z",
+      "endTime": "2024-03-27T14:34:00.097Z",
+      "params": "",
+      "cacheStatus": "cache-miss",
+      "status": 0
+    },
+    {
+      "taskId": "javascript-validate-utils:build",
+      "target": "build",
+      "projectName": "javascript-validate-utils",
+      "hash": "6255810958288580891",
+      "startTime": "2024-03-27T14:33:59.706Z",
+      "endTime": "2024-03-27T14:34:00.191Z",
       "params": "",
       "cacheStatus": "cache-miss",
       "status": 0

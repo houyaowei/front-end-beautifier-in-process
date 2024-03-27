@@ -6,20 +6,20 @@
       "data": {
         "root": "packages/javascript-validate-utils",
         "targets": {
-          "test": {
+          "build": {
             "executor": "nx:run-script",
             "dependsOn": [
-              "^build"
+              "test"
             ],
             "options": {
-              "script": "test"
+              "script": "build"
             },
             "configurations": {}
           },
-          "build": {
+          "test": {
             "executor": "nx:run-script",
             "options": {
-              "script": "build"
+              "script": "test"
             },
             "configurations": {}
           },
@@ -45,20 +45,20 @@
       "data": {
         "root": "packages/javascript-common-tools",
         "targets": {
-          "test": {
+          "build": {
             "executor": "nx:run-script",
             "dependsOn": [
-              "^build"
+              "test"
             ],
             "options": {
-              "script": "test"
+              "script": "build"
             },
             "configurations": {}
           },
-          "build": {
+          "test": {
             "executor": "nx:run-script",
             "options": {
-              "script": "build"
+              "script": "test"
             },
             "configurations": {}
           },
