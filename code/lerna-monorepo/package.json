@@ -6,6 +6,7 @@
     "packages/*"
   ],
   "scripts": {
+    "run:tasks": "npx lerna run test,build",
     "install:all": "yarn run install:tools && yarn run install:utils",
     "install:tools": "npx lerna exec --scope javascript-common-tools -- pnpm install",
     "install:utils": "npx lerna exec --scope javascript-validate-utils -- pnpm install",

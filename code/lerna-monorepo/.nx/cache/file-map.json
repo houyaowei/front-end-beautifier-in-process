@@ -9,24 +9,24 @@
   "fileMap": {
     "nonProjectFiles": [
       {
-        "file": "nx.json",
-        "hash": "15679435728700752526"
-      },
-      {
         "file": "lerna.json",
         "hash": "15017670924202757255"
       },
       {
-        "file": "yarn.lock",
-        "hash": "15980752142891064837"
-      },
-      {
         "file": "package.json",
-        "hash": "10013924261140643021"
+        "hash": "17816830561566141865"
       },
       {
         "file": ".gitignore",
         "hash": "8587836968507943632"
+      },
+      {
+        "file": "nx.json",
+        "hash": "15679435728700752526"
+      },
+      {
+        "file": "yarn.lock",
+        "hash": "15980752142891064837"
       }
     ],
     "projectFileMap": {
@@ -54,10 +54,6 @@
         {
           "file": "packages/javascript-validate-utils/__test__/testObject.spec.js",
           "hash": "13221016115467437109"
-        },
-        {
-          "file": "packages/javascript-validate-utils/dist/javascript-validate-utils.js",
-          "hash": "11098751466455997224"
         },
         {
           "file": "packages/javascript-validate-utils/jest.config.js",
@@ -186,6 +182,10 @@
         {
           "file": "packages/javascript-validate-utils/yarn.lock",
           "hash": "19438737205077583"
+        },
+        {
+          "file": "packages/javascript-validate-utils/dist/javascript-validate-utils.js",
+          "hash": "11098751466455997224"
         }
       ],
       "javascript-common-tools": [

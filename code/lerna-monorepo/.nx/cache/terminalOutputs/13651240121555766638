@@ -12,5 +12,5 @@
 20:   const _debounce = function(...args) {
 21:     return new Promise((resolve, reject) => {[39m
 ...and 1 other occurrence
-[32mcreated [1mdist/javascript-common-tools.js[22m in [1m39ms[22m[39m
-[2K[1GDone in 0.54s.
+[32mcreated [1mdist/javascript-common-tools.js[22m in [1m40ms[22m[39m
+[2K[1GDone in 0.59s.

@@ -279,7 +279,7 @@ npx lerna run test
 npx lerna run test --scope=javascript-common-tools
 ```
 
-Lerna为包管理提供了多任务的并发处理机制，提供快速的包管理能力，但是需要注意的是，在lerna.json中：
+​       Lerna为包管理提供了多任务的并发处理机制，提供快速的包管理能力，但是需要注意的是，在lerna.json中，需要屏蔽掉useNx配置，Nx 是 Nrwl团队开发的，可以与 Learn 5.1及以上集成使用，核心的目的是通过缓存、增量构建、并行构建以及分布式构建等方式加速Lerna构建效率。
 
 ```shell
 npx lerna run test,build

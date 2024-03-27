@@ -1,29 +1,29 @@
 {
   "run": {
-    "command": "lerna run build,test",
-    "startTime": "2024-03-26T14:40:46.899Z",
-    "endTime": "2024-03-26T14:40:48.304Z",
+    "command": "lerna run test,build",
+    "startTime": "2024-03-27T13:43:24.932Z",
+    "endTime": "2024-03-27T13:43:27.498Z",
     "inner": false
   },
   "tasks": [
-    {
-      "taskId": "javascript-validate-utils:build",
-      "target": "build",
-      "projectName": "javascript-validate-utils",
-      "hash": "2252219984257441206",
-      "startTime": "2024-03-26T14:40:46.907Z",
-      "endTime": "2024-03-26T14:40:47.700Z",
-      "params": "",
-      "cacheStatus": "cache-miss",
-      "status": 0
-    },
     {
       "taskId": "javascript-common-tools:build",
       "target": "build",
       "projectName": "javascript-common-tools",
       "hash": "13651240121555766638",
-      "startTime": "2024-03-26T14:40:46.907Z",
-      "endTime": "2024-03-26T14:40:47.780Z",
+      "startTime": "2024-03-27T13:43:24.940Z",
+      "endTime": "2024-03-27T13:43:25.937Z",
+      "params": "",
+      "cacheStatus": "cache-miss",
+      "status": 0
+    },
+    {
+      "taskId": "javascript-validate-utils:build",
+      "target": "build",
+      "projectName": "javascript-validate-utils",
+      "hash": "18193611506877526607",
+      "startTime": "2024-03-27T13:43:24.940Z",
+      "endTime": "2024-03-27T13:43:25.952Z",
       "params": "",
       "cacheStatus": "cache-miss",
       "status": 0
@@ -33,8 +33,8 @@
       "target": "test",
       "projectName": "javascript-common-tools",
       "hash": "17029233809671609285",
-      "startTime": "2024-03-26T14:40:46.907Z",
-      "endTime": "2024-03-26T14:40:48.219Z",
+      "startTime": "2024-03-27T13:43:24.940Z",
+      "endTime": "2024-03-27T13:43:27.282Z",
       "params": "",
       "cacheStatus": "cache-miss",
       "status": 0
@@ -43,9 +43,9 @@
       "taskId": "javascript-validate-utils:test",
       "target": "test",
       "projectName": "javascript-validate-utils",
-      "hash": "1324047126690619721",
-      "startTime": "2024-03-26T14:40:46.907Z",
-      "endTime": "2024-03-26T14:40:48.304Z",
+      "hash": "4724115511208505123",
+      "startTime": "2024-03-27T13:43:24.940Z",
+      "endTime": "2024-03-27T13:43:27.498Z",
       "params": "",
       "cacheStatus": "cache-miss",
       "status": 0
