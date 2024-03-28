@@ -10,7 +10,7 @@
     "install:all": "yarn run install:tools && yarn run install:utils",
     "install:tools": "npx lerna exec --scope javascript-common-tools -- pnpm install",
     "install:utils": "npx lerna exec --scope javascript-validate-utils -- pnpm install",
-    "publish:repo": "lerna publish --skip-git --conventional-commits"
+    "publish:repo": "npx lerna publish --skip-git --conventional-commits"
   },
   "devDependencies": {
     "lerna": "^8.1.2"

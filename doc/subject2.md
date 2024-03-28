@@ -329,19 +329,66 @@ lerna info versioning independent
 
 这次是先执行各个package的test再执行打包，符合npm包开发的预期效果。
 
-  
+​    在第一章关于如何开发npm包部分，我们详细介绍了如果通过npm命令发布包。Lerna作为monorepo管理工具也提供了包发布的快捷操作（正式发布前需要进行npm 登录）：
 
-注意问题：
-"private": true会确保根目录不被发布出去。
+```shell
+lerna publish
+```
 
-包名不能重复：lerna ERR! E403 You do not have permission to publish "basic-utils". Are you logged in as the correct user?
-解决办法： 检查包名
+  Lerna会为各个package现有的版本号默认增加1。在该仓库中，javascript-common-tools的版本为0.3.8，javascript-validate-utils的版本为0.3.3，先执行看下效果
 
-命令行少参数： lerna ERR! E401 [UNAUTHORIZED] Login first。 
-解决办法是加 --conventional-commits
+```shell
+$ npx lerna publish --no-private
+lerna notice cli v8.1.2
+lerna info versioning independent
+lerna info Assuming all packages changed
+? Select a new version for javascript-common-tools (currently 0.3.8) (Use arrow keys)
+❯ Patch (0.3.9) 
+  Minor (0.4.0) 
+  Major (1.0.0) 
+  Prepatch (0.3.9-alpha.0) 
+  Preminor (0.4.0-alpha.0) 
+  Premajor (1.0.0-alpha.0) 
+  Custom Prerelease 
+  Custom Version 
+```
 
-不能发私有包：npm ERR! You must sign up for private packages 。 
-解决办法： npm publish --access public
+这个仓库是已独立模式进行包管理，所以需要为每个package选择适合的版本或者自定义版本号。如果是固定模式，需要修改lerna.json中version字段，修改为具体版本号。
 
+```shell
+Changes:
+ - javascript-common-tools: 0.3.8 => 0.3.9
+ - javascript-validate-utils: 0.3.3 => 0.3.4
 
-#### 
+? Are you sure you want to publish these packages? (ynH) 
+```
+
+```shell
+Successfully published:
+ - javascript-common-tools@0.3.9
+ - javascript-validate-utils@0.3.4
+lerna success published 2 packages
+```
+
+发布成功后，Lerna还会为每个package创建tag。
+
+<img src="./media/ch2/2-8.jpeg" style="zoom:40%;"/>  
+
+<center>图2-8</center>
+
+​    在有些情况下，不希望某一个package发布，需要将这个包的package.json中的private设置为true。
+
+​    Node包管理工具除了pnpm支持monorepo外，yarn、npm也都通过workspace进行管理。但是这两个的局限性在于：yarn和npm未提供更为精细的发布控制配置，并且yarn也不原生支持在每个包下动态执行指令。
+
+  在本章pnpm部分我们了解到其对node包优秀的管理能力，解决了幽灵依赖的问题，并且安装速度更快，更省磁盘空间等有点。所以对于专注npm包开发的推荐使用Lerna结合pnpm的方式，充分发挥Lerna的版本管理能力、同步构建能力以及pnpm包的管理，为开发者带来便利。同样也需要增加其他配置，具体有如下几个：
+
+  1、增加ppm-workspace.yaml文件，增加packages配置。
+
+  2、移除package.json中的workspaces配置。
+
+  3、移除lerna.json中的packages配置。
+
+  4、需要把lerna.json中的npmClient修改为pnpm
+
+如果你不太看中版本号管理和同步构建能力，那么pnpm是你最佳的monorepo管理工具。
+
