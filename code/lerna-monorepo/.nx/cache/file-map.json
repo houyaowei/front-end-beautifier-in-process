@@ -9,8 +9,24 @@
   "fileMap": {
     "nonProjectFiles": [
       {
+        "file": "lerna.json",
+        "hash": "15017670924202757255"
+      },
+      {
         "file": "lerna-debug.log",
         "hash": "13961700135772114764"
+      },
+      {
+        "file": "package.json",
+        "hash": "5621234945792627429"
+      },
+      {
+        "file": ".DS_Store",
+        "hash": "16291091171708840178"
+      },
+      {
+        "file": "packages/.DS_Store",
+        "hash": "2862655181705618689"
       },
       {
         "file": ".gitignore",
@@ -23,14 +39,6 @@
       {
         "file": "yarn.lock",
         "hash": "15980752142891064837"
-      },
-      {
-        "file": "lerna.json",
-        "hash": "15017670924202757255"
-      },
-      {
-        "file": "package.json",
-        "hash": "5621234945792627429"
       }
     ],
     "projectFileMap": {
@@ -154,6 +162,10 @@
         {
           "file": "packages/javascript-common-tools/yarn.lock",
           "hash": "11400720904059016388"
+        },
+        {
+          "file": "packages/javascript-common-tools/.DS_Store",
+          "hash": "130153610170385"
         }
       ],
       "javascript-validate-utils": [
@@ -308,6 +320,10 @@
         {
           "file": "packages/javascript-validate-utils/yarn.lock",
           "hash": "19438737205077583"
+        },
+        {
+          "file": "packages/javascript-validate-utils/.DS_Store",
+          "hash": "226065900493009218"
         }
       ]
     }
