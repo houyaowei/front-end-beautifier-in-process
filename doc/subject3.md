@@ -178,3 +178,19 @@ scores := []int{100, 98, 99}
 fmt.Println("cap:", cap(scores), ", len:", len(scores))   //cap: 3 , len: 3
 ```
 
+或者也可以根据数组生成切片：
+
+```go
+s := arr1[2:]
+```
+
+使用append为切片增加元素
+
+```go
+s := [...]int{120, 89}
+for _, v := range s {
+  scores = append(scores, v)
+}
+fmt.Println("cap:", cap(scores), ", len:", len(scores))  //cap: 6 , len: 5
+```
+

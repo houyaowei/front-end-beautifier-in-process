@@ -41,4 +41,10 @@ func TestComplexType() {
 func TestSlice() {
 	scores := []int{100, 98, 99}
 	fmt.Println("cap:", cap(scores), ", len:", len(scores))
+
+	s := [...]int{120, 89}
+	for _, v := range s {
+		scores = append(scores, v)
+	}
+	fmt.Println("cap:", cap(scores), ", len:", len(scores))
 }
