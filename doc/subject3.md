@@ -37,7 +37,7 @@ import (
 )
 ```
 
-到这里module还不能按期望工作，因为编译器还无法解析example.com/variables， 还需要在go.mod中使用replace指令告诉编译器怎么解析这个module path。
+到这里module还不能正常工作，因为编译器还无法解析example.com/variables， 还需要在go.mod中使用replace指令告诉编译器怎么解析这个module path。
 
 <img src="./media/ch3/3-1.jpeg" style="zoom:35%;"/>
 
@@ -48,8 +48,67 @@ import (
 1. 引用项目需要的依赖并添加到go.mod中
 2. 去掉go.mod文件中项目不需要的依赖
 
+代码组织方式确定后，我们确定entry为入口（package main），其他每个package 名称均为文件夹名称。
+
+下面正式开始Go之旅。
+
 
 
 #### 变量声明
 
 Go语言主要有四种类型的声明语句：var、const、type和func，分别对应变量、常量、类型和函数实体对象的声明。
+
+Go中的数据类型有两类：基础数据类型和复合数据类型。
+
+| 基础数据类型 |  复合数据类型  |
+| :----------: | :------------: |
+|     整型     |      数组      |
+|    浮点数    |     Slice      |
+|     复数     |      Map       |
+|    布尔型    |     结构体     |
+|    字符串    |      JSON      |
+|     常量     | 文本和HTML模板 |
+
+   字符串是一个不可修改的字节序列。字符串可以包含任意的数据，文本字符串通常被解释为采用UTF8编码的Unicode，Unicode码点对应Go语言中的rune整数类型。
+
+```go
+var name = "houyw"
+var address = "xi'an"
+fmt.Println("变量name是:", name, ", 长度:", len(name), ", 第2个字符的:", name[1])
+fmt.Println("变量address的子集(字符串切片):", address[3:])
+```
+
+执行结果：
+
+```shell
+变量name是: houyw , 长度: 5 , 第2个字符的: 111
+变量address的子集(字符串切片): an
+```
+
+如果包含的有支持Unicode字符的字符串，
+
+```go
+var strUTF8 = "hi,MBP凑活用"
+var charCode, _ = utf8.DecodeRuneInString(strUTF8[13:14])
+fmt.Println("字符串长度:", len(strUTF8), ",Unicode字符长度:", utf8.RuneCountInString(strUTF8), "，第14位：", charCode)
+```
+
+```shell
+字符串长度: 15 ,Unicode字符长度: 9 ，第14位： 65533
+```
+
+len方法统计的是字节的长度，RuneCountInString统计的是Unicode字符数量。
+
+在Go语言中，字符串还支持UTF8转字符串：
+
+```go
+var result = utf8.AppendRune(nil, 0x8C6B)
+fmt.Println("unicode 字符串：", string(result))
+```
+
+```shell
+unicode 字符串： 豫
+```
+
+常量
+
