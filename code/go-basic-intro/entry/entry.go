@@ -10,5 +10,7 @@ import (
 func main() {
 	message := greetings.Hello("houyw")
 	fmt.Println(message)
-	variables.TestVariablesDeclaration()
+	//variables.TestVariablesDeclaration()
+	//variables.TestComplexType()
+	variables.TestSlice()
 }

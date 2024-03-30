@@ -72,8 +72,8 @@ Go中的数据类型有两类：基础数据类型和复合数据类型。
    字符串是一个不可修改的字节序列。字符串可以包含任意的数据，文本字符串通常被解释为采用UTF8编码的Unicode，Unicode码点对应Go语言中的rune整数类型。
 
 ```go
-var name = "houyw"
-var address = "xi'an"
+var name string = "houyw"
+var address  = "xi'an"
 fmt.Println("变量name是:", name, ", 长度:", len(name), ", 第2个字符的:", name[1])
 fmt.Println("变量address的子集(字符串切片):", address[3:])
 ```
@@ -84,6 +84,18 @@ fmt.Println("变量address的子集(字符串切片):", address[3:])
 变量name是: houyw , 长度: 5 , 第2个字符的: 111
 变量address的子集(字符串切片): an
 ```
+
+当然也可以一次声明多个变量:
+
+```go
+var (
+  age    int   = 25
+  height int16 = 175
+)
+fmt.Println("声明多个类型, age:", age, ",height:", height)
+```
+
+
 
 如果包含的有支持Unicode字符的字符串，
 
@@ -111,4 +123,58 @@ unicode 字符串： 豫
 ```
 
 常量
+
+常量是在运行期不可修改的值，并且它们的值都是在编译期完成。每种常量的潜在类型都是基础类型，像boolean、string或数字。
+
+```go
+const pi = 3.1415926;
+```
+
+常量声明也可以使用iota常量生成器初始化，它用于生成一组以相似规则初始化的常量，但是不用每行都写一遍初始化表达式，iota默认从0开始计数，后面的依次加1。
+
+```go
+const (
+  ColorRed      = iota
+  ColorOrange      
+  ColorYellow      
+  ColorGrassland   
+  ColorCyan            
+  ColorBlue            
+  ColorPurple      
+)
+```
+
+ColorOrange为1，ColorYellow为2，依次类推。
+
+数组
+
+   数组是一个由固定长度的特定类型元素组成的序列，一个数组可以由零个或多个元素组成。因为数组的长度是固定的，不像在javascript中的数组有push、shift操作可以修改。
+
+  声明固定长度的数组，并进行遍历：
+
+```go
+var scores [3]int = [3]int{100, 98, 99}
+for i, s := range scores {
+  fmt.Println("index :", i, "value is: ", s)
+}
+```
+
+```shell
+index : 0 value is:  100
+index : 1 value is:  98
+index : 2 value is:  99
+```
+
+不用指定长度参数，而是根据初始化数据的数量动态初始化长度字段。
+
+Slice（切片）
+
+Slice是和数组类似的数据结构，但是更加灵活，功能更强大。它是可以增长和收缩的动态序列，序列中每个元素的类型必须相同。
+
+初始化
+
+```go
+scores := []int{100, 98, 99}
+fmt.Println("cap:", cap(scores), ", len:", len(scores))   //cap: 3 , len: 3
+```
 
