@@ -34,8 +34,11 @@ func TestComplexType() {
 	}
 	fmt.Println("subset scores :", scores[1:2])
 	//简短变量声明
-	unLengthScores := [...]int{100, 98, 99, 100}
-	fmt.Println("length :", len(unLengthScores))
+	unLengthScores := [...]int{100, 98, 99, 100, 97, 96}
+	fmt.Println("unLengthScores' length :", len(unLengthScores), ", cap:", cap(unLengthScores))
+
+	ss := unLengthScores[1:3]
+	fmt.Println("ss' cap:", cap(ss), ", len:", len(ss))
 }
 
 func TestSlice() {
@@ -47,4 +50,9 @@ func TestSlice() {
 		scores = append(scores, v)
 	}
 	fmt.Println("cap:", cap(scores), ", len:", len(scores))
+
+	letters := make([]string, 5)
+	fmt.Println("lettters' cap:", cap(letters), ", len:", len(letters))
+	letters[0] = "a"
+	fmt.Println("lettters:", letters)
 }

@@ -169,9 +169,9 @@ index : 2 value is:  99
 
 Slice（切片）
 
-Slice是和数组类似的数据结构，但是更加灵活，功能更强大。它是可以增长和收缩的动态序列，序列中每个元素的类型必须相同。
+slice是和数组类似的数据结构，但是更加灵活，功能更强大。它是可以增长和收缩的动态序列，序列中每个元素的类型必须相同。
 
-初始化
+切片初始化，和数组的字面值语法很类似，它们都是用花括弧包含一系列的初始化元素，但是对于Slice并没有指明序列的长度。一个slice由三个部分构成：指针、长度和容量。指针指向第一个slice元素对应的底层数组元素的地址，要注意的是slice的第一个元素并不一定就是数组的第一个元素。len(长度)对应slice中元素的数目；长度不能超过容量，cap(容量)一般是从slice的开始位置到底层数据的结尾位置。内置的len和cap函数分别返回slice的长度和容量。
 
 ```go
 scores := []int{100, 98, 99}
@@ -181,8 +181,34 @@ fmt.Println("cap:", cap(scores), ", len:", len(scores))   //cap: 3 , len: 3
 或者也可以根据数组生成切片：
 
 ```go
-s := arr1[2:]
+unLengthScores := [...]int{100, 98, 99, 100, 97, 96}
+fmt.Println("unLengthScores' length :", len(unLengthScores))
+ss := unLengthScores[1:3]
+fmt.Println("ss' cap:", cap(ss), ", len:", len(ss))
 ```
+
+```shell
+unLengthScores' length : 6 , cap: 6
+ss' cap: 5 , len: 2
+```
+
+
+
+还有一种创建Slice的方式是使用内置的make方法
+
+```go
+letters := make([]string, 5)
+fmt.Println("lettters' cap:", cap(letters), ", len:", len(letters))
+letters[0] = "a"
+fmt.Println("lettters:", letters)
+```
+
+```shell
+lettters' cap: 5 , len: 5
+lettters: [a    ]
+```
+
+
 
 使用append为切片增加元素
 
