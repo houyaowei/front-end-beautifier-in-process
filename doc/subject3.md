@@ -146,7 +146,44 @@ const (
 
 ColorOrange为1，ColorYellow为2，依次类推。
 
-数组
+循环
+
+在这里，我们不再介绍和其他语言一样语法糖，只介绍Go语言中特有的语法。
+
+for循环是比较常用的结构，range结构非常方便。可以对slice、map、数组、字符串等进行迭代循环。格式如下：
+
+```go
+for key, value := range originMap {
+    newMap[key] = value
+}
+```
+
+key或者value是可以省略的，如果是只想访问key，可以这样写：
+
+```go
+for key, _ := range originMap
+```
+
+如果是只想访问value，可以这样写：
+
+```go
+for _, value := range originMap
+```
+
+```go
+strings := []string{"google", "bing"}
+for i, v := range strings {
+  fmt.Println(i, v)
+}
+numbers := [6]int{11, 22, 33, 55}
+for i, x := range numbers {
+  fmt.Printf("第 %d 位 x 的值 = %d\n", i, x)
+} 
+```
+
+select语句
+
+#### 数组
 
    数组是一个由固定长度的特定类型元素组成的序列，一个数组可以由零个或多个元素组成。因为数组的长度是固定的，不像在javascript中的数组有push、shift操作可以修改。
 
@@ -167,7 +204,9 @@ index : 2 value is:  99
 
 不用指定长度参数，而是根据初始化数据的数量动态初始化长度字段。
 
-Slice（切片）
+
+
+#### Slice（切片）
 
 slice是和数组类似的数据结构，但是更加灵活，功能更强大。它是可以增长和收缩的动态序列，序列中每个元素的类型必须相同。
 
@@ -228,6 +267,114 @@ fmt.Println("scores cap:", cap(scores), ", len:", len(scores)) //scores cap: 6 ,
 
 
 
-Map集合
+#### Map集合
 
-Map是一种巧妙并且实用的数据结构。它是一个无序的key/value对的集合，其中所有的key都是不同的，然后通过给定的key可以在常数时间复杂度内检索、更新或删除对应的value
+Map是一种实用的数据结构。它是一个无序的key-value对的集合，其中所有的key都是不能重复，但是类型相同，通过给定的key可以在常数时间复杂度内检索、更新或删除对应的value。在Go语言中，map通常表示为map[K]V，其中K和V分别对应key和value。
+
+map实例的生成方式有两种，方式一通过内置的make
+
+```go
+person := make(map[string]string)
+person["name"] = "houyw"
+person["address"] = "xi'an"
+```
+
+方式二通过map字面量的方法创建
+
+```go
+person2 := map[string]string{
+  "name":    "houyw",
+  "address": "xi'an",
+}
+```
+
+map操作
+
+```go
+person["name"]  //访问
+person["name"] = "hyw" //修改
+delete person["address"] //删除
+```
+
+
+
+#### struct结构体
+
+结构体是一种聚合类型，可以将多个不同类型的值汇聚到一起。如员工的信息， 员工ID可能是int型，姓名是字符串类型，薪资可能是int型，地址为字符串类型.....。我们先使用java的类表示：
+
+```java
+public class Employee {
+  ID int;
+	Name String;
+	Address String;
+	Salary int;
+	ManagerID int;
+	EntryTime: String;
+}
+```
+
+现在我们声明一个Employ的结构体，并声明了一个Employee类型的变量person：
+
+```go
+type Employee struct {
+  ID        int
+  Name      string
+  Age       int
+  Address   string
+  Salary    int
+  ManagerID int
+}
+var person Employee
+```
+
+结构体的字段我们都是以大写字母开头，即可导出的变量，之所以这么写的目的是可以在另一个包中引用。可以一次性初始化所有字段，格式如下，各值需要和声明的顺序保持一致：
+
+```
+person := Employee {value1, value2, ...valuen}
+```
+
+也可以一个一个设置值：
+
+```go
+person.Age=33
+person.Name="hyw"
+person.ID=1065968
+```
+
+也可以对字段进行取址(&)操作。
+
+```go
+ref := &person.Address
+*ref = "henan"
+fmt.Println("after modified address:", person.Address) //after modified address: henan
+```
+
+结构体值也可以用结构体字面值表示，结构体字面值可以指定每个成员的值。
+
+```go
+type Point struct{ X, Y int }
+p := Point{1, 2}
+```
+
+以定义指向结构体的指针类似于其他指针变量，即结构体指针，存储的是结构体变量的地址。格式如：
+
+```go
+var person_pointer *Employee = &person
+fmt.Println("get Name by Pointer:", person_pointer.Name) //get Name by Pointer: houyw
+```
+
+
+
+Tags
+
+在定义结构体字段时，除字段名称和数据类型外，还可以使用反引号为结构体字段声明元信息，这种元信息称为Tag，用于编译阶段关联到字段当中,如我们将上面例子中的结构体修改为
+
+```go
+type User struct {
+	Name          string    `json:"name"`
+	Password      string    `json:"password"`
+	PreferredFish []string  `json:"preferredFish"`
+	CreatedAt     time.Time `json:"createdAt"`
+}
+```
+

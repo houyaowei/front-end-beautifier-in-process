@@ -57,3 +57,48 @@ func TestSlice() {
 	letters[0] = "a"
 	fmt.Println("lettters:", letters)
 }
+
+func TestMap() {
+	person := make(map[string]string)
+	person["name"] = "houyw"
+	person["address"] = "xi'an"
+
+	//person2 := map[string]string{
+	//	"name":    "houyw",
+	//	"address": "xi'an",
+	//}
+	fmt.Println("person.name is:", person["name"])
+	person["name"] = "hyw"
+	fmt.Println("person.name is:", person["name"])
+	delete(person, "address")
+	fmt.Println("person.name is:", person)
+}
+func TestStruct() {
+	type Employee struct {
+		ID        int
+		Name      string
+		Address   string
+		Salary    int
+		ManagerID int
+	}
+	var person Employee = Employee{610001, "houyw", "xi'an", 26, 51000}
+	fmt.Println("name:", person.Name)
+
+	ref := &person.Address
+	*ref = "henan"
+	fmt.Println("after modified address:", person.Address)
+
+	var person_pointer *Employee = &person
+	fmt.Println("get Name by Pointer:", person_pointer.Name)
+}
+
+func TestForLoop() {
+	strings := []string{"google", "bing"}
+	for i, v := range strings {
+		fmt.Println(i, v)
+	}
+	numbers := [6]int{11, 22, 33, 55}
+	for i, x := range numbers {
+		fmt.Printf("第 %d 位 x 的值 = %d\n", i, x)
+	}
+}
