@@ -45,11 +45,12 @@ func TestSlice() {
 	scores := []int{100, 98, 99}
 	fmt.Println("cap:", cap(scores), ", len:", len(scores))
 
-	s := [...]int{120, 89}
-	for _, v := range s {
+	appendScores := [...]int{120, 89}
+	for _, v := range appendScores {
 		scores = append(scores, v)
 	}
-	fmt.Println("cap:", cap(scores), ", len:", len(scores))
+	//scores = append(scores, appendScores...)
+	fmt.Println("scores cap:", cap(scores), ", len:", len(scores))
 
 	letters := make([]string, 5)
 	fmt.Println("lettters' cap:", cap(letters), ", len:", len(letters))
