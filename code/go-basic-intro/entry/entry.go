@@ -2,7 +2,7 @@ package main
 
 import (
 	"example.com/greetings"
-	"example.com/variables"
+	"example.com/interfacecase"
 	"fmt"
 )
 
@@ -11,12 +11,13 @@ func main() {
 	fmt.Println(message)
 	//variables.TestVariablesDeclaration()
 	//variables.TestComplexType()
-	//variables.TestSlice()
-	//variables.TestMap()
-	//variables.TestStruct()
-	//variables.TestSelectOperator()
-	//variables.TestTypeSwitch()
-	//variables.TestStructTags()
-	variables.TestStructCompose()
-	variables.TestStructAndMap()
+	//refbasiccase.TestSlice()
+	//refbasiccase.TestMap()
+	//refbasiccase.TestStruct()
+	//refbasiccase.TestSelectOperator()
+	//refbasiccase.TestTypeSwitch()
+	//refbasiccase.TestStructTags()
+	//refbasiccase.TestStructCompose()
+	//refbasiccase.TestStructAndMap()
+	interfacecase.TestInterface()
 }

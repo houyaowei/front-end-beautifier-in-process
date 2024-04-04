@@ -539,3 +539,56 @@ type User struct {
 {houyw  18 }
 ```
 
+
+
+接口
+
+接口类型是由一组方法签名定义的集合，这些方法可以被任意类型实现。interface 类型的变量可以存储任何实现了该接口的类型的值。但是无需像java那样显式implement。同时还有一个约束，如果一个类型实现了一个接口，那么它必须实现该接口中定义的所有方法。
+
+interface的定义形式如下：
+```go
+type 接口名 interface{
+     方法名1(参数列表) 返回值列表
+     方法名2(参数列表) 返回值列表
+     …
+ }
+```
+
+先定义一个Animal的接口，接口中定义了两个无返回值的方法say、run，这两个方法无需参数，也无需返回值。
+
+```go
+type Animal interface {
+	say()
+	run()
+}
+```
+
+定义结构体dog，并实现Animal接口中的say方法，为了验证我们上面所说的必须实现所有方法的约束：
+
+```go
+type Dog struct{}
+// Dog实现Animal接口
+func (d Dog) say() {
+	fmt.Println("dog is barking")
+}
+```
+
+既然已经实现了Animal接口，就可以定义一个 “Animal” 类型的变量，并将它赋值为一个 “Dog” 类型的变量
+
+```go
+var dog Animal = Dog{}
+dog.say()
+```
+
+但是无法顺利执行，并产生一条编译错误。
+
+<img src="./media/ch3/3-2.jpeg" style="zoom:40%;"/>
+
+<center>图3-2</center>   
+
+为了让静态编译通过，需要再实现run方法，编译执行
+
+```go
+dog is barking
+```
+
