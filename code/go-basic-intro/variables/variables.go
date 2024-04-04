@@ -1,6 +1,7 @@
 package variables
 
 import (
+	"encoding/json"
 	"fmt"
 	"time"
 	"unicode/utf8"
@@ -91,6 +92,7 @@ func TestStruct() {
 
 	var person_pointer *Employee = &person
 	fmt.Println("get Name by Pointer:", person_pointer.Name)
+
 }
 
 func TestForLoop() {
@@ -143,4 +145,20 @@ func TestTypeSwitch() {
 	case *int:
 		fmt.Printf("pointer to integer: %d\n", *t)
 	}
+}
+
+func TestStructTags() {
+	type User struct {
+		Name     string `json:"name"`
+		Password string `json:"password"`
+		Age      int    `json:"age"`
+		Address  string `json:"address"`
+	}
+
+	user := User{Name: "houyw", Age: 18}
+	bs, _ := json.Marshal(user) // 序列化
+	fmt.Println(string(bs))
+	new_person := User{}
+	_ = json.Unmarshal(bs, &new_person) // 反序列化
+	fmt.Println(new_person)
 }

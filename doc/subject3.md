@@ -393,6 +393,20 @@ type Employee struct {
 var person Employee
 ```
 
+结构体内部也可以嵌套内部匿名结构体
+
+```go
+type Student struct {
+  Name string
+  Age int
+  School struct {
+    Name string
+    Address string
+    Phone string
+  }
+}
+```
+
 结构体的字段我们都是以大写字母开头，即可导出的变量，之所以这么写的目的是可以在另一个包中引用。可以一次性初始化所有字段，格式如下，各值需要和声明的顺序保持一致：
 
 ```
@@ -429,18 +443,37 @@ var person_pointer *Employee = &person
 fmt.Println("get Name by Pointer:", person_pointer.Name) //get Name by Pointer: houyw
 ```
 
+结构体也可以不包含任何字段，称为空结构体，表示为struct{}，虽然定义一个空的结构体并没有太大的意义，但在并发编程中，channel之间的通讯，可以使用一个struct{}作为信号量。
+
+```go
+ch := make(chan struct{})
+ch <- struct{}{}
+```
+
 
 
 Tags
 
-在定义结构体字段时，除字段名称和数据类型外，还可以使用反引号为结构体字段声明元信息，这种元信息称为Tag，用于编译阶段关联到字段当中,如我们将上面例子中的结构体修改为
+在定义结构体字段时，除字段名称和数据类型外，还可以使用反引号( `` )为结构体字段声明元信息，这种元信息称为Tag，用于编译阶段关联到字段当中，最常用的就是序列化与反序列化，需要注意的是要额外引入包"encoding/json"，否则也无法解析。
 
 ```go
 type User struct {
-	Name          string    `json:"name"`
-	Password      string    `json:"password"`
-	PreferredFish []string  `json:"preferredFish"`
-	CreatedAt     time.Time `json:"createdAt"`
-}
+		Name     string `json:"name"`
+		Password string `json:"password"`
+		Age      int    `json:"age"`
+		Address  string `json:"address"`
+	}
+
+	user := User{Name: "houyw", Age: 18}
+	bs, _ := json.Marshal(user) // 序列化
+	fmt.Println(string(bs))
+	new_person := User{}
+	_ = json.Unmarshal(bs, &new_person) // 反序列化
+	fmt.Println(new_person)
+```
+
+```shell
+{"name":"houyw","password":"","age":18,"address":""}
+{houyw  18 }
 ```
 
