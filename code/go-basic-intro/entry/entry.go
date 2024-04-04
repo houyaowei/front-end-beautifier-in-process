@@ -16,5 +16,7 @@ func main() {
 	//variables.TestStruct()
 	//variables.TestSelectOperator()
 	//variables.TestTypeSwitch()
-	variables.TestStructTags()
+	//variables.TestStructTags()
+	variables.TestStructCompose()
+	variables.TestStructAndMap()
 }

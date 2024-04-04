@@ -450,6 +450,68 @@ ch := make(chan struct{})
 ch <- struct{}{}
 ```
 
+在实际的项目中很难通过单独的数据结构完成特定的功能，比如sql中关联查询的结果作为某个实体的一个属性，这个实体类通常既有基本类型也有组合类型。
+
+我们先声明两个struct，一个定义Animal的详细，另一个Position表示动物在货架上的位置。
+
+```go
+type Animal struct {
+	Name   string
+	Color  string
+	Height float32
+	Weight float32
+	Age    float32
+}
+type Position struct {
+	Lat, Long int
+}
+```
+
+声明和Animal struct 绑定的方法
+
+```go
+func (a Animal) Runing() {
+	fmt.Println(a.Name + " is running...")
+}
+func (a Animal) Eatting() {
+	fmt.Println(a.Name + "is eating...")
+}
+```
+
+接着定义动物（狗）的结构体并初始化。
+
+```go
+type Dog struct {
+		ID     int
+		Pos    Position
+		Detail Animal
+	}
+	var dog = Dog{
+		ID: 1001,
+		Pos: Position{
+			2, 4,
+		},
+		Detail: Animal{
+			Name:   "Labrador",
+			Color:  "orange",
+			Weight: 30,
+			Height: 50,
+			Age:    3.5,
+		},
+	}
+	fmt.Println(dog.Detail.Name)
+	dog.Detail.Runing()
+	dog.Detail.Eatting()
+```
+
+运行输出：
+
+```shell
+Labrador
+Labrador is running...
+Labrador is eating...
+```
+
 
 
 Tags

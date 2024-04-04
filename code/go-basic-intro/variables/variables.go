@@ -162,3 +162,57 @@ func TestStructTags() {
 	_ = json.Unmarshal(bs, &new_person) // 反序列化
 	fmt.Println(new_person)
 }
+func TestStructAndMap() {
+	type Vertex struct {
+		Lat, Long float64
+	}
+	var m map[string]Vertex
+	m = make(map[string]Vertex)
+	m["baidu"] = Vertex{
+		40.68433, -74.39967,
+	}
+	fmt.Println(m["baidu"])
+
+}
+
+type Animal struct {
+	Name   string
+	Color  string
+	Height float32
+	Weight float32
+	Age    float32
+}
+type Position struct {
+	Lat, Long int
+}
+
+func (a Animal) Runing() {
+	fmt.Println(a.Name + " is running...")
+}
+func (a Animal) Eatting() {
+	fmt.Println(a.Name + " is eating...")
+}
+
+func TestStructCompose() {
+	type Dog struct {
+		ID     int
+		Pos    Position
+		Detail Animal
+	}
+	var dog = Dog{
+		ID: 1001,
+		Pos: Position{
+			2, 4,
+		},
+		Detail: Animal{
+			Name:   "Labrador",
+			Color:  "orange",
+			Weight: 30,
+			Height: 50,
+			Age:    3.5,
+		},
+	}
+	fmt.Println(dog.Detail.Name)
+	dog.Detail.Runing()
+	dog.Detail.Eatting()
+}
