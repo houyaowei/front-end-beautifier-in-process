@@ -2,6 +2,7 @@ package variables
 
 import (
 	"fmt"
+	"time"
 	"unicode/utf8"
 )
 
@@ -100,5 +101,46 @@ func TestForLoop() {
 	numbers := [6]int{11, 22, 33, 55}
 	for i, x := range numbers {
 		fmt.Printf("第 %d 位 x 的值 = %d\n", i, x)
+	}
+}
+func TestSelectOperator() {
+	c1 := make(chan string)
+	c2 := make(chan int)
+
+	go func() {
+		time.Sleep(1 * time.Second)
+		c1 <- "chanel c1" // 发送信号
+	}()
+	go func() {
+		time.Sleep(2 * time.Second)
+		c2 <- 1024 //发送另一个信号
+	}()
+
+	for i := 0; i < 2; i++ {
+		select {
+		case msg1 := <-c1:
+			fmt.Println("select received string:", msg1)
+		case msg2 := <-c2:
+			fmt.Println("select received int:", msg2)
+		}
+	}
+}
+func functionOfSomeType() bool {
+	return true
+}
+func TestTypeSwitch() {
+	var t interface{} //空接口
+	t = functionOfSomeType()
+	switch t := t.(type) {
+	default:
+		fmt.Printf("unexpected type %T\n", t)
+	case bool:
+		fmt.Printf("is boolean: %t\n", t)
+	case int:
+		fmt.Printf("is integer: %d\n", t)
+	case *bool:
+		fmt.Printf("pointer to boolean: %t\n", *t)
+	case *int:
+		fmt.Printf("pointer to integer: %d\n", *t)
 	}
 }

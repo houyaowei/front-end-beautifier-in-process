@@ -13,5 +13,7 @@ func main() {
 	//variables.TestComplexType()
 	//variables.TestSlice()
 	//variables.TestMap()
-	variables.TestStruct()
+	//variables.TestStruct()
+	//variables.TestSelectOperator()
+	variables.TestTypeSwitch()
 }

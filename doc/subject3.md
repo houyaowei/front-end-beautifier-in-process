@@ -183,6 +183,72 @@ for i, x := range numbers {
 
 select语句
 
+select 是 Go 中的一个控制结构，类似于 switch 语句，和switch不同的是select只能操作通道，监听指定通道上的操作。每一个case后必须是通道操作，要么是发送要么是接收。
+
+```go
+func TestSelectOperator() {
+	c1 := make(chan string)
+	c2 := make(chan int)
+	go func() {
+		time.Sleep(1 * time.Second)
+		c1 <- "chanel c1" // 发送信号
+	}()
+	go func() {
+		time.Sleep(2 * time.Second)
+		c2 <- 1024 //发送另一个信号
+	}()
+	for i := 0; i < 2; i++ {
+		select {
+		case msg1 := <-c1:
+			fmt.Println("select received string:", msg1)
+		case msg2 := <-c2:
+			fmt.Println("select received int:", msg2)
+		}
+	}
+}
+```
+
+```go
+select received string: chanel c1
+select received int: 1024
+```
+
+
+
+不太一样的switch
+
+在Go语言中，除了可以像JavaScript中使用switch-case的语法结构外，还支持在case中支持类型判断，具体说就是用type-switch 来判断某个 interface 变量中实际存储的变量类型。
+
+```go
+func functionOfSomeType() bool {
+	return true
+}
+func TestTypeSwitch() {
+	var t interface{}  //空接口
+	t = functionOfSomeType()
+	switch t := t.(type) {
+	default:
+		fmt.Printf("unexpected type %T\n", t)
+	case bool:
+		fmt.Printf("is boolean: %t\n", t)
+	case int:
+		fmt.Printf("is integer: %d\n", t)
+	case *bool:
+		fmt.Printf("pointer to boolean: %t\n", *t)
+	case *int:
+		fmt.Printf("pointer to integer: %d\n", *t)
+	}
+}
+```
+
+```shell
+is boolean: true
+```
+
+在该示例中我们使用了空接口，空接口通常用来储存未知类型的值。
+
+
+
 #### 数组
 
    数组是一个由固定长度的特定类型元素组成的序列，一个数组可以由零个或多个元素组成。因为数组的长度是固定的，不像在javascript中的数组有push、shift操作可以修改。
