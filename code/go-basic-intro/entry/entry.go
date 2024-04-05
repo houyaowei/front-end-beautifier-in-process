@@ -1,6 +1,6 @@
 package main
 
-import "example.com/funcs"
+import "example.com/standard"
 
 func main() {
 	//	message := greetings.Hello("houyw")
@@ -24,5 +24,6 @@ func main() {
 	//funcs.TestSliceFuncs2()
 	//funcs.TestMapFuncs()
 	//funcs.TestAnonymousFuncs()
-	funcs.TestClosure()
+	//funcs.TestClosure()
+	standard.TestFmt()
 }

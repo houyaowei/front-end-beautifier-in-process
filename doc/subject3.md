@@ -809,3 +809,14 @@ func TestClosure() {
 }
 ```
 
+
+
+常用的标准库
+
+fmt包：主要分为向外格式化输出内容和获取输入内容。
+
+```go
+fmt.print: 标准化输出
+fmt.printf: 格式化输出，
+```
+
