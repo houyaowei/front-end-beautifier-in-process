@@ -2,7 +2,7 @@ package main
 
 import (
 	"example.com/greetings"
-	"example.com/interfacecase"
+	"example.com/methods"
 	"fmt"
 )
 
@@ -20,6 +20,7 @@ func main() {
 	//refbasiccase.TestStructCompose()
 	//refbasiccase.TestStructAndMap()
 	//interfacecase.TestInterface()
-	interfacecase.TestInterfaceCompose()
-	interfacecase.TestEmptyInterface()
+	//interfacecase.TestInterfaceCompose()
+	//interfacecase.TestEmptyInterface()
+	methods.TestFunctions()
 }

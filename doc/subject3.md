@@ -660,3 +660,78 @@ studentInfo["married"] = false
 fmt.Println(studentInfo)  // map[age:18 married:false name:娃哈哈]
 ```
 
+
+
+#### 方法和函数
+
+一个方法就是一个包含了接受者的函数，接受者可以是命名类型或者结构体类型的一个值或者是一个指针。Go中，方法总是绑定对象实例，并隐式将实例作为第一实参 (receiver，可以是 T 或 *T)。
+
+```go
+func (recevier type) methodName(参数列表)(返回值列表){}
+```
+
+如下面方法的实现，在上个小节关于接口实现中我们已经做了说明，现在：
+
+```go
+type Test struct{}
+// 无参数、无返回值
+func (t Test) say() {
+}
+// 单参数、无返回值
+func (t Test) say(str string) {
+}
+// 单参数、单返回值
+func (t Test) say(str string) (p string) {
+}
+// 多参数、无返回值
+func (t *Test) say(x, y int) {
+}
+```
+
+下面看一个示例
+
+```go
+type User struct {
+	Name  string
+	Email string
+}
+func (u User) Notify() {
+	fmt.Printf("name: %v , email: %v \n", u.Name, u.Email)
+  fmt.Printf("value type: %p \n", &u)
+}
+func TestFunctions() {
+	u1 := User{"houyw", "houyaowei@163.com"}
+	u1.Notify()
+	// 通过指针类型调用方法
+	u2 := User{"314254791", "314254791@qq.com"}
+	u3 := &u2
+	u3.Notify()
+}
+```
+
+​       示例中通过值类型和指针类型调用，但是需要注意的是当接受者（receiver）不是指针类型时，方法操作对应接受者的值始终副本，即使是使用指针类型调用。
+
+```shell
+name: houyw , email: houyaowei@163.com 
+value type: 0x1400013e000 
+name: 314254791 , email: 314254791@qq.com 
+value type: 0x1400013e020 
+```
+
+修改Notify方法的接受者（receiver）为指针类型，
+
+```go
+func (u *User) Notify() {
+	fmt.Printf("name: %v , email: %v \n", u.Name, u.Email)
+	fmt.Printf("pointer type : %p \n", u)
+}
+```
+
+```go
+name: houyw , email: houyaowei@163.com 
+pointer type : 0x1400012a000 
+name: 314254791 , email: 314254791@qq.com 
+pointer type : 0x1400012a020 
+```
+
+函数的概念对前端朋友更加友好
