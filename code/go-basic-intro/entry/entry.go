@@ -19,5 +19,7 @@ func main() {
 	//refbasiccase.TestStructTags()
 	//refbasiccase.TestStructCompose()
 	//refbasiccase.TestStructAndMap()
-	interfacecase.TestInterface()
+	//interfacecase.TestInterface()
+	interfacecase.TestInterfaceCompose()
+	interfacecase.TestEmptyInterface()
 }

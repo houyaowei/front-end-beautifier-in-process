@@ -573,7 +573,7 @@ func (d Dog) say() {
 }
 ```
 
-既然已经实现了Animal接口，就可以定义一个 “Animal” 类型的变量，并将它赋值为一个 “Dog” 类型的变量
+既然已经实现了Animal接口，就可以定义一个 “Animal” 类型的变量，并将它赋值为一个 “Dog” 类型的变量。在 Go语言 中，interface 由两部分组成：类型和值。类型表示实现该接口的类型，值表示该类型的值。当将一个类型的值赋给一个 interface 类型的变量时，编译器会将该值的类型和值分别保存在 interface 变量中，这就是多态，从这点看接口也是值，也可以像其它值一样传递，接口值可以用作函数的参数或返回值。
 
 ```go
 var dog Animal = Dog{}
@@ -586,9 +586,77 @@ dog.say()
 
 <center>图3-2</center>   
 
-为了让静态编译通过，需要再实现run方法，编译执行
+为了让静态编译通过，需要再实现run方法，编译执行。
+
+```go
+func (d Dog) run() {
+	fmt.Println("dog is running")
+}
+```
 
 ```go
 dog is barking
+dog is running
+```
+
+在Go语言中，接口是可以嵌套的。由Annimal2接口组合接口Sayer和Mover。
+
+```go
+type Sayer interface {
+	say()
+}
+type Mover interface {
+	move()
+}
+type Animal2 interface {
+	Sayer
+	Mover
+}
+```
+
+声明Duck 结构体，并实现say方法和move方法
+
+```go
+type Duck struct {
+	name string
+}
+func (c Duck) say() {
+	fmt.Println("duck is quacking...")
+}
+func (c Duck) move() {
+	fmt.Printf("duck %s can move \n", c.name)
+}
+```
+
+看下测试代码和输出结果。
+
+```go
+var x Animal2
+x = Duck{name: "Huahua"}
+x.move()
+x.say()
+```
+
+```shell
+duck Huahua can move 
+duck is quacking...
+```
+
+interface中没有定义的接口成为空接口，空接口可以接收任意类型值，下面是作为参数和作为map值的示例：
+
+```go
+// 空接口作为函数参数
+func show(a interface{}) {
+    fmt.Printf("type:%T value:%v\n", a, a)
+}
+```
+
+```go
+// 空接口作为map值
+var studentInfo = make(map[string]interface{})
+studentInfo["name"] = "娃哈哈"
+studentInfo["age"] = 18
+studentInfo["married"] = false
+fmt.Println(studentInfo)  // map[age:18 married:false name:娃哈哈]
 ```
 
