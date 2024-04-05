@@ -734,4 +734,58 @@ name: 314254791 , email: 314254791@qq.com
 pointer type : 0x1400012a020 
 ```
 
-函数的概念对前端朋友更加友好
+函数的概念对前端朋友更加友好，可以完全使用JavaScript中的概念来理解Go中的函数。函数声明包含一个函数名，参数列表（支持不定 参数）， 返回值列表（支持多个返回值）和函数体
+
+```go
+func fucName(参数列表)(返回值列表){}
+```
+
+```go
+// 返回一个参数
+func display(x int, y int) int {
+	fmt.Printf("display(): %d, %d \n", x, y)
+	return x + y
+}
+// 返回两个参数
+func display2(x int, y int) (int, string) {
+	fmt.Printf("display(): %d, %d \n", x, y)
+	d := x + y
+	return d, strconv.Itoa(d)
+}
+```
+
+​     在默认情况下，Go 语言使用的是值传递，即在调用过程中不会影响到原始参数，即传递的是值的副本。引用传递指在调用函数时将实际参数的地址直接传递给目标函数，那么在函数中对参数所进行的修改都会反映到原始参数中。虽然Go语言中有值类型和引用类型，但是都是值传递，因为传递指针值，在目标方法中得到是指针值的副本，而不是指向的数据。
+
+​    值类型有int`、`float`、`bool`、`string`、`array`、`sturct。变量通常在栈上分配，存储变量的值在不再引用的时候会被立即回收。引用类型有slice、map、channel、interface、方法，变量通常在堆上分配，存储的是一个内存地址，由这个地址存储最终的值。
+
+   在这里稍做一些引申，根据官方FAQ文档介绍，Map 和 Slice 的值表现和指针一样：它们包含指向底层map或者slice数据指针的描述符。复制 Map 和 Slice 的值，不会复制它们指向的数据。复制接口（interface）的值，会生成一个接口值存储的数据的副本。如果接口值存储的是一个结构体，复制接口值将产生一个结构体的副本。如果接口值存储的是指针，复制接口值会产生一个指针的副本，而不是指针指向的数据的副本。
+
+  还Go语言中也支持匿名函数的写法，匿名函数由一个不带函数名的函数声明和函数体组成，形式如JavaScript中的函数表达式，如下写法：
+
+```javascript
+//将匿名函数赋值给变量fn。
+var fn= function(){
+    return "这是js的匿名函数"
+}
+```
+
+在Go语言中，也是将匿名方法复制给一个变量，通过函数调用
+
+```go
+getSqrt := func(a float64) float64 {
+    return math.Sqrt(a)
+}
+getSqrt(16) //4
+```
+
+但是仅仅是上面的写法，似乎也没有什么特别的。如果是把方法的集合赋值给一个变量呢，
+
+```go
+fns := [](func(x int) int){
+  func(x int) int { return x + 5 },
+  func(x int) int { return x * x },
+  func(x int) int { return x - 2 },
+}
+fmt.Println(fns[2](50)) // 48
+```
+
