@@ -75,3 +75,19 @@ func TestAnonymousFuncs() {
 	}
 	fmt.Println(fns[2](50))
 }
+
+// 闭包
+func closure() func() int {
+	i := 10
+	b := func() int {
+		i++
+		fmt.Println(i)
+		return i
+	}
+	return b
+}
+func TestClosure() {
+	closureInner := closure()
+	closureInner()
+	closureInner()
+}

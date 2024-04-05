@@ -789,3 +789,23 @@ fns := [](func(x int) int){
 fmt.Println(fns[2](50)) // 48
 ```
 
+方法同样支持闭包
+
+```go
+//闭包
+func closure() func() int {
+	i := 10
+	b := func() int {
+		i++
+		fmt.Println(i)
+		return i
+	}
+	return b
+}
+func TestClosure() {
+	closureInner := closure()
+	closureInner()  // 11
+	closureInner()  // 12
+}
+```
+

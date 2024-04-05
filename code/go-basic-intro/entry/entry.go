@@ -23,5 +23,6 @@ func main() {
 	//funcs.TestSliceFuncs()
 	//funcs.TestSliceFuncs2()
 	//funcs.TestMapFuncs()
-	funcs.TestAnonymousFuncs()
+	//funcs.TestAnonymousFuncs()
+	funcs.TestClosure()
 }
