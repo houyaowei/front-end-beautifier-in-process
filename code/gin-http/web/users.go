@@ -27,6 +27,13 @@ func registerUserRouters(rg *gin.RouterGroup) {
 	rg.GET("/", getAllUsers)
 	rg.GET("/:id", getFilterUsers)
 	rg.POST("/add", saveUser)
+	rg.DELETE("/:id", delUser)
+}
+
+// 删除
+func delUser(c *gin.Context) {
+	//遍历索引，然后通过append方法生成新数组
+	//append(arr[:index], arr[index+1:]...)
 }
 
 // 保存用户
@@ -47,7 +54,7 @@ func saveUser(ctx *gin.Context) {
 func getFilterUsers(ctx *gin.Context) {
 	// var userId = ctx.Params.ByName("id") //取参数也可以用这种
 	var userId = ctx.Param("id")
-	fmt.Print("param is:", userId)
+	fmt.Print("param is: %s \n", userId)
 	for _, u := range us {
 		if u.ID == userId {
 			ctx.IndentedJSON(http.StatusOK, u)

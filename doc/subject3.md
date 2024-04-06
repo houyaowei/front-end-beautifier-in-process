@@ -1082,10 +1082,42 @@ func saveUser(ctx *gin.Context) {
 }
 ```
 
-通过BindJSON()可见将`json`请求体绑定到一个结构体上，如果绑定成功，结构体对象u就被赋值为绑定后的数据。控制台打印的数据
+通过BindJSON()可见将`json`请求体绑定到一个结构体上（也可以使用GetRawData，但是需要使用json.Unmarshal反序列化），如果绑定成功，结构体对象u就被赋值为绑定后的数据。控制台打印的数据
 
 ```shell
 u: {ID:5 Title:test title Name:ttt Age:60}
 ```
 
 通过内置的append方法，将新增数据添加到原数组中。
+
+<img src="./media/ch3/3-5.jpeg" style="zoom:35%;"/>
+
+<center>图3-5</center> 
+
+按条件过滤user
+
+```go
+func getFilterUsers(ctx *gin.Context) {
+	// var userId = ctx.Params.ByName("id") //取参数也可以用这种
+	var userId = ctx.Param("id")
+	fmt.Print("param is:", userId)
+	for _, u := range us {
+		if u.ID == userId {
+			ctx.IndentedJSON(http.StatusOK, u)
+		}
+	}
+}
+```
+
+Gin 在 Context结构体的Params上绑定了ByName方法，通过key获得参数value
+
+<img src="./media/ch3/3-6.jpeg" style="zoom:35%;"/>
+
+<center>图3-6</center> 
+
+我们省略了删除功能的实现，这里提供思路供大家参考，先通过id遍历索引值，然后借助append方法生成新数组，伪代码如下:
+
+```go
+append(arr[:index], arr[index+1:]...)
+```
+
