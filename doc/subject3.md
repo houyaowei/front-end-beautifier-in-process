@@ -950,3 +950,142 @@ type is： string
 param is string
 ```
 
+
+
+基于Gin的Mock Server
+
+​    现阶段Web应用还是占有很大的比重，开发过程中使用的mock server也是一个很重要的部分，用来做前后端分离。Go语言中虽然内置了net/http包，性能也不错，但是还需要做顶层的封装，虽然内置了连接池，但是缺点是HTTP服务端的路由只是一个静态索引匹配，对于动态路由匹配支持的不好，并且每一个请求都会创建一个gouroutine进行处理，如果是遇到海量请求到来时需要考虑这块的性能问题。本文我们以轻便、灵活为出发点介绍mock服务的实现。
+
+  Gin是一个封装灵活，高性能，API友好，支持中间件，集成router能力，支持快速开发web的开发框架。
+
+  新建两个package，main和web，在各自的目录下通过go mod init 生成go.mod 文件，module名称与文件夹名称保持一致。module main用来注册程序入口，package web用来处理web请求
+
+<img src="./media/ch3/3-3.jpeg" style="zoom:40%;"/>
+
+<center>图3-3</center> 
+
+首先需要安装gin
+
+```shell
+go get -u github.com/gin-gonic/gin
+```
+
+在main.go中导入package web，并引用web包中的入口方法
+
+```go
+package main
+import "web"
+func main() {
+	web.WebEntry()
+}
+```
+
+在 web包入口文件顶部，首先导入gin，并初始化
+
+```go
+import (
+	"github.com/gin-gonic/gin"
+)
+// app初始化
+var app = gin.Default()
+```
+
+接下来设置设置代理、注册路由、设置启动端口。
+
+```go
+//package web,entry.go 
+func WebEntry() {
+	app.SetTrustedProxies([]string{"127.0.0.1"})
+	registerRoutes()
+	app.Run(":8000")
+}
+```
+
+本示例中，我们注册两个基础路由组：/user和/news。
+
+```go
+func registerRoutes() {
+	userGroup := app.Group("/user")
+	registerUserRouters(userGroup)
+	newsGrous := app.Group("/news")
+	registerNewsRoutes(newsGrous)
+}
+```
+
+再使用registerUserRouters、registerNewsRoutes 分别注册user、news的其他路由
+
+```go
+func registerUserRouters(rg *gin.RouterGroup) {
+	rg.GET("/", getAllUsers)
+	rg.GET("/:id", getFilterUsers)
+	rg.POST("/add", saveUser)
+}
+```
+
+具体的匹配情况如下：
+
+- 路由为/ ，会匹配到 /user
+- 路由为 /:id , 匹配到如/user/1
+- 路由为 /add, 匹配到如/user/add
+
+先看下初始化的数据及其struct结构, 利用前面已经介绍的tag映射json结构：
+
+```go
+type users struct {
+	ID    string `json:"id"`
+	Title string `json:"title"`
+	Name  string `json:"name"`
+	Age   string `json:"age"`
+}
+var us = []users{
+	{ID: "1", Title: "Scientist", Name: "钱学森", Age: "100+"},
+	{ID: "2", Title: "Scientist", Name: "邓稼先", Age: "90+"},
+	{ID: "3", Title: "Scientist", Name: "钱三强", Age: "90+"},
+	{ID: "4", Title: "Scientist", Name: "于敏", Age: "90+"},
+}
+```
+
+先看下查询所有user的方法
+
+```go
+func getAllUsers(ctx *gin.Context) {
+	var u userIdS
+	if err := ctx.ShouldBind(&u); err != nil {
+		fmt.Print("bind error")
+	} else {
+		fmt.Printf("param is: %s", u.ID)
+	}
+	ctx.IndentedJSON(http.StatusOK, us)
+}
+```
+
+gin context通过ShouldBind将请求携带的参数和结构体绑定起来，避免多个form字段一个一个解析。使用IndentedJSON将数组输出JSON字符串。
+
+<img src="./media/ch3/3-4.jpeg" style="zoom:35%;"/>
+
+<center>图3-4</center> 
+
+增加user
+
+```go
+func saveUser(ctx *gin.Context) {
+	var u users
+	fmt.Println("aa")
+	//BindJSON:将传进来的参数转为user对象，参数用body传
+	if err := ctx.BindJSON(&u); err != nil {
+		fmt.Print(err)
+		return
+	}
+	fmt.Printf("u: %+v \n", u)
+	us = append(us, u)
+	ctx.IndentedJSON(http.StatusCreated, us)
+}
+```
+
+通过BindJSON()可见将`json`请求体绑定到一个结构体上，如果绑定成功，结构体对象u就被赋值为绑定后的数据。控制台打印的数据
+
+```shell
+u: {ID:5 Title:test title Name:ttt Age:60}
+```
+
+通过内置的append方法，将新增数据添加到原数组中。
