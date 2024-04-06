@@ -25,5 +25,7 @@ func main() {
 	//funcs.TestMapFuncs()
 	//funcs.TestAnonymousFuncs()
 	//funcs.TestClosure()
-	standard.TestFmt()
+	//standard.TestFmt()
+	//standard.TestStrconv()
+	standard.TestReflect()
 }

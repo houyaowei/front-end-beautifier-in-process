@@ -815,8 +815,138 @@ func TestClosure() {
 
 fmt包：主要分为向外格式化输出内容和获取输入内容。
 
-```go
 fmt.print: 标准化输出
-fmt.printf: 格式化输出，
+fmt.printf: 格式化输出，具体有
+
+| %v   | 值以默认格式表示                                   |
+| ---- | -------------------------------------------------- |
+| %#v  | 值以Go语法表示                                     |
+| %+v  | 类似%v，但输出结构体时会添加声明的字段名           |
+| %d   | 输出十进制                                         |
+| %x   | 十六进制表示，输出的是小写字母，%X输出的是大写字母 |
+| %o   | 输出八进制                                         |
+| %s   | 输出字符串或者byte数组                             |
+| %p   | 输出以0x开头的十六进制                             |
+| %T   | 打印值的类型                                       |
+
+```go
+name := "houyw"
+age := 18
+s2 := fmt.Sprintf("name:%s,age:%d", name, age)
+fmt.Println(s2)
+fmt.Printf("65对应8进制数: %o \n", 65)
+fmt.Printf("10表示为2进制：%b \n", 10)
+fmt.Printf("100表示为16进制：%x \n", 100)
+fmt.Printf("变量age的地址：%p \n", &age)
+s := struct {
+  name string
+}{
+  "houyw",
+}
+fmt.Printf("默认显示： %v\n", s)
+fmt.Printf("显示属性： %+v\n", s)
+fmt.Printf("Go语法表示：%#v\n", s)
+fmt.Printf("%T\n", s)
+```
+
+输出结果:
+
+```shell
+name:houyw,age:18
+65对应8进制数: 101 
+10表示为2进制：1010 
+100表示为16进制：64 
+变量age的地址：0x14000110018 
+默认显示： {houyw}
+显示属性： {name:houyw}
+Go语法表示：struct { name string }{name:"houyw"}
+struct { name string }
+```
+
+
+
+Strconv包: 包实现了基本数据类型与其字符串表示的转换，主要有以下常用函数：
+
+| Atoi       | 将字符串类型的整数转换为int类型，如果包含非数字字符，会转换失败 |
+| ---------- | ------------------------------------------------------------ |
+| Itoa       | 将int类型数据转换为对应的字符串                              |
+| ParseBool  | 返回字符串表示的bool值，只结束它接受1、0、t、f、T、F、true、false、True、False、TRUE、FALSE，其他均会返回false |
+| ParseInt   | 返回字符串表示的整数值，接受正负号                           |
+| ParseFloat | 一个表示浮点数的字符串并返回其值                             |
+| FormatBool | 根据参数返回”true”或”false”                                  |
+| FormatInt  | 返回i的base进制的字符串表示                                  |
+
+```go
+s1 := "100x"
+i1, err := strconv.Atoi(s1)
+if err != nil {
+  fmt.Println("can't convert to int")
+} else {
+  fmt.Printf("type:%T value:%#v\n", i1, i1) //type:int value:100
+}
+i2 := 200
+s2 := strconv.Itoa(i2)
+fmt.Printf("value:%#v\n", s2)
+
+p1, _ := strconv.ParseBool("False")
+fmt.Println("p1:", p1)
+p2, _ := strconv.ParseBool("1")
+fmt.Println("p2:", p2)
+
+p3, err2 := strconv.ParseInt("23", 10, 10)
+if err2 != nil {
+  fmt.Println("can't convert to int")
+} else {
+  fmt.Printf("type:%T value:%#v\n", p3, p3) //type:int value:100
+}
+fmt.Println("p3:", p3)
+
+f1 := strconv.FormatBool(false)
+fmt.Println(f1)
+f2 := strconv.FormatInt(87, 16)
+fmt.Println(f2)
+```
+
+输出结果:
+
+```go
+can't convert to int
+value:"200"
+p1: false
+p2: true
+type:int64 value:23
+p3: 23
+false
+57
+```
+
+
+
+反射(reflect)，反射是指在程序运行期对程序本身进行访问和修改的能力
+
+```go
+func getReflectType(a interface{}) {
+	//获取类型信息用reflect.TypeOf,获取值类型使用: reflect.ValueOf
+	t := reflect.TypeOf(a)
+	fmt.Println("type is：", t)
+	k := t.Kind()
+	switch k {
+	case reflect.Float64:
+		fmt.Printf("param is float64\n")
+	case reflect.String:
+		fmt.Println("param is string")
+	}
+}
+func TestReflect() {
+	name := "houyw"
+	getReflectType(name)
+}
+```
+
+输出：
+
+```shell
+type is： string
+param is string
 ```
 
