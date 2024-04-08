@@ -31,3 +31,20 @@
 
 Rust语言基础
 
+熟悉ES6的前端朋友对Rust的变量、常量的声明会比较亲切。变量使用let声明，常量使用const声明
+
+```rust
+let chinese = "世界，你好";
+let english = "World, hello";
+let regions = [chinese, english];
+```
+
+在ES6里看似没有特别的，给变量初始化。但是在Rust中这个过程有另一个名字：变量绑定。这个涉及到Rust核心设计的所有权系统，先简单介绍，通过绑定（赋值）给变量绑定一个内存对象，这个变量就拥有了所有权。所有权我们会在稍后详细说明。
+
+按照ES6的语法，变量chinese,english和regions都是可以重新赋值的。先看下在rust里给english变量重新赋值看是否能正常编译、执行。
+
+<img src="./media/ch4/4-1.jpeg" style="zoom:35%;"/>
+
+<center>图4-1</center>   
+
+从报错信息可以看出，不能给immutable的变量重新赋值。
