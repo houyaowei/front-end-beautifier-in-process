@@ -18,6 +18,8 @@
 
 - 编辑器： zed
 
+- 社区：Github，npm
+
 - 与Node交互：napi-rs，neon
 
 - Oxc工具集：lint，AST，minifier，formatter
@@ -47,4 +49,4 @@ let regions = [chinese, english];
 
 <center>图4-1</center>   
 
-从报错信息可以看出，不能给immutable的变量重新赋值。
+从报错信息可以看出，不能给immutable的变量重新赋值。Rust中声明的变量是不可变（immutable）,根据Rust的类型推导，english遍历会被推导成&str类型。
