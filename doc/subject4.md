@@ -49,4 +49,10 @@ let regions = [chinese, english];
 
 <center>图4-1</center>   
 
-从报错信息可以看出，不能给immutable的变量重新赋值。Rust中声明的变量是不可变（immutable）,根据Rust的类型推导，english遍历会被推导成&str类型。
+从报错信息可以看出，"cannot assign twice to immutable variable"，不能给immutable的变量重新赋值，在Rust中绑定的变量默认是不可变（immutable）。细心的朋友可能会发现，在某些编辑器中（如vs code，RustRover）会显式提示变量类型，这得益于Rust的类型推导，在上面的例子中english遍历会被推导成&str类型。
+
+<img src="./media/ch4/4-2.jpeg" style="zoom:55%;"/>
+
+<center>图4-2</center> 
+
+在Rust中
