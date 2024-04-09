@@ -55,4 +55,27 @@ let regions = [chinese, english];
 
 <center>图4-2</center> 
 
-在Rust中
+在开发过程中，动态修改变量是非常常见的操作，在Rust中要实现这种效果，需要在变量前添加mut即可，声明为可修改的。
+
+在Rust中字符串有两种类型：String、&str。String有一个可以调整大小的缓冲区，这个缓存是在堆上分配的，并且可以根据需要调整大小。
+
+```rust
+let hello = "hello，world".to_owned();
+```
+
+如上面的变量hello ,它拥有12个字节的缓冲区，其中11个字节正在使用。可以将String视为Vector，每个元素为无符号类型，简写为vec<u8>
+
+<img src="./media/ch4/4-3.jpeg" style="zoom:55%;"/>
+
+<center>图4-3</center> 
+
+创建String类型可以借助标准库创建，也可以使用to_owned、to_string()：
+
+```rust
+let course = String::new("course");
+let english: String = "english".to_string(); 
+let chinese: String = "chinese".to_string(); 
+```
+
+&str总是指向有效 UTF-8 序列的切片（`&[u8]`），并可用来查看 String 的内容。
+
