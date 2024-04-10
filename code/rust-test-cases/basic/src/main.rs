@@ -12,8 +12,13 @@ fn test_variable() {
     let sub = &english[6..];
     println!("{:?}", sub)
 }
+fn test_string() {
+    let mut s1 = String::from("hi,rust!");
+    s1.insert_str(8, "I like it!");
 
+    println!("mut s1: {s1}")
+}
 fn main() {
-    // test_string();
+    test_string();
     test_variable();
 }
