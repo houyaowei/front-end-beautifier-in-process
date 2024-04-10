@@ -69,7 +69,7 @@ let hello = "hello，world".to_owned();
 
 <center>图4-3</center> 
 
-创建String类型可以借助标准库创建，也可以使用to_owned、to_string()：
+创建String类型可以借助标准库创建，也可以使用to_owned、to_string()将&str转为String：
 
 ```rust
 let course = String::new("course");
@@ -78,4 +78,12 @@ let chinese: String = "chinese".to_string();
 ```
 
 &str总是指向有效 UTF-8 序列的切片（`&[u8]`），并可用来查看 String 的内容。
+
+```rust
+let english = "hello,world".to_string();
+let sub = &english[6..];
+println!("{:?}", sub)   //world
+```
+
+
 
