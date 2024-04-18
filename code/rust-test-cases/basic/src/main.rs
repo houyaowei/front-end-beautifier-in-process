@@ -23,7 +23,7 @@ fn test_string() {
 //     a+b
 // }
 fn test_add( a:i8, b:i8) -> i8 {
-    a+b;
+    return a+b;
 }
 fn main() {
     // test_string();

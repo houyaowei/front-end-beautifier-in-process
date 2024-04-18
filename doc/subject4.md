@@ -35,7 +35,7 @@ Rust语言基础
 
 语句和表达式
 
-程序是有语句（statement）和表达式（Expression）组成。语句通常包括变量赋值，if语句，循环语句，函数声明，函数调用，class声明等。表达式有接收函数返回值等。
+程序是有语句（statement）和表达式（Expression）组成。语句通常包括变量赋值，if语句，循环语句，函数声明，函数调用，class声明等。表达式有接收函数返回值，数字运算，函数声明，class声明等。请注意，这里的class特指JavaScript中的，因为在js中函数声明和class声明即可以用作声明也可以用例赋值给变量。
 
 ```rust
 fn add_with(x: i32, y: i32) -> i32 {
@@ -47,10 +47,19 @@ fn add_with(x: i32, y: i32) -> i32 {
 
 语句和表达式通过以下方式区分：
 
-- 表达式可以被赋值或可以作为运算符，而语句只能用作声明，
-- 语句的创建会产生副作用，而表达式是值或执行产生的值
+- 表达式可以被用来赋值或可以作为运算符，而语句只能用作声明，
+- 创建语句会产生副作用，而表达式是值或执行产生的值
+- 语句可能会包含表达式
+- 表达式表达的内容单一，而语句通常具有双面性（如方法执行、不执行）
+- 语句有完整的代码结构
+
+在Rust中，语句和表达的区别非常重要，请务必牢记。
+
+再补充下：[Statement vs Expression – What's the Difference in Programming? (freecodecamp.org)](https://www.freecodecamp.org/news/statement-vs-expression-whats-the-difference-in-programming/)
 
 
+
+Rust基础
 
 熟悉ES6的前端朋友对Rust的变量、常量的声明会比较亲切。变量使用let声明，常量使用const声明
 
@@ -150,3 +159,5 @@ fn test_add( a:i8, b:i8) -> i8 {
 <img src="./media/ch4/4-4.jpeg" style="zoom:50%;"/>
 
 <center>图4-4</center> 
+
+在不含有分号的表达式（a+b）中，会产生一个结果作为返回值。但是以分号结尾的表达式却是无返回值类型，修复的办法也很简单，只需要增加return 关键字即可，显示返回。
