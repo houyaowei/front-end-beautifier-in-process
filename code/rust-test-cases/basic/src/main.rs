@@ -19,11 +19,14 @@ fn test_string() {
     println!("mut s1: {s1}")
 }
 
+// fn test_add( a:i8, b:i8) -> i8 {
+//     a+b
+// }
 fn test_add( a:i8, b:i8) -> i8 {
-    a+b
+    a+b;
 }
 fn main() {
-    test_string();
-    test_variable();
+    // test_string();
+    // test_variable();
     println!("add func ,result: {:?}", test_add(3,6))
 }
