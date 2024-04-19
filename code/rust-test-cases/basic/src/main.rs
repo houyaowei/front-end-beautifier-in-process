@@ -25,8 +25,13 @@ fn test_string() {
 fn test_add( a:i8, b:i8) -> i8 {
     return a+b;
 }
+fn foo() ->!{
+    panic!("永远没有返回");
+}
 fn main() {
-    // test_string();
+    test_string();
     // test_variable();
-    println!("add func ,result: {:?}", test_add(3,6))
+    let f = foo();
+    println!("diverging functions: {:?}", f);
+    println!("add func ,result: {:?}", test_add(3,6));
 }

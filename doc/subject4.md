@@ -55,8 +55,6 @@ fn add_with(x: i32, y: i32) -> i32 {
 
 在Rust中，语句和表达的区别非常重要，请务必牢记。
 
-再补充下：[Statement vs Expression – What's the Difference in Programming? (freecodecamp.org)](https://www.freecodecamp.org/news/statement-vs-expression-whats-the-difference-in-programming/)
-
 
 
 Rust基础
@@ -146,7 +144,17 @@ fn test_add( a:i8, b:i8) -> i8 {
 
 1、无返回值()
 
- 这是个0长度的元组，虽然没有什么实际作用，但是可以说明一个函数没有返回值。无返回值的形成有两种情况：函数无返回值、通过分号（;）。下面我们改造一下上面的test_add函数，只增加一个分号。
+ 这是个0长度的元组，虽然没有什么实际作用，但是可以说明一个函数没有返回值。无返回值的形成有两种情况：函数无返回值、通过分号（;）。
+
+```rust
+fn test_variable() {
+    let english = "hello,world".to_string();
+    let sub = &english[6..];
+    println!("{:?}", sub)
+}
+```
+
+下面我们改造一下前面的test_add函数，只增加一个分号。
 
 ```rus
 fn test_add( a:i8, b:i8) -> i8 {
@@ -161,3 +169,9 @@ fn test_add( a:i8, b:i8) -> i8 {
 <center>图4-4</center> 
 
 在不含有分号的表达式（a+b）中，会产生一个结果作为返回值。但是以分号结尾的表达式却是无返回值类型，修复的办法也很简单，只需要增加return 关键字即可，显示返回。
+
+
+
+2、永不返回的发散函数!
+
+当以!作为函数返回值的时候，表示该函数永不返回。这种函数往往用作会导致后续代码的中断执行。
