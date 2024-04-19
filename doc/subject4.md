@@ -170,8 +170,50 @@ fn test_add( a:i8, b:i8) -> i8 {
 
 在不含有分号的表达式（a+b）中，会产生一个结果作为返回值。但是以分号结尾的表达式却是无返回值类型，修复的办法也很简单，只需要增加return 关键字即可，显示返回。
 
-
-
 2、永不返回的发散函数!
 
-当以!作为函数返回值的时候，表示该函数永不返回。这种函数往往用作会导致后续代码的中断执行。
+当以!作为函数返回值的时候，表示该函数永不返回。这种函数往往用作会导致后续代码的中断执行或者进入无线循环。需要注意的是使用!作为返回类型永远都是合法的。
+
+```rust
+fn test_diverging(b:bool) -> u8{
+    if b {
+        30
+    } else {
+        panic!("test diverging")
+    }
+}
+```
+
+在上面的例子中，panic! 是一个发散宏函数，其返回值为 ! ，换句话说任何调用 panic! 的函数都是发散函数。
+
+测试代码：
+
+```rust
+let f = test_diverging(true);
+println!("diverging functions: {:?}", f); //diverging functions: 30
+```
+
+修改函数test_diverging的参数测试:
+
+```rust
+let f = test_diverging(false);
+println!("diverging functions: {:?}", f);
+```
+
+输出结果：
+
+```shell
+thread 'main' panicked at src/main.rs:32:9:
+test diverging
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+```
+
+上面的代码会触发一个panic，并显示"test diverging"作为错误消息。
+
+
+
+在JavaScript中有一个在函数式编程中非常重要的特性：高阶函数。在Rust当中高阶函数依然存在。熟悉JavaScript的同学应该比较清楚，高阶函数的形成有两个条件：
+
+- 接受一个或者多个函数作为入参
+- 输出一个函数
+

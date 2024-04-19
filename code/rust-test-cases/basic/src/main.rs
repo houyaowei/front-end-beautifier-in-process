@@ -7,31 +7,35 @@
 //     }
 //
 // }
-fn test_variable() {
-    let english = "hello,world".to_string();
-    let sub = &english[6..];
-    println!("{:?}", sub)
-}
-fn test_string() {
-    let mut s1 = String::from("hi,rust!");
-    s1.insert_str(8, "I like it!");
-
-    println!("mut s1: {s1}")
-}
+// fn test_variable() {
+//     let english = "hello,world".to_string();
+//     let sub = &english[6..];
+//     println!("{:?}", sub)
+// }
+// fn test_string() {
+//     let mut s1 = String::from("hi,rust!");
+//     s1.insert_str(8, "I like it!");
+//
+//     println!("mut s1: {s1}")
+// }
 
 // fn test_add( a:i8, b:i8) -> i8 {
 //     a+b
 // }
-fn test_add( a:i8, b:i8) -> i8 {
-    return a+b;
-}
-fn foo() ->!{
-    panic!("永远没有返回");
+// fn test_add( a:i8, b:i8) -> i8 {
+//     return a+b;
+// }
+fn test_diverging(b:bool) -> u8{
+    if b {
+        30
+    } else {
+        panic!("test diverging")
+    }
 }
 fn main() {
-    test_string();
+    // test_string();
     // test_variable();
-    let f = foo();
+    let f = test_diverging(false);
     println!("diverging functions: {:?}", f);
-    println!("add func ,result: {:?}", test_add(3,6));
+    // println!("add func ,result: {:?}", test_add(3,6));
 }
