@@ -19,23 +19,34 @@
 //     println!("mut s1: {s1}")
 // }
 
-// fn test_add( a:i8, b:i8) -> i8 {
-//     a+b
-// }
+
 // fn test_add( a:i8, b:i8) -> i8 {
 //     return a+b;
 // }
-fn test_diverging(b:bool) -> u8{
-    if b {
-        30
-    } else {
-        panic!("test diverging")
-    }
+// fn test_diverging(b:bool) -> u8{
+//     if b {
+//         30
+//     } else {
+//         panic!("test diverging")
+//     }
+// }
+type Factory = fn(a:i8, b:i8) -> i8;
+fn calc(fnc: Factory, a: i8, b: i8) -> i8 {
+    fnc(a, b)
+}
+fn test_add( a:i8, b:i8) -> i8 {
+    a+b
+}
+fn test_sub( a:i8, b:i8) -> i8 {
+    a-b
 }
 fn main() {
     // test_string();
     // test_variable();
-    let f = test_diverging(false);
-    println!("diverging functions: {:?}", f);
+    // let f = test_diverging(false);
+    // println!("diverging functions: {:?}", f);
     // println!("add func ,result: {:?}", test_add(3,6));
+    println!("HOF add, {}", calc(test_add, 20, 20));
+    println!("HOF sub, {}", calc(test_sub, 60, 21));
+
 }

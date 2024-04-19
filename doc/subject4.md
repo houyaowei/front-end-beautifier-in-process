@@ -212,8 +212,32 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 
 
-在JavaScript中有一个在函数式编程中非常重要的特性：高阶函数。在Rust当中高阶函数依然存在。熟悉JavaScript的同学应该比较清楚，高阶函数的形成有两个条件：
+在JavaScript中有一个在函数式编程中非常重要的特性：高阶函数（Higher Order Function, HOF）。在Rust当中高阶函数依然存在。熟悉JavaScript的同学应该比较清楚，高阶函数的形成有两个条件：
 
 - 接受一个或者多个函数作为入参
 - 输出一个函数
+
+这样的条件同样适合Rust，下面看下在Rust中是怎么实现的。先看函数作为参数传递:
+
+```rust
+type Factory = fn(a:i8, b:i8) -> i8;
+fn calc(fnc: Factory, a: i8, b: i8) -> i8 {
+    fnc(a, b)
+}
+fn test_add( a:i8, b:i8) -> i8 {
+    a+b
+}
+fn test_sub( a:i8, b:i8) -> i8 {
+    a-b
+}
+```
+
+测试代码：
+
+```shell
+HOF add, 40
+HOF sub, 39
+```
+
+
 
