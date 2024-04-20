@@ -171,7 +171,23 @@ let  letters = ["a", "b", "c", "d"];//一维数组
 let demension_array = [[1, 2, 0], [44, 22, 0], [100, 90, 1]]; //二维数组
 ```
 
+元组
 
+元组和数组的不同之处在于：数组中的元素必须有相同的类型，而元组是异构集合，集合中的元素类型就宽松了很多，可以具有不同的类型。
+
+```rust
+let num_and_string :(i8,&str) = (25,"hello,tuple");
+println!("first tuple : {:?}", num_and_string);
+let (age, say) = num_and_string;
+println!("elements in tuple: {} and {}", age, say);
+```
+
+```shell
+first tuple : (25, "hello,tuple")
+elements in tuple: 25 and hello,tuple
+```
+
+在上面示例中，元组num_and_string包含两个元素，类型分别是i8，&str。元组中的元素还可以提取到变量中，提取的原则是逐个赋值。
 
 
 

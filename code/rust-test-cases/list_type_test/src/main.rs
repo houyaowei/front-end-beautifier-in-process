@@ -1,6 +1,13 @@
 fn array_test() {
     let  letters = ["a", "b", "c", "d"];
-    let demension_array = [[1, 2, 0], [44, 22, 0], [100, 90, 1]];
+    let _demension_array = [[1, 2, 0], [44, 22, 0], [100, 90, 1]];
+    println!("index 2 of letters is : {}", letters[1]);
+}
+fn tuple_test(){
+    let num_and_string :(i8,&str) = (25,"hello,tuple");
+    println!("first tuple : {:?}", num_and_string);
+    let (age, say) = num_and_string;
+    println!("elements in tuple: {} and {}", age, say);
 }
 fn vec_test() {
     let mut vec: Vec<_> = Vec::new();
@@ -58,6 +65,8 @@ impl IPAddr for IPV6 {
     }   
 }
 fn main() {
+    array_test();
+    tuple_test();
     vec_test();
     vec_test2();
     // 枚举实现
