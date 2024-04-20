@@ -113,6 +113,55 @@ println!("{:?}", sub)   //world
 
 上述示例中，sub是对english拥有的文本最后5个字节的一个&str引用。&str是一个胖指针（简单理解为指向动态大小类型的为胖指针，如trait对象和切片。指向静态大小类型的为瘦指针，如数组）。Rust中提供了标准化输出println!，println!并不是一个方法，而是一个宏（都是以感叹号结尾），计算机科学里的宏是一种抽象的,根据一系列预定义的规则替换一定的文本模式。该宏接收一个字符串，该字符串包含一个用"{}"表示的占位符。开发过程中，通常需要输出数据类型以进行调试，使用"{:?}"更加方便。
 
+match表达式
+
+Rust的match表达式类似switch语句，可以理解是switch的简化版，允许客户根据变量值或者操作符 | 连接多个匹配模式，每个模式将按照从左到右进行匹配测试，直到匹配一个结果。
+
+```rust
+fn test_req_status() -> u32 {
+    200
+}
+fn main() {
+    let status = test_req_status();
+    match status {
+        200 => println!("Request successfully!"),
+        404 => println!("Service not found!"),
+        500 => println!("Service error!"),
+        _=> {
+            println!("Request failed!")
+        }
+    }
+}
+```
+
+运行结果：
+
+```shell
+Request successfully!
+```
+
+ 下一个示例看下多个匹配模式：
+
+```rust
+let x = 2;
+let message = match x {
+    0 | 1  => "very few",
+    2 ..= 9 => "a few",
+    _      => "lots"
+};
+println!("test match2 result: {}", message);
+```
+
+输出结果：
+
+```shell
+test match2 result: a few
+```
+
+
+
+
+
 函数
 
 函数将一堆指令抽象为具体实体，和其他语言的形式很相似。形式如下，其中函数名称的命名风格是小写字母以下划线分割: 
