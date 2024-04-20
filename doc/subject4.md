@@ -160,6 +160,19 @@ test match2 result: a few
 
 
 
+#### 集合类型
+
+当程序必须处理多个数据时，通常会用到集合类型，在JavaScript中集合类型有列表型（Array，TypedArray）和键值对集合（Map，Set，WeakMap，WeakSet）。在Rust中集合类型有静态数组，动态项目列表vector，元组，map，切片
+
+先声明一个数组，这是一个不可变的数据结构，
+
+```shell
+let  letters = ["a", "b", "c", "d"];//一维数组
+let demension_array = [[1, 2, 0], [44, 22, 0], [100, 90, 1]]; //二维数组
+```
+
+
+
 
 
 函数
