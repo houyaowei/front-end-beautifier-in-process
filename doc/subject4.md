@@ -211,18 +211,20 @@ println!("vec's capbility: {}, length is: {}, second item:{:?}", vec.capacity(),
 vec's capbility: 4, length is: 2, second item:Some("age")
 ```
 
-从结果来看，容量（capbility）和长度（length）存在不一致的情况，我们一起分析下这背后的原因：从根本上讲，vector 始终是由指针，容量，长度组成三元组
+从结果来看，容量（capbility）和长度（length）存在不一致的情况，vector 的容量是为将添加到 vector 上的任何元素分配的空间量。与 vector 的长度含义不同，长度指 vector 中的实际元素数量。 如果 vector 的长度超过其容量时，容量将自动增加，但需要重新分配其元素。
+
+从根本上讲，vector 始终是由指针，容量，长度组成三元组，记录元组的信息。
 
 <img src="./media/ch4/4-4.jpeg" style="zoom:50%;"/>
 
 <center>图4-4</center> 
 
-
+在使用Vec::new，vec![\]，Vec::with_capacity(0)或通过在空 Vec 上调用 shrink_to_fit来构造容量为 0 的 Vec，则它将不会分配内存。当capbility大于0时才会进行内存分配。如果一个 Vec 已分配了内存，那么指针会指向的内存在堆上，它的指针按顺序指向 length个已初始化的连续元素，然后是 capacity - length 逻辑上未初始化的连续元素。
 
 通过ver!宏命令创建：
 
 ```rust
-let mut v = vec![5,0,9]; //可以初始化数据
+let mut v = vec![5,0,9]; //初始化数据
 v.push(2);
 println!("vec's capbility: {}, length is: {}", v.capacity(), v.len());
 ```
@@ -233,7 +235,44 @@ println!("vec's capbility: {}, length is: {}", v.capacity(), v.len());
 vec's capbility: 6, length is: 4
 ```
 
+集合中有这么个场景，需要判断元素是否是特定的值。vector中使用vec.get(索引值)获取元素，先看下一个测试案例再进行详细的讨论：
 
+```rust
+let mut vec: Vec<_> = Vec::new();
+vec.push("name");
+vec.push("age");
+if vec.get(1) == "age" {
+    println!("equal")
+}else {
+    println!("not equal")
+}
+```
+
+运行结果：
+
+```shell
+error[E0308]: mismatched types
+  --> src/main.rs:18:22
+   |
+18 |     if vec.get(1) == "age" {
+   |                      ^^^^^ expected `Option<&&str>`, found `&str`
+   |
+   = note:   expected enum `Option<&&str>`
+           found reference `&'static str`
+```
+
+但是通过官方api知道get方法会返回选项Option<T>，`Option<T>` 有两个变量：
+
+- `None`，表明失败或缺少值
+- `Some(value)`，元组结构体，封装了一个 `T` 类型的值 `value`
+
+
+
+
+
+#### 切片
+
+切片是 
 
 
 

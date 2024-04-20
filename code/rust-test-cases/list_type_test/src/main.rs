@@ -15,13 +15,13 @@ fn vec_test() {
 
     vec.push("name");
     vec.push("age");
-    // vec.push("sex2"); //容量成倍增加 *2
-    println!("vec's capbility: {}, length is: {}, second item:{:?}", vec.capacity(), vec.len(), vec.get(1));
     if vec.get(1) == Some(&"age") {
         println!("equal")
     }else {
         println!("not equal")
     }
+    // vec.push("sex2"); //容量成倍增加 *2
+    println!("vec's capbility: {}, length is: {}, second item:{:?}", vec.capacity(), vec.len(), vec.get(1));
     vec.pop();
     println!("after pop, vec's capbility: {}, length is: {}", vec.capacity(), vec.len());
     for v in &vec {
