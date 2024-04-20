@@ -8,15 +8,14 @@ fn tuple_test(){
     println!("first tuple : {:?}", num_and_string);
     let (age, say) = num_and_string;
     println!("elements in tuple: {} and {}", age, say);
+    println!("get element by index: {} and {}", num_and_string.0, num_and_string.1);
 }
 fn vec_test() {
     let mut vec: Vec<_> = Vec::new();
 
     vec.push("name");
     vec.push("age");
-    vec.push("address");
-    vec.push("sex");
-    vec.push("sex2"); //容量成倍增加 *2
+    // vec.push("sex2"); //容量成倍增加 *2
     println!("vec's capbility: {}, length is: {}, second item:{:?}", vec.capacity(), vec.len(), vec.get(1));
     if vec.get(1) == Some(&"age") {
         println!("equal")

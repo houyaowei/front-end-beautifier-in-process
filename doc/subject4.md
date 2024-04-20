@@ -164,11 +164,14 @@ test match2 result: a few
 
 当程序必须处理多个数据时，通常会用到集合类型，在JavaScript中集合类型有列表型（Array，TypedArray）和键值对集合（Map，Set，WeakMap，WeakSet）。在Rust中集合类型有静态数组，动态项目列表vector，元组，map，切片
 
-先声明一个数组，这是一个不可变的数据结构，
+先声明一个数组，这是一个不可变的数据结构，元素和，
 
 ```shell
-let  letters = ["a", "b", "c", "d"];//一维数组
+let array: [i32; 3] = [1, 2, 3];//一维数组，在栈上分配
 let demension_array = [[1, 2, 0], [44, 22, 0], [100, 90, 1]]; //二维数组
+
+// 堆上分配数组，被自动强转成切片
+let boxed_array: Box<[i32]> = Box::new([1, 2, 3]);
 ```
 
 元组
@@ -180,14 +183,57 @@ let num_and_string :(i8,&str) = (25,"hello,tuple");
 println!("first tuple : {:?}", num_and_string);
 let (age, say) = num_and_string;
 println!("elements in tuple: {} and {}", age, say);
+println!("get element by index: {} and {}", num_and_string.0, num_and_string.1);
 ```
 
 ```shell
 first tuple : (25, "hello,tuple")
 elements in tuple: 25 and hello,tuple
+get element by index: 25 and hello,tuple
 ```
 
-在上面示例中，元组num_and_string包含两个元素，类型分别是i8，&str。元组中的元素还可以提取到变量中，提取的原则是逐个赋值。
+在上面示例中，元组num_and_string包含两个元素，类型分别是i8，&str。元组中的元素还可以提取到变量中，提取的原则是逐个赋值，当然也可以通过索引取值。
+
+项目列表vector
+
+vector和数组类似，只不过内容和长度不需要提前指定，长度可以按需增长，在元素在堆上分配。可以通过两种方式创建，一种是使用构造函数，另一种是通过宏创建。
+
+```rust
+let mut vec: Vec<_> = Vec::new();
+vec.push("name");
+vec.push("age");
+println!("vec's capbility: {}, length is: {}, second item:{:?}", vec.capacity(), vec.len(), vec.get(1));
+```
+
+输出结果：
+
+```shell
+vec's capbility: 4, length is: 2, second item:Some("age")
+```
+
+从结果来看，容量（capbility）和长度（length）存在不一致的情况，我们一起分析下这背后的原因：从根本上讲，vector 始终是由指针，容量，长度组成三元组
+
+<img src="./media/ch4/4-4.jpeg" style="zoom:50%;"/>
+
+<center>图4-4</center> 
+
+
+
+通过ver!宏命令创建：
+
+```rust
+let mut v = vec![5,0,9]; //可以初始化数据
+v.push(2);
+println!("vec's capbility: {}, length is: {}", v.capacity(), v.len());
+```
+
+输出结果
+
+```she
+vec's capbility: 6, length is: 4
+```
+
+
 
 
 
@@ -242,9 +288,9 @@ fn test_add( a:i8, b:i8) -> i8 {
 
 运行，看执行结果
 
-<img src="./media/ch4/4-4.jpeg" style="zoom:50%;"/>
+<img src="./media/ch4/4-5.jpeg" style="zoom:50%;"/>
 
-<center>图4-4</center> 
+<center>图4-5</center> 
 
 在不含有分号的表达式（a+b）中，会产生一个结果作为返回值。但是以分号结尾的表达式却是无返回值类型，修复的办法也很简单，只需要增加return 关键字即可，显示返回。
 
