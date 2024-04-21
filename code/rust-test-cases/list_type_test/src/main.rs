@@ -63,6 +63,22 @@ impl IPAddr for IPV6 {
         println!("display IPV6: {}", self.0)
     }   
 }
+fn test_slice(){
+    let numbers:[i32; 4] = [32,20,3,11];
+    let shared_slice = &numbers[1..3];
+    println!("shared slice: {:?}", shared_slice);
+    // shared_slice[0] = 0;
+
+    let mut mut_numbers:[i32; 4] = [32,20,3,11];
+    let mutable_slice = &mut mut_numbers[..];
+
+    mutable_slice[0] = 0;
+    println!("shared slice: {:?}", mutable_slice);
+
+    let boxed_array = Box::new([1,2,3]);
+    let boxed_slice = &boxed_array[..];
+    println!("boxed slice: {:?}", boxed_slice);
+}
 fn main() {
     array_test();
     tuple_test();
@@ -85,4 +101,5 @@ fn main() {
         vv.display()
     }
     vec_test3();
+    test_slice();
 }
