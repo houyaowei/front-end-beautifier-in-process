@@ -248,7 +248,7 @@ if vec.get(1) == "age" {
 }
 ```
 
-运行结果：
+查看运行结果：
 
 ```shell
 error[E0308]: mismatched types
@@ -261,12 +261,51 @@ error[E0308]: mismatched types
            found reference `&'static str`
 ```
 
-但是通过官方api知道get方法会返回选项Option<T>，`Option<T>` 有两个变量：
+查看官方api得知get方法会返回选项Option<T>，所以Option 和&str无法做直接比较。我们先深入了解下Option再看这个报错应该怎么消除。 选项Option有两个变量：
 
-- `None`，表明失败或缺少值
-- `Some(value)`，元组结构体，封装了一个 `T` 类型的值 `value`
+- None：表示失败或缺少值
+- Some(value)：元组结构体，封装了一个 T类型的值为 value
 
+```rust
+fn test_give_option (gift: Option<&str>) {
+    match gift {
+        Some("flower") => println!("This is Flower."),
+        Some(inner)   => println!("{}? How nice.", inner),
+        None          => println!("No gift? Oh well.")
+    }
+}
+```
 
+函数test_give_option中参数为Option类型，下面看下怎么传参：
+
+```rust
+let flower = Some("flower");
+let void = None;
+test_give_option(flower);
+test_give_option(void);
+```
+
+将&str类型的"flower"封装成选型Option传递给函数test_give_option
+
+```shelll
+This is Flower.
+No gift? Oh well.
+```
+
+现在回到上面报错的示例，报错的原因是因为比较的对象类型不同，所以需要将"age"转化为Option
+
+```rust
+let mut vec: Vec<_> = Vec::new();
+vec.push("name");
+vec.push("age");
+if vec.get(1) == Some(&"age") { //将age转换为Option
+    println!("equal")
+}else {
+    println!("not equal")
+}
+```
+
+执行示例，会打印"equal"。
 
 
 
