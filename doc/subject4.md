@@ -65,16 +65,55 @@ Rust受到广大万人瞩目的原因之一是内存安全，常见的垃圾回�
 - 一个值同时只能被一个变量所拥有
 - 当所有者离开作用域范围时，这个值将被丢弃
 
+需要说明的是，Rust中
+
 作用域是变量的生效范围，在这个范围能访问到某个变量的值。
 
 ```rust
 fn test_variable() {
-    let language = "english";
-    let other = language;
+   let language = String::from("english");
+   let other = language;
+   println!("String language: {}", language);
 } //作用域结束
 ```
 
-如变量language的作用域是从声明开始，到大括号结尾处结束 ，并保有字符串"hello,word"的所有权。
+如变量language的作用域是从声明开始，到大括号结尾处结束 。上面的代码首先将"english"绑定给变量language，并保有字符串"english"的所有权。将变量other绑定为language，这个过程就发生了所有权的转移。Rust 认为 language不再有效，这个操作被称为 移动(move)，因此也无需在 language 离开作用域后 drop 任何东西，字符串"english"的所有权由language转移到了other，language 在被赋予other 后就马上失效了.
+
+<img src="./media/ch4/4-0.jpeg" style="zoom:35%;"/>
+
+尝试打印language看会发生什么情况。
+
+```shell
+error[E0382]: borrow of moved value: `language`
+  --> src/main.rs:64:38
+   |
+60 |     let language = String::from("english");
+   |         -------- move occurs because `language` has type `String`, which does not implement the `Copy` trait
+61 |     let other = language;
+   |                 -------- value moved here
+...
+64 |      println!("String language: {}", language);
+   |                                      ^^^^^^^^ value borrowed here after move
+   |
+   = note: this error originates in the macro `$crate::format_args_nl` which comes from the expansion of the macro `println` (in Nightly builds, run with -Z macro-backtrace for more info)
+help: consider cloning the value if the performance cost is acceptable
+   |
+61 |     let other = language.clone();
+   |                         ++++++++
+```
+
+根据错误提示，language已经发生所有权转移，如果类型兼容，可以考虑使用clone方法进行赋值。修改为下面的形式:
+
+```rust
+let language = String::from("english");
+let other = language.clone();
+```
+
+`String` 类型是一个复杂类型，由存储在栈中的堆指针、字符串长度、字符串容量共同组成，其中**堆指针**是最重要的，它指向了真实存储字符串内容的堆内存，至于长度和容量。这和基础数据类型（数字、布尔、char）的变量绑定不是一样的过程，基本类型是通过**自动拷贝**的方式来赋值的，都被存在栈中，完全无需在堆上分配内存，所以基础数据的再进行绑定时并不会发生所有权转移。
+
+
+
+
 
 
 
