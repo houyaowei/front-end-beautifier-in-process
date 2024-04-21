@@ -63,6 +63,7 @@ fn test_basic_type () {
     // let s2 = s1;
      println!("String language: {}", language);
 }
+
 fn main() {
     // test_string();
     // test_variable();
