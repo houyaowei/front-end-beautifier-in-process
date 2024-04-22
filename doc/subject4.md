@@ -128,7 +128,41 @@ let _ = ch1;
 println!("char ch1: {}", f1);
 ```
 
-将值传递给函数，一样会发生 移动或者 复制，就跟 let 语句一样
+上面我们介绍的是移动是一次性移动整个变量（如上面的language移动到other）。当然变量也可以进行局部移动（partial move），局部移动仅移动变量的部分内容。例如变量A包含两个元素B和C，局部移动可以将元素B的所有权移动到变量D中。
+
+```rust
+struct Person {
+    name: String,
+    age: u8,
+}
+let person = Person {
+    name: String::from("houyw"),
+    age: 20,
+};
+let Person { name, ref age } = person;
+```
+
+属性name的所有权从person中被移走，继续保留对age的所有权。如果通过person访问name或者格式化输出person会报错，下面做下验证：
+
+```rust
+println!("get name by object is {}", person.name);
+println!("The person is {:?}", person);
+```
+
+控制台输出：
+
+```shell
+let Person { name, ref age } = person;
+   |                  ---- value partially moved here
+ 84|     println!("get name by object is {}", person.name);
+   |                                          ^^^^^^^^^^^ value borrowed here after move
+85 |     println!("The person is {:?}", person);
+   |                                    ^^^^^^ value borrowed here after partial move
+```
+
+
+
+将值传递给函数，一样会发生 移动或者 复制，就跟变量绑定一样。
 
 
 

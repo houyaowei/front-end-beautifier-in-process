@@ -58,19 +58,40 @@ fn test_basic_type () {
     println!("char ch1: {}", f1);
 
     let language = String::from("english");
-    let other = language.clone();
-    // let s1  = String::from("hello");
-    // let s2 = s1;
-     println!("String language: {}", language);
-}
+    let _other = language.clone();
+    println!("String language: {}", language);
 
+    // let s1  = String::from("hi,rust~");
+    // let mut s2 = s1;
+    // println!("s1 moved value: {}", s1);
+}
+fn test_partial_move() {
+    #[derive(Debug)]
+    struct Person {
+        name: String,
+        age: u8,
+    }
+
+    let person = Person {
+        name: String::from("houyw"),
+        age: 20,
+    };
+
+    let Person { name, ref age } = person;
+
+    println!("The person's age is {}", age);
+    println!("The person's name is {}", name);
+    println!("get name by object is {}", person.name);
+    // println!("The person is {:?}", person);
+}
 fn main() {
     // test_string();
     // test_variable();
     // let f = test_diverging(false);
     // println!("diverging functions: {:?}", f);
     // println!("add func ,result: {:?}", test_add(3,6));
-    test_basic_type();
+    // test_basic_type();
+    test_partial_move();
     println!("HOF add, {}", calc(test_add, 20, 20));
     println!("HOF sub, {}", calc(test_sub, 60, 21));
 
