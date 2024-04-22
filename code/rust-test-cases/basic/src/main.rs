@@ -81,8 +81,17 @@ fn test_partial_move() {
 
     println!("The person's age is {}", age);
     println!("The person's name is {}", name);
-    println!("get name by object is {}", person.name);
+    // println!("get name by object is {}", person.name);
     // println!("The person is {:?}", person);
+}
+
+fn take_ownership(c: &mut String) {
+    c.push_str(" you are good!")
+}
+fn test_ownership() {
+    let mut hello = String::from("hi,rust!");
+    take_ownership(&mut hello);
+    println!("original variable hello: {}", hello);
 }
 fn main() {
     // test_string();
@@ -91,8 +100,8 @@ fn main() {
     // println!("diverging functions: {:?}", f);
     // println!("add func ,result: {:?}", test_add(3,6));
     // test_basic_type();
-    test_partial_move();
-    println!("HOF add, {}", calc(test_add, 20, 20));
-    println!("HOF sub, {}", calc(test_sub, 60, 21));
-
+    // test_partial_move();
+    // println!("HOF add, {}", calc(test_add, 20, 20));
+    // println!("HOF sub, {}", calc(test_sub, 60, 21));
+    test_ownership();
 }

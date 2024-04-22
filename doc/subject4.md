@@ -160,11 +160,76 @@ let Person { name, ref age } = person;
    |                                    ^^^^^^ value borrowed here after partial move
 ```
 
-
-
 将值传递给函数，一样会发生 移动或者 复制，就跟变量绑定一样。
 
+```rust
+fn take_ownership(c: String) {
+    println!("moved valued is:{}",c);
+}
+fn test_ownership() {
+    let hello = String::from("hi,rust!");
+    take_ownership(hello);
+    println!("original variable hello: {}", hello);
+}
+```
 
+在函数test_ownership中，首先绑定变量hello，传入函数take_ownership就会发生所有权移动，再次输出报错也就不足为奇。但是在程序中传递参数也是极为常见的，在Rust中可以使用变量的指针进行传递，也就是借用（borrowing），获取变量的引用，称之为借用(borrowing)。现在我们修改上面的例子，让程序顺利执行。
+
+```rust
+fn take_ownership(c: &String) {
+    println!("moved valued is:{}",c);
+}
+fn test_ownership() {
+    let hello = String::from("hi,rust!");
+    take_ownership(&hello);
+    println!("original variable hello: {}", hello);
+}
+```
+
+调用take_ownership时，传入变量hello的地址，即所有权。take_ownership的参数也需要将String修改为&String。这里，& 符号即是引用，允许使用值，但是不获取所有权。
+
+我们如果在take_ownership中修改原变量的值又会发生什么：
+
+```rust
+fn take_ownership(c: &String) {
+    c.push_str(" you are good!")
+}
+```
+
+很不幸的是
+
+```shell
+error[E0596]: cannot borrow `*c` as mutable, as it is behind a `&` reference
+  --> src/main.rs:92:5
+   |
+92 |     c.push_str(" you are good!")
+   |     ^ `c` is a `&` reference, so the data it refers to cannot be borrowed as mutable
+   |
+help: consider changing this to be a mutable reference
+   |
+91 | fn take_ownership(c: &mut String) {
+```
+
+正如变量默认不可变一样，引用指向的值默认也是不可变的。根据提示，需要把参数修改可变引用：
+
+```rust
+fn take_ownership(c: &mut String) {
+    c.push_str(" you are good!"); //在原结尾后追加字符串
+}
+fn test_ownership() {
+    let mut hello = String::from("hi,rust!");
+    take_ownership(&mut hello);
+    println!("original variable hello: {}", hello);
+}
+```
+
+首先，声明hello为可变类型，其次创建一个可变的引用&mut hello 和接受可变引用参数c: &mut String 的函数。
+
+```shell
+original variable hello: hi,rust! you are good!
+```
+
+效果是我们期望的，但是需要注意的是，对一个变量而言同一个作用域，可变引用、不可变引用只能存在一种情况。
 
 
 
