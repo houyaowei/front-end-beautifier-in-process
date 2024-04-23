@@ -531,6 +531,24 @@ modified slice: [0, 3]
 origin array : [32, 0, 3, 11]
 ```
 
+一个堆分配的数组，被自动强转成切片
+
+```rust
+let boxed_array = Box::new([1,2,3]);
+let boxed_slice = &boxed_array[..];
+println!("boxed slice: {:?}", boxed_slice);
+```
+
+还有其他常用的变量类型也天然支持切片，像字符串常量（&str类型），数组
+
+```rust
+let s = "hello, rust!";
+let s_slice = &s[0...6];//hello
+
+let arr = [1, 2, 3, 4, 5];
+let arr_slice = &arr[1..3];
+```
+
 
 
 
