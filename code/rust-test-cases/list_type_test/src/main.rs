@@ -67,17 +67,24 @@ fn test_slice(){
     let numbers:[i32; 4] = [32,20,3,11];
     let shared_slice = &numbers[1..3];
     println!("shared slice: {:?}", shared_slice);
-    // shared_slice[0] = 0;
+    //shared_slice[0] = 0; // error
 
     let mut mut_numbers:[i32; 4] = [32,20,3,11];
-    let mutable_slice = &mut mut_numbers[..];
-
+    let mutable_slice = &mut mut_numbers[1..3];
+    println!("origin slice: {:?}", mutable_slice);
     mutable_slice[0] = 0;
-    println!("shared slice: {:?}", mutable_slice);
+    println!("modified slice: {:?}", mutable_slice);
+    println!("origin array : {:?}", mut_numbers);
 
-    let boxed_array = Box::new([1,2,3]);
-    let boxed_slice = &boxed_array[..];
+    let mut boxed_array = Box::new([1,2,3]);
+    let boxed_slice = &mut boxed_array[..];
     println!("boxed slice: {:?}", boxed_slice);
+    println!("slice length:{:?}", get_slice_length(boxed_slice));
+}
+fn get_slice_length(arr :  &mut [u32])-> usize  {
+    arr[0] = 32;
+    println!("arr: {:?}", arr);
+    return arr.len();
 }
 fn main() {
     array_test();

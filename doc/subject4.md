@@ -490,15 +490,45 @@ if vec.get(1) == Some(&"age") { //将age转换为Option
 切片是获取集合类型数据的常用手段，是一种动态尺寸类型（dynamically sized type）， 引用集合特定区间元素进行只读访问，也就是说slice没有所有权问题。切片基本上不是指针就是引用，具体表示为 &T[]，常用的格式有：
 
 - `&[T]`：共享切片，不拥有它指向的数据，只是借用
-- `&mut [T]`：可变切片
+- `&mut [T]`：可变切片，可变切片借用指向它的数据
 - `Box<T>`：拥有所有权的切片
 
 首先看下共享切片
 
 ```rust
 let numbers:[i32; 4] = [32,20,3,11];
-let shared_slice = &numbers[1..3];
-println!("shared slice: {:?}", shared_slice);
+let shared_slice = &numbers[1..3]; //第2个到第3个元素
+println!("shared slice: {:?}", shared_slice); //[20, 3]
+```
+
+如果想通过共享切片修改相应元素，编译器会提示报错
+
+```rust
+shared_slice[0] = 0
+```
+
+```shell
+ shared_slice[0] = 0;
+   |     ^^^^^^^^^^^^^^^ `shared_slice` is a `&` reference, so the data it refers to cannot be written
+```
+
+修复的办法就是修改为可变切片:
+
+```rust
+let mut mut_numbers:[i32; 4] = [32,20,3,11];
+let mutable_slice = &mut mut_numbers[1..3]; //[20, 3]
+println!("origin slice: {:?}", mutable_slice);
+mutable_slice[0] = 0;
+println!("modified slice: {:?}", mutable_slice);
+println!("origin array : {:?}", mut_numbers);
+```
+
+我们知道，可变切片的借用指向它的数据，所以修改切片的值会同步影像到原始数据。
+
+```shell
+origin slice: [20, 3]
+modified slice: [0, 3]
+origin array : [32, 0, 3, 11]
 ```
 
 
