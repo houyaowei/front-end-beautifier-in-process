@@ -110,6 +110,12 @@ fn test_if_regular() {
     };
     println!("variable is bigger than 10? {:?}.", is_bigger);
 
+    let num = Some(22);
+    if let Some(22) = num  {
+        println!("matched {:?}", num);
+    } else {
+        println!("not matched");
+    }
 }
 fn main() {
     // test_string();

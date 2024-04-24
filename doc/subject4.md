@@ -720,5 +720,16 @@ println!("variable is bigger than 10? {:?}.", is_bigger);
 variable is bigger than 10 ? true.
 ```
 
+if let表达式，等价于match表达式。和if不同的是if 的条件是 true 或 false(支持表达式), 而 if let 是模式匹配，
 
+```rust
+let num = Some(22);
+if let Some(22) = num  {
+    println!("matched {:?}", num);
+}else {
+    println!("not matched");
+}
+```
+
+这个例子中的if let表达的意思是若let将num解构成Some(22)，就格式化输出 matched Some(22) 语句，否则输出"not matched"。
 
