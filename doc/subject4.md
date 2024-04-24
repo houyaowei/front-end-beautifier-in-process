@@ -291,7 +291,7 @@ println!("{:?}", sub)   //world
 
 match表达式
 
-Rust的match表达式类似switch语句，可以理解是switch的简化版，允许客户根据变量值或者操作符 | 连接多个匹配模式，每个模式将按照从左到右进行匹配测试，直到匹配一个结果。
+Rust的match表达式类似switch语句，可以理解是switch的简化版，允许客户根据变量值或者操作符 | 连接多个匹配模式，每个模式将按照从左到右进行匹配测试，直到匹配一个结果，同时下划线（_）可以理解为switch中的default。
 
 ```rust
 fn test_req_status() -> u32 {
@@ -654,8 +654,8 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 在JavaScript中有一个在函数式编程中非常重要的特性：高阶函数（Higher Order Function, HOF）。在Rust当中高阶函数依然存在。熟悉JavaScript的同学应该比较清楚，高阶函数的形成有两个条件：
 
-- 接受一个或者多个函数作为入参
-- 输出一个函数
+- 一个或者多个函数作为入参
+- 返回一个函数
 
 这样的条件同样适合Rust，下面看下在Rust中是怎么实现的。先看函数作为参数传递:
 
@@ -675,8 +675,49 @@ fn test_sub( a:i8, b:i8) -> i8 {
 测试代码：
 
 ```shell
-HOF add, 40
-HOF sub, 39
+println!("HOF add, {}", calc(test_add, 20, 20)); //HOF add, 40
+println!("HOF sub, {}", calc(test_sub, 60, 21)); // HOF sub, 39
+```
+
+下面看第二种情况，返回值是函数的情况。我们将上面的clac函数同match表达式做下改造，支持返回函数
+
+```rust
+fn calc2(m: &str) -> Factory {
+    match m {
+        "add" => test_add,
+        "sub" => test_sub,
+        _ => todo!()
+    }
+}
+```
+
+测试代码
+
+```shell
+ println!("HOF add2, {}", calc2("add")(20, 20)); //HOF add2, 40
+ println!("HOF sub2, {}", calc2("sub")(60, 21)); //HOF sub2, 39
+```
+
+
+
+#### 条件判断和循环
+
+Rust中的if表达式和循环结构都遵循C语言风格结构，这里不再赘述。主要看下在Rust中有哪些特殊的语法结构，
+
+将if else结构代码块的值分配给变量：
+
+```rust
+let a = 22;
+let is_bigger = if a > 10  {
+    true
+}else {
+    false
+};
+println!("variable is bigger than 10? {:?}.", is_bigger); 
+```
+
+```shell
+variable is bigger than 10 ? true.
 ```
 
 

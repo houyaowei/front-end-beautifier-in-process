@@ -34,6 +34,13 @@ type Factory = fn(a:i8, b:i8) -> i8;
 fn calc(fnc: Factory, a: i8, b: i8) -> i8 {
     fnc(a, b)
 }
+fn calc2(m: &str) -> Factory {
+    match m {
+        "add" => test_add,
+        "sub" => test_sub,
+        _ => todo!()
+    }
+}
 fn test_add( a:i8, b:i8) -> i8 {
     a+b
 }
@@ -93,6 +100,17 @@ fn test_ownership() {
     take_ownership(&mut hello);
     println!("original variable hello: {}", hello);
 }
+
+fn test_if_regular() {
+    let a = 22;
+    let is_bigger = if a > 10  {
+        true
+    }else {
+        false
+    };
+    println!("variable is bigger than 10? {:?}.", is_bigger);
+
+}
 fn main() {
     // test_string();
     // test_variable();
@@ -101,7 +119,11 @@ fn main() {
     // println!("add func ,result: {:?}", test_add(3,6));
     // test_basic_type();
     // test_partial_move();
+    // test_ownership();
     // println!("HOF add, {}", calc(test_add, 20, 20));
     // println!("HOF sub, {}", calc(test_sub, 60, 21));
-    test_ownership();
+    //
+    // println!("HOF add2, {}", calc2("add")(20, 20));
+    // println!("HOF sub2, {}", calc2("sub")(60, 21));
+    test_if_regular()
 }
