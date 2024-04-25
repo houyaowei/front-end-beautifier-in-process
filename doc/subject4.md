@@ -733,3 +733,62 @@ if let Some(22) = num  {
 
 这个例子中的if let表达的意思是若let将num解构成Some(22)，就格式化输出 matched Some(22) 语句，否则输出"not matched"。
 
+区间for循环
+
+for循环可以遍历一个迭代器，这条规则在JavaScript中仍然适用，比如js中的Array、Map拥有默认的迭代行为，还有就是对象上（或者原型链中任意对象）只要有一个Symbol.iterator的属性，都可以使用for-of进行迭代。
+
+```js
+var myIterator = {
+  *[Symbol.iterator]() {
+    yield "hello";
+    yield "js";
+    yield "rust";
+  },
+};
+for (let value of myIterator) {
+  console.log(value);  // 分别打印 "hello","js","rust"
+}
+```
+
+Rust 中创建迭代器最方便的方法就是使用区间(m..n）,左侧为闭区间，右侧为开区间。
+
+```rust
+let months = ["January", "February", "March", "April", "May", "June", "July",
+    "August", "September", "October", "November", "December"];
+for i in 1..3  {
+    println!("index: {i}")
+}
+```
+
+```hell
+index: 1
+index: 2
+```
+
+当然也可以将右侧设置为闭区间
+
+```rust
+for i in 1..=3  {
+   println!("index: {i}")
+}
+```
+
+```shell
+index: 1
+index: 2
+index: 3
+```
+
+Rust中的for可以像js中的forEach、map一样每次循环获取到索引和当前值。
+
+```rust
+for  (i,v) in months.iter().enumerate()  {
+   println!("index {i} months item: {v}")
+}
+```
+
+```shell
+index 0 months item: January
+...
+```
+

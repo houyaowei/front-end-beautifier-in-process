@@ -117,6 +117,9 @@ fn test_if_regular() {
         println!("not matched");
     }
 }
+fn test_for_loop() {
+
+}
 fn main() {
     // test_string();
     // test_variable();

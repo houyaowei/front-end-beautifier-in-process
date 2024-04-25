@@ -19,7 +19,7 @@ fn test_for() {
     let months = ["January", "February", "March", "April", "May", "June", "July",
     "August", "September", "October", "November", "December"];
 
-    for i in 1..=5  {
+    for i in 1..=3  {
         println!("index: {i}")
     }
     //每个元素值
@@ -84,7 +84,7 @@ fn main() {
     println!("return value is: {b}");
 
     test_for();
-    test_match();
-    test_match2();
-    test_match3();
+    // test_match();
+    // test_match2();
+    // test_match3();
 }
