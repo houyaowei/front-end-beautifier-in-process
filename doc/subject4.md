@@ -792,3 +792,22 @@ index 0 months item: January
 ...
 ```
 
+loop循环
+
+loop表示一个无限循环，可以使用break在任何时候退出循环，使用continue跳过本次循环进入到下次循环。
+
+```rust
+let mut count = 0;
+loop {
+    count += 1;
+    if count == 3 {
+        println!("get three");
+        continue;
+    }
+    if count == 5 {
+        println!("big bang");
+        break;
+    }
+}
+```
+

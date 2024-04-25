@@ -31,6 +31,20 @@ fn test_for() {
         println!("index {i} months item: {v}")
     }
 }
+fn test_loop() {
+    let mut count = 0;
+    loop {
+        count += 1;
+        if count == 3 {
+            println!("get three");
+            continue;
+        }
+        if count == 5 {
+            println!("big bang");
+            break;
+        }
+    }
+}
 //匹配模式
 enum Direction {
     East,
@@ -83,8 +97,9 @@ fn main() {
     let b = test_if();
     println!("return value is: {b}");
 
-    test_for();
+    // test_for();
     // test_match();
     // test_match2();
     // test_match3();
+    test_loop();
 }
