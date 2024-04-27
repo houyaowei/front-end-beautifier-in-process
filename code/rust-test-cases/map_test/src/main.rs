@@ -16,7 +16,17 @@ fn test_map2() {
     my_map.insert("name", "hyw".to_string());
     my_map.insert("age", 22.to_string());
 
-    println!("map: {}, length:{}", my_map.capacity(), my_map.len())
+    println!("map: {:?}", my_map);
+
+    println!("name in map is: {:?}",my_map.get("address"));
+
+    let address = String::from("address");
+    let value = "xi'an".to_string();
+    my_map.insert(&address, value);
+
+    for (key, value) in &my_map {
+        println!("{}: {}", key, value);
+    }
 }
 fn test_map3() {
     let name = String::from("Sunface");
@@ -43,8 +53,8 @@ fn test_map4() {
     }
 }
 fn main() {
-    test_map();
+    // test_map();
     test_map2();
-    test_map3();
-    test_map4();
+    // test_map3();
+    // test_map4();
 }   

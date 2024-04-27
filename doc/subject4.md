@@ -551,6 +551,47 @@ let arr_slice = &arr[1..3];
 
 
 
+#### Map结构
+
+map是比较常用的数据结构，和其他语言一样，是一种键值对的集合，将键和值关联起来，方便检索。下面通过简单的几个例子说明map的基础用法，在Rust中，在初始化Map对象前，需要导入（use）标准库的HashMap。
+
+```rust
+use std::collections::HashMap;
+```
+
+```rust
+let mut my_map = HashMap::new();
+my_map.insert("name", "hyw".to_string());
+my_map.insert("age", 22.to_string());
+println!("map: {}, length:{}", my_map.capacity(), my_map.len())
+```
+
+使用insert方法，向map集合中插入新值，如果key值相同，会覆盖原来的值。如果key是String类型，需要转换为&str类型
+
+```rust
+let address = String::from("address");
+let value = "xi'an".to_string();
+my_map.insert(&address, value);
+my_map.delete(&address);
+```
+
+获取map中的元素，使用get方法并返回一个Option。如果键不存在，会返回None。要删除使用remove方法。
+
+```shell
+map: {"age": "22", "name": "hyw"}
+name in map is: Some("hyw")
+```
+
+因为map默认具有iterator特性，所以可以直接遍历。
+
+```rust
+for (key, value) in &my_map {
+    println!("{}: {}", key, value);
+}
+```
+
+
+
 #### 结构体（struct）
 
 Rust中的结构体类似C++和go语言中得struct和JavaScript中的对象。结构体会把多个不同类型的值组合在一起形成一个单一的值，方便把他们作为一个单元处理。Rust中有3中结构体类型：
@@ -653,7 +694,7 @@ let u = User {
 print!("username by impl : {}", u.say());
 ```
 
-在impl块中定义的函数在Rust中成为关联函数，因为是与特定类型相关联的。与关联函数想对应的就是自由函数。
+在impl块中定义的函数在Rust中成为关联函数，因为是与特定类型相关联的。与关联函数像对应的就是自由函数。
 
 
 
