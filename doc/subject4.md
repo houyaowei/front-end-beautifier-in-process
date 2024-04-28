@@ -1090,7 +1090,25 @@ fn test_fn_generic4() {
 }
 ```
 
+在结构体中声明泛型，
 
+```rust
+struct Point<T> {
+    x: T,
+    y: T
+}
+impl<T> Point<T>  {
+    fn console(&self) -> &T {
+        &self.x
+    }
+}
+```
+
+
+
+
+
+#### 特征（trait）
 
 
 
