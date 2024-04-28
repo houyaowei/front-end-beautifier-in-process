@@ -67,10 +67,35 @@ fn test_fn_generic2() {
     let arr2: [i32;2] = [4,5];
     display_array2(&arr2)
 }
+
+fn add<T: std::ops::Add<Output = T>>(a:T, b:T) -> T {
+    a + b
+}
+fn test_fn_generic3() {
+    let a = 32 ;
+    let b = 10;
+    println!("generic add ,value is :{}", add(a,b));
+}
+//参数为数组地址
+fn largest<T:std::cmp::PartialOrd>(list: &[T]) -> T {
+    let mut largest = list[0];
+    for &item in list.iter() {
+        if item > largest {
+            largest = item;
+        }
+    }
+    largest
+}
+fn test_fn_generic4() {
+    let number_list = vec![34, 50, 25, 100, 65];
+    let result = largest(&number_list);
+    println!("The largest number is {}", result);
+}
 fn main() {
-    test_generic();
-    test_generic2();
-    test_fn_generic();
-    test_fn_generic_extend();
-    test_fn_generic2();
+    // test_generic();
+    // test_generic2();
+    // test_fn_generic();
+    // test_fn_generic_extend();
+    // test_fn_generic2();
+    test_fn_generic4();
 }

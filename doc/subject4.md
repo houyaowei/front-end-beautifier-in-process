@@ -1021,7 +1021,74 @@ loop {
 
 #### 泛型
 
-泛型是一种在编译期
+泛型是一种在编译时期进行类型检查和安全性检查的机制，不需要等到运行时才发现。泛型可增加代码的可读性、可维护性、可复用性，也避免了不必要的类型转换。如果有java开发经验的同学，相信对下面的代码应该不会感到陌生：
+
+```java
+public class Box<T> {
+    private T value;
+    public Box(T value) {
+        this.value = value;
+    }
+    public T getValue() {
+        return value;
+    }
+}
+// 初始化泛型类，接受Integer类型
+Box<Integer> integerBox = new Box<>(1024);
+int iValue = integerBox.getValue();
+System.out.println("Integer Value is: " + iValue);
+// 初始化泛型类，接受String类型
+Box<String> stringBox = new Box<>("Hello, Generics!");
+String strValue = stringBox.getValue();
+System.out.println("String Value is: " + strValue);
+```
+
+上述示例中，第一次泛型初始化为Integer类型，第二次初始化为字符串类型。当然不止支持基础数据类型，更可以支持类，实际项目中当然是类为最普遍。
+
+声明泛型时，类型T仅仅是一个占位符，只有在编译期才会进行类型确定。
+
+下面看下在Rust中怎么定义、初始化泛型。
+
+在Rust中，函数和结构体都支持泛型，先看下函数对泛型的支持
+
+```rust
+fn add<T: std::ops::Add<Output = T>>(a:T, b:T) -> T {
+    a + b
+}
+```
+
+```rust
+fn test_fn_generic3() {
+    let a = 32 ;
+    let b = 10;
+    println!("generic add ,value is :{}", add(a,b));//generic add ,value is :42
+}
+```
+
+使用泛型参数，有一个先决条件，就是必需在使用前对其进行声明。
+
+```rust
+fn 函数名<T>(参数: T) -> T {}
+```
+
+泛型还支持引用传递：
+
+```rust
+fn largest<T:std::cmp::PartialOrd>(list: &[T]) -> T {
+    let mut largest = list[0];
+    for &item in list.iter() {
+        if item > largest {
+            largest = item;
+        }
+    }
+    largest
+}
+fn test_fn_generic4() {
+    let number_list = vec![34, 50, 25, 100, 65];
+    let result = largest(&number_list);
+    println!("The largest number is {}", result); // The largest number is 100
+}
+```
 
 
 
