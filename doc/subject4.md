@@ -700,11 +700,66 @@ print!("username by impl : {}", u.say());
 
 #### 枚举（Enum）
 
+枚举类型提供了允许开发人员创建一个可以从多个不同取值中选其一的可能。枚举中的元素可以定义不同的类型，如下：
+
+ ```rust
+ enum Message {
+     Quite,
+     Move {
+         x: i32,
+         y: i32
+     },
+     Write(String),
+     ChangeColor(i32, i32, i32)
+ }
+ ```
+
+在枚举Message中包含四个元素，Quite，Move（该元素是个普通的结构体），Write和ChangeColor这两个是普通的元组。
+
+实例化和测试
+
+```rust
+fn test_enum_message(s: Message) {
+    match s {
+        Message::Quite => println!("Message Quite"),
+        Message::Move{x,y} => {
+            println!("element in enum ,x: {}, y:{}",x,y);
+        },
+        Message::Write(c) => println!("Write {}.", c),
+        Message::ChangeColor(a,b,c) => {
+            println!("element in enum ,a: {}, b:{}, c:{}",a,b,c);
+        } ,
+    }
+}
+```
+
+在测试函数test_enum_message中，需要注意的是元组和结构体的传值方式，
+
+```rust
+fn test_num () {
+    let quite = Message::Quite;
+    test_enum_message(quite);
+    let e_move = Message::Move {
+        x: 32,
+        y: 100
+    }; //实例化结构体
+    let e_change_color = Message::ChangeColor (255,124,83);
+    test_enum_message(e_move);
+    test_enum_message(e_change_color);
+}
+```
+
+```shell
+Message Quite
+element in enum ,x: 32, y:100
+element in enum ,a: 255, b:124, c:83
+```
 
 
 
 
-函数
+
+#### 函数
 
 函数将一堆指令抽象为具体实体，和其他语言的形式很相似。形式如下，其中函数名称的命名风格是小写字母以下划线分割: 
 
