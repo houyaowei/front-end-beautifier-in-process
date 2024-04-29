@@ -544,7 +544,6 @@ println!("boxed slice: {:?}", boxed_slice);
 ```rust
 let s = "hello, rust!";
 let s_slice = &s[0...6];//hello
-
 let arr = [1, 2, 3, 4, 5];
 let arr_slice = &arr[1..3];
 ```
@@ -1136,9 +1135,28 @@ impl<T,U> Circle<T,U>  {
 
 声明泛型时需要指定各个类型。
 
+```rust
+fn test_generic2() {
+    let p1 = Circle{x: 2, y:3.33}; 
+    let p2 = Circle { x: "Hello", y: 'c'};
+    let p = p1.minup(p2);
+    println!("test_generic2:{:?}", p); //p1和p2也出现了借用，
+}
+```
+
 
 
 #### 特征（trait）
+
+大家如果翻翻本书的配套代码或者看过Rust相关的代码，不难发现，方法中多次使用了`#[derive(Debug)]`，这就是特征，表示函数、结构体等自动派生Debug特征，支持println!宏的格式化输出。还有就是起到限制的作用，如前面的Add函数
+
+```rust
+fn add<T: std::ops::Add<Output = T>>(a:T, b:T) -> T {
+    a + b
+}
+```
+
+众所周知，并不是所有的类型都可以，通过 `std::ops::Add` 特征来限制 `T`，只有 `T` 实现了 `std::ops::Add` 才能进行合法的加法操作。
 
 
 

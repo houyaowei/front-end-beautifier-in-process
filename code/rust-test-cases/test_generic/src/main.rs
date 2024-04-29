@@ -93,7 +93,7 @@ fn test_fn_generic3() {
 // }
 fn main() {
     test_generic();
-    // test_generic2();
+    test_generic2();
     // test_fn_generic();
     // test_fn_generic_extend();
     // test_fn_generic2();
