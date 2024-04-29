@@ -77,25 +77,25 @@ fn test_fn_generic3() {
     println!("generic add ,value is :{}", add(a,b));
 }
 //参数为数组地址
-fn largest<T:std::cmp::PartialOrd>(list: &[T]) -> T {
-    let mut largest = list[0];
-    for &item in list.iter() {
-        if item > largest {
-            largest = item;
-        }
-    }
-    largest
-}
-fn test_fn_generic4() {
-    let number_list = vec![34, 50, 25, 100, 65];
-    let result = largest(&number_list);
-    println!("The largest number is {}", result);
-}
+// fn largest<T:std::cmp::PartialOrd>(list: &[T]) -> T {
+//     let mut largest = list[0];
+//     for &item in list.iter() {
+//         if item > largest {
+//             largest = item;
+//         }
+//     }
+//     largest
+// }
+// fn test_fn_generic4() {
+//     let number_list = vec![34, 50, 25, 100, 65];
+//     let result = largest(&number_list);
+//     println!("The largest number is {}", result);
+// }
 fn main() {
-    // test_generic();
+    test_generic();
     // test_generic2();
     // test_fn_generic();
     // test_fn_generic_extend();
     // test_fn_generic2();
-    test_fn_generic4();
+    // test_fn_generic4();
 }

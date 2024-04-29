@@ -1090,7 +1090,7 @@ fn test_fn_generic4() {
 }
 ```
 
-在结构体中声明泛型，
+在结构体中声明泛型，和函数声名泛型类似，
 
 ```rust
 struct Point<T> {
@@ -1104,7 +1104,37 @@ impl<T> Point<T>  {
 }
 ```
 
+```rust
+fn test_generic() {
+    let p1 = Point{x: 2, y:3}; //类型不一致就报错,如果类型不一样，需要声明两个类型
+    println!("p1:{:?}", p1);
+    println!("p1.console:{}", p1.console());
+}
+```
 
+```rust
+p1:Point { x: 2, y: 3 }
+p1.console:2
+```
+
+上面示例中，给结构体中的元素x，y设置了相同的类型（都声明为类型T）。当然也可以在声明泛型的时候声明不同的类型，如下所示：
+
+```rust
+struct Circle<T,U> {
+    x: T,
+    y: U
+}
+impl<T,U> Circle<T,U>  {
+    fn minup<V,W>(self, other: Circle<V,W>) -> Circle<T, W> {
+        Circle {
+            x: self.x,
+            y: other.y
+        }
+    }
+}
+```
+
+声明泛型时需要指定各个类型。
 
 
 
