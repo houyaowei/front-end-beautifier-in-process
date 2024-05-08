@@ -2,18 +2,18 @@
 pub trait Summary {
     fn summarize(&self) -> String;
 }
-pub struct Post{
+pub struct Book{
     pub title: String,
     pub author: String,
     pub content: String
 }
-impl Summary for Post  {
+impl Summary for Book  {
     fn summarize(&self) -> String {
-        format!("titile {}, author {}", self.title, self.author)
+        format!(" book name: {},  author: {}, content is: {}",self.title, self.author, self.content)
     }
 }
 fn main() {
-    let post = Post {title: "hello".to_string(), author:"houyw".to_string(), content: "hello,world".to_string()};
-    let msg = post.summarize();
+    let book = Book {title: "frontend complete book".to_string(), author:"houyw".to_string(), content: "development with js".to_string()};
+    let msg = book.summarize();
     println!("msg: {}", msg);
 }

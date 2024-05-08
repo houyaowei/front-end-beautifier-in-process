@@ -1158,7 +1158,36 @@ fn add<T: std::ops::Add<Output = T>>(a:T, b:T) -> T {
 
 众所周知，并不是所有的类型都可以，通过 `std::ops::Add` 特征来限制 `T`，只有 `T` 实现了 `std::ops::Add` 才能进行合法的加法操作。
 
-特征是定义了一组可以被共享的行为，只要实现了该特征，才能使用这组行为。
+特征是定义了一组可以被共享的行为，只要实现了该特征，就能继承这组行为（可以类比java中的接口），所以特征需要具体的类型来实现，更方便的是所有的特征都定义了一个隐含类型Self，默认指向实现特征的类型。特征（trait）只能有三部分组成：
+
+- function（函数）
+- types（类型）
+- constant（常量）
+
+
+
+看一个入门版特征，用来格式化打印结构体的信息。
+
+```rust
+pub trait Summary {
+    fn summarize(&self) -> String;
+}
+```
+
+这里使用 trait关键字来声明一个特征，Summary是特征名。下面我们使用结构体实现特征
+
+```rust
+pub struct Book{
+    pub title: String,
+    pub author: String,
+    pub content: String
+}
+impl Summary for Book  {
+    fn summarize(&self) -> String {
+        format!(" book name: {},  author: {}, content is: {}",self.title, self.author, self.content)
+    }
+}
+```
 
 
 
