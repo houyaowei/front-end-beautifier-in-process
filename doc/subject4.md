@@ -1207,4 +1207,15 @@ msg:  book name: frontend complete book,  author: houyw, content is: development
 
 
 
-#### 模块
+#### 包和模块
+
+当业务模块逐渐增加时，势必需要考虑根据业务模块进行分模块、分包。这么做的好处一来是有利于代码的抽象和复用，再者就是方便代码的组织和维护。Rust提供了强大的模块系统，可以将代码按层次组织成多个逻辑单元（默认是private的，如果需要暴露给其他模块访问，需要加上pub，变成public的）。
+
+模块中可以包含函数、结构体、特征（trait），其他模块。
+
+下面我们实现一个如下代码结构的模块：
+
+<img src="./media/ch4/4-6.jpeg" style="zoom:50%;"/>
+
+<center>图4-6</center> 
+
