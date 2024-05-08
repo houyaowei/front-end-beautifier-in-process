@@ -13,7 +13,11 @@ impl Summary for Book  {
     }
 }
 fn main() {
-    let book = Book {title: "frontend complete book".to_string(), author:"houyw".to_string(), content: "development with js".to_string()};
+    let book = Book {
+        title: "frontend complete book".to_string(),
+        author:"houyw".to_string(),
+        content: "development with js".to_string()
+    };
     let msg = book.summarize();
     println!("msg: {}", msg);
 }

@@ -1189,7 +1189,21 @@ impl Summary for Book  {
 }
 ```
 
+实现特征的语法与为结构体类似，都通过impl实现，表示的意思是为Book类型实现Summary特征。
 
+```rust
+let book = Book {
+    title: "frontend complete book".to_string(),
+    author:"houyw".to_string(),
+    content: "development with js".to_string()
+};
+let msg = book.summarize();
+println!("msg: {}", msg);
+```
+
+```shell
+msg:  book name: frontend complete book,  author: houyw, content is: development with js
+```
 
 
 
