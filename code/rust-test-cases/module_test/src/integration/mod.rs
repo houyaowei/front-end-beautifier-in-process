@@ -1,3 +1,3 @@
 pub fn show_hello(str:String) {
-  println!("show_hello fn in mod integration called! param is : {}", str)
+  println!("fn show_hello called in integration directory! param is : {}", str)
 }

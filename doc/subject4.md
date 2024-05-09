@@ -1215,10 +1215,10 @@ msg:  book name: frontend complete book,  author: houyw, content is: development
 
 在Rust中，模块系统有如下几个部分组成
 
-- **包**（*Packages*）： Cargo 的一个功能，它允许你构建、测试和分享 crate。
-- **Crates** ：一个模块的树形结构，它形成了库或二进制项目。
-- **模块**（*Modules*）和 **use**： 允许你控制作用域和路径的私有性。
-- **路径**（*path*）：一个命名例如结构体、函数或模块等项的方式
+- 包（Packages）： Cargo 的一个功能，可以构建、测试和分享 crate。
+- **Crates** ：一个模块的树形结构，它形成了库或二进制项目，是编译和链接的单元，也是版本控制、版本分发和运行时加载的基本单元。。
+- 模块和 **use**： 允许控制作用域和路径的私有性。
+- 路径：一个命名例如结构体、函数或模块等项的方式
 
 下面我们实现一个如下代码结构的模块：
 
@@ -1241,5 +1241,78 @@ pub struct MyStruct{
 use crate::my_struct::MyStruct;
 ```
 
-use语句中首先使用crate:: ，因为所有Rust 项目都是 crate。 Rust 项目可以由多个文件（*modules*）组成，文件也可以嵌套在文件夹中（也是 *modules*）。 使用`crate::`前缀表示来访问 module 树的根目录
+use语句中首先使用crate:: ，因为所有Rust 项目都是 crate。 Rust 项目可以由多个模块组成，文件也可以嵌套在文件夹中（也是 *modules*）。 使用crate::表示来访问 module 树的根目录。
+
+在main.rs中引用结构体就变成了以下的形式
+
+```rust
+mod my_struct;
+use crate::my_struct::MyStruct;
+```
+
+my_struct就是结构体所在的文件名，MyStruct为结构体名称。
+
+模块也可以放到其他文件夹中，就如我们要实现的others、integration目录。需要和单个文件module不同的是，需要在文件夹目录下新建一个mod.rs文件，即入口文件。
+
+如other模块，空结构体stu_struct和入口文件mod.rs，设置结构体和方法的可见性。
+
+```rust
+pub mod stu_struct;
+pub fn say_in_others (str:String) {
+  crate::integration::show_hello(str)
+}
+pub struct AnotherStruct {
+  pub name: String
+}
+```
+
+在方法say_in_others中借用crate::调用其他模块的方法show_hello。该方法中仅格式化输出:
+
+```rust
+pub fn show_hello(str:String) {
+  println!("fn show_hello called in integration directory! param is : {}", str)
+}
+```
+
+下面看下完整的main.rs实现
+
+```rust
+mod my_struct;
+mod others;
+mod integration;
+use crate::my_struct::MyStruct;
+use crate::others::AnotherStruct;
+use crate::others::stu_struct:: StuStruct;
+fn main() {
+    let _ms = MyStruct{ name: "houyw".to_string(), age: 22};
+    println!("name in struct is: {}", _ms.name);
+    let oms: AnotherStruct = AnotherStruct{ name: "hyw".to_string()};
+    println!("name in other struct is: {}", oms.name);
+    let _stu = StuStruct{};
+    crate::others::say_in_others("from main".to_string());
+}
+```
+
+输出结果：
+
+```shell
+name in struct is: houyw
+name in other struct is: hyw
+fn show_hello called in integration directory! param is : from main
+```
+
+有代码洁癖的应该看不惯这样main.rs实现。如果有更多的模块，需要继续平铺。为了避免这类问题，Rust提供了prelude机制
+
+```rust
+use crate::others:: {AnotherStruct, stu_struct:: StuStruct}; //Preludes
+```
+
+也可以prelude的inline模式
+
+```rust
+mod prelude {
+    pub use crate::others:: {AnotherStruct, stu_struct:: StuStruct};
+}
+use crate::prelude::*;
+```
 

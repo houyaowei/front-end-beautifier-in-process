@@ -9,9 +9,9 @@ use crate::my_struct::MyStruct;
 // use crate::others:: {AnotherStruct, stu_struct:: StuStruct}; //Preludes
 
 /**
- * 可以替换第9行
+ * 可以替换第7-9行
  */
-mod prelude {                            
+mod prelude {
     pub use crate::others:: {AnotherStruct, stu_struct:: StuStruct};
 }
 use crate::prelude::*;
@@ -26,5 +26,5 @@ fn main() {
 
     let _stu = StuStruct{};
 
-    crate::others::say_in_others("other".to_string());
+    crate::others::say_in_others("from main".to_string());
 }
