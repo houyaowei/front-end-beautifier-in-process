@@ -1213,9 +1213,33 @@ msg:  book name: frontend complete book,  author: houyw, content is: development
 
 模块中可以包含函数、结构体、特征（trait），其他模块。
 
+在Rust中，模块系统有如下几个部分组成
+
+- **包**（*Packages*）： Cargo 的一个功能，它允许你构建、测试和分享 crate。
+- **Crates** ：一个模块的树形结构，它形成了库或二进制项目。
+- **模块**（*Modules*）和 **use**： 允许你控制作用域和路径的私有性。
+- **路径**（*path*）：一个命名例如结构体、函数或模块等项的方式
+
 下面我们实现一个如下代码结构的模块：
 
 <img src="./media/ch4/4-6.jpeg" style="zoom:50%;"/>
 
 <center>图4-6</center> 
+
+结构体类型可以理解成模型（Model），因为结构体可以组合不同类型元素。在开发过程中模型通常是共享的，所以需要将结构体声明为public的。
+
+```rust
+pub struct MyStruct{
+  pub name:String,
+  pub age: i32
+}
+```
+
+在需要导入的模块，需要首先使用mod语法导入，Rust 自动 为它创建一个模块命名空间（以避免冲突），自动提取文件名，这时候我们还无法直接访问 struct 类型，编译仍然会报错。还需要做的是用use 关键字将完整限定的类型名称映射到类型名。
+
+```rust
+use crate::my_struct::MyStruct;
+```
+
+use语句中首先使用crate:: ，因为所有Rust 项目都是 crate。 Rust 项目可以由多个文件（*modules*）组成，文件也可以嵌套在文件夹中（也是 *modules*）。 使用`crate::`前缀表示来访问 module 树的根目录
 
