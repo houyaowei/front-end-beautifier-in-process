@@ -1307,7 +1307,7 @@ fn show_hello called in integration directory! param is : from main
 use crate::others:: {AnotherStruct, stu_struct:: StuStruct}; //Preludes
 ```
 
-也可以prelude的inline模式
+也可以使用prelude的inline模式
 
 ```rust
 mod prelude {
@@ -1316,3 +1316,8 @@ mod prelude {
 use crate::prelude::*;
 ```
 
+
+
+#### 一个命令行工具
+
+通过上面的章节我们介绍了Rust的基础知识，下面通过一个简单的命令行工具将基础知识做下贯通。下面我们
