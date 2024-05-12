@@ -1320,4 +1320,30 @@ use crate::prelude::*;
 
 #### 一个命令行工具
 
-通过上面的章节我们介绍了Rust的基础知识，下面通过一个简单的命令行工具将基础知识做下贯通。下面我们
+通过上面的章节我们介绍了Rust的基础知识，下面通过一个简单的命令行工具将基础知识做下贯通，实现一个简陋版的grep命令。
+
+首先需要创建程序的基本框架，我们使用内置的Cargo，这是内置Rust包管理工具，和js的npm、yarn、pnpm类比。同样在Rust中也提供了集中管理crate（[crates.io，类比npm仓库中的包）的方式，方便快速开发。
+
+使用cargo初始化应用，并在根目录下新建一个txt文档，模拟数据来源。
+
+```rust
+cargo new mini-grep
+```
+
+期望的执行命令是这样的
+
+ ```shell
+ cargo run --搜索内容 文件路径+文件名
+ 例如：cargo run  -- hello ../file.txt
+ ```
+
+`--` 后的参数是 告诉 cargo 后面的参数是传给程序的，然后在程序中读取参数。
+
+```rust
+use std::env;
+let args: Vec<String> = env::args().collect();//读取参数
+```
+
+需要说明的是需要首先引入标准库env，然后 env::args 方法读取并分析传入的命令行参数，在通过 collect方法返回一个集合类型 Vector。元素分别是当前路径名、搜索内容、和文件路径。
+
+下面增加模块文件lib.rs，用来处理txt文件。
