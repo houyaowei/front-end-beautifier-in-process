@@ -1346,4 +1346,49 @@ let args: Vec<String> = env::args().collect();//读取参数
 
 需要说明的是需要首先引入标准库env，然后 env::args 方法读取并分析传入的命令行参数，在通过 collect方法返回一个集合类型 Vector。元素分别是当前路径名、搜索内容、和文件路径。
 
-下面增加模块文件lib.rs，用来处理txt文件。
+下面增加模块文件lib.rs，用来处理txt文件。首先声明一个结构体，集中示例化命令行参数。
+
+```rust
+pub struct Config {
+  query_content: String,
+  file_path: String
+}
+```
+
+在方法中声明build。build的目的是处理请求命令行参数，返回Result<T,E>类型，表示处理成功或者失败， Ok(T)表示成功，Err(E）表示失败。
+
+```rust
+impl Config {
+  pub fn build (args: &[String]) -> Result<Config, &'static str> {
+      if args.len() < 3 {
+          return Err("Params are not enough;")
+      }
+      let query_content = args[1].to_string();
+      let file_path = args[2].clone(); //复制目标数据，所以没有被所有权、借用等问题
+      Ok(Config {
+          query_content,
+          file_path
+      })
+  }
+}
+```
+
+声明pub方法run，使用标准库中的fs读取文件全量内容，然后循环遍历每一行进行每行匹配。如果匹配到，就输出该行内容。
+
+```rust
+pub fn run (config: Config) -> Result<(), Box<dyn Error>> {
+  let contents = fs::read_to_string(config.file_path)?;
+  for line in contents.lines() {
+    if line.to_lowercase().contains(&config.query_content) {
+        println!("{}", line.to_lowercase());
+    }
+  }
+  Ok(())
+}
+```
+
+标准库的fs提供了很多实用的方法，如创建目录（create_dir），读文件目录（read_dir），以字节的方式读文件，读取整个文件并保存到字符串（read_to_string）等。
+
+<img src="./media/ch4/4-7.jpeg" style="zoom:50%;"/>
+
+<center>图4-7</center>

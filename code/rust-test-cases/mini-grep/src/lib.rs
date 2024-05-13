@@ -7,7 +7,7 @@ pub struct Config {
 }
 impl Config {
   pub fn build (args: &[String]) -> Result<Config, &'static str> {
-      println!("terminal args: {:?}", args);
+      // println!("terminal args: {:?}", args);
       if args.len() < 3 {
           return Err("Params are not enough;")
       }
@@ -22,6 +22,12 @@ impl Config {
 
 pub fn run (config: Config) -> Result<(), Box<dyn Error>> {
   let contents = fs::read_to_string(config.file_path)?;
-  println!("file content:\n{contents}");
+  // println!("file content:\n{contents}");
+  // println!("lines: {:?}", contents);
+  for line in contents.lines() {
+    if line.to_lowercase().contains(&config.query_content) {
+        println!("{}", line.to_lowercase());
+    }
+  }
   Ok(())
 }
