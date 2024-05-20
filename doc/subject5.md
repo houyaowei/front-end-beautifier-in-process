@@ -29,11 +29,42 @@ module.exports = {
 
 在web框架开发方面也提供了脚手架的能力。像React、Vue2&3、Solidjs、Nextjs等。
 
-下面我们看一下基于webpack的Vue2工程迁移到Rspack都需要做哪些改造。
+下面我们看一下使用Rspack创建一个的基本的Vue3工程。
 
-首先，借助脚手架生成项目基本结构，框架选择时请选择Vue2。
+```
+"dev": "rsbuild dev --open",
+"build": "rsbuild build",
+"preview": "rsbuild preview"
+```
+
+首先，借助脚手架生成项目基本结构，框架选择时请选择Vue3。
 
 ```shell
 pnpm create rsbuild@latest
 ```
 
+Rspack官方提供了3个基础的命令，dev、build、preview
+
+```shell
+"dev": "rsbuild dev --open",
+"build": "rsbuild build",
+"preview": "rsbuild preview"
+```
+
+代码结构和静态资源不需要做任何的改变，原目录照样移动即可。重点是配置文件rebuild.config.mjs的配置。
+
+1、修改页面挂载点
+
+基于Rspack的挂载点和基于Vite的挂载点稍微不同，后者的节点可以自定义，但是前者是以id为root的元素为跟元素，所以你不需要在html中什么元素，只需要在Vue挂载的时候指定就行了
+
+```vue
+const app = createApp(App)
+app.mount('#root')
+```
+
+2、基础配置
+
+- context：构建的基础路径，是entry和output中的基础路径
+- entry：入口文件
+- output：需要需要自定义文件的hash值或者根据环境区分打包文件，需要单独配置该项
+- devServer
