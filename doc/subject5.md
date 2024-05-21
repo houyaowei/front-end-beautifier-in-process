@@ -67,4 +67,6 @@ app.mount('#root')
 - context：构建的基础路径，是entry和output中的基础路径
 - entry：入口文件
 - output：需要需要自定义文件的hash值或者根据环境区分打包文件，需要单独配置该项
-- devServer
+- devServer：开发环境配置
+- module：配置如何解析模块，如前面介绍的图片和字体的解析使用asset，对样式（scss，stylus，css）的处理使用javascript/auto
+- Resolve:  配置模块的解析逻辑，如常用的alias别名
