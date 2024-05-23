@@ -29,7 +29,7 @@ module.exports = {
 
 在web框架开发方面也提供了脚手架的能力。像React、Vue2&3、Solidjs、Nextjs等。
 
-下面我们看一下使用Rspack创建一个的基本的Vue3工程。
+下面我们看一下使用Rspack创建一个基本的Vue3工程。
 
 ```
 "dev": "rsbuild dev --open",
@@ -70,3 +70,5 @@ app.mount('#root')
 - devServer：开发环境配置
 - module：配置如何解析模块，如前面介绍的图片和字体的解析使用asset，对样式（scss，stylus，css）的处理使用javascript/auto
 - Resolve:  配置模块的解析逻辑，如常用的alias别名
+
+对前端开发者而言，熟练掌握上面的配置是最基本的要求。
