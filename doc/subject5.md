@@ -32,15 +32,14 @@ module.exports = {
 下面我们看一下使用Rspack创建一个基本的Vue3工程。
 
 ```
-"dev": "rsbuild dev --open",
-"build": "rsbuild build",
-"preview": "rsbuild preview"
+ "dev": "rspack serve",
+ "build": "rspack build"
 ```
 
 首先，借助脚手架生成项目基本结构，框架选择时请选择Vue3。
 
 ```shell
-pnpm create rsbuild@latest
+pnpm create rspack@latest
 ```
 
 Rspack官方提供了3个基础的命令，dev、build、preview
@@ -51,18 +50,9 @@ Rspack官方提供了3个基础的命令，dev、build、preview
 "preview": "rsbuild preview"
 ```
 
-代码结构和静态资源不需要做任何的改变，原目录照样移动即可。重点是配置文件rebuild.config.mjs的配置。
+代码结构和静态资源不需要做任何的改变，原目录照样移动即可。重点是配置文件rspack.config.js的配置。
 
-1、修改页面挂载点
-
-基于Rspack的挂载点和基于Vite的挂载点稍微不同，后者的节点可以自定义，但是前者是以id为root的元素为跟元素，所以你不需要在html中什么元素，只需要在Vue挂载的时候指定就行了
-
-```vue
-const app = createApp(App)
-app.mount('#root')
-```
-
-2、基础配置
+1、基础配置
 
 - context：构建的基础路径，是entry和output中的基础路径
 - entry：入口文件
@@ -70,5 +60,6 @@ app.mount('#root')
 - devServer：开发环境配置
 - module：配置如何解析模块，如前面介绍的图片和字体的解析使用asset，对样式（scss，stylus，css）的处理使用javascript/auto
 - Resolve:  配置模块的解析逻辑，如常用的alias别名
+- plugins：插件声明入口，如在webpack中常用的HtmlWebpackPlugin，DefinePlugin
 
-对前端开发者而言，熟练掌握上面的配置是最基本的要求。
+对前端开发者而言，需要熟悉上面的基础配置项。Rspack还提供了常用的配置能力，无需loader或者插件即可使用。
