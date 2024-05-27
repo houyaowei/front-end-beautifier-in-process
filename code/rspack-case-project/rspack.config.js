@@ -11,6 +11,9 @@ const config = {
 	entry: {
 		main: "./src/main.js"
 	},
+	output: {
+		filename: "bundle.[hash].js"
+	},
 	resolve: {
 		extensions: [".vue", '.js'],
 		alias: {
@@ -20,6 +23,7 @@ const config = {
 	devServer: {
 		port: 5177
 	},
+	devtool: false,
 	plugins: [
 		new VueLoaderPlugin(),
 		new rspack.HtmlRspackPlugin({
@@ -67,6 +71,12 @@ const config = {
 				type: 'css',
 			}
 		]
+	},
+	builtins: {
+		banner: [{
+			banner: 'Copyright@houyw, 2023-present',
+			footer: true,
+		}]
 	}
 };
 module.exports = config;

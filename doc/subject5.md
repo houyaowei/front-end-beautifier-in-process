@@ -62,4 +62,4 @@ Rspack官方提供了3个基础的命令，dev、build、preview
 - Resolve:  配置模块的解析逻辑，如常用的alias别名
 - plugins：插件声明入口，如在webpack中常用的HtmlWebpackPlugin，DefinePlugin
 
-对前端开发者而言，需要熟悉上面的基础配置项。Rspack还提供了常用的配置能力，无需loader或者插件即可使用。
+对前端开发者而言，需要熟悉上面的基础配置项。Rspack还提供了常用的配置能力，无需loader或者插件即可使用。如
