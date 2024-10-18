@@ -15,8 +15,8 @@
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
-    "@rspack/cli": "0.6.5",
-    "@rspack/core": "0.6.5",
+    "@rspack/cli": "0.7.0",
+    "@rspack/core": "0.7.0",
     "vue-loader": "^17.2.2",
     "@rsbuild/plugin-rem": "^0.6.15",
     "less": "^4.2.0",

@@ -5,6 +5,8 @@ const path = require("path");
 
 const isDev = process.env.NODE_ENV == "development";
 
+console.log("publicPath in env file: ", process.env.NODE_ENV );
+
 /** @type {import('@rspack/cli').Configuration} */
 const config = {
 	context: __dirname,
@@ -12,7 +14,10 @@ const config = {
 		main: "./src/main.js"
 	},
 	output: {
-		filename: "bundle.[hash].js"
+		globalObject: 'self',
+		filename: '[name].[contenthash:8].bundle.js',
+		chunkFilename: '[name].[contenthash:8].bundle.js',
+		path: path.resolve(__dirname, 'dist'),
 	},
 	resolve: {
 		extensions: [".vue", '.js'],
@@ -28,8 +33,48 @@ const config = {
 		new VueLoaderPlugin(),
 		new rspack.HtmlRspackPlugin({
 			template: "./index.html"
+		}),
+		new rspack.BannerPlugin({
+			banner: "Test Banner",
+			footer: true
+		}),
+		new rspack.ProvidePlugin({
+			ProviderComponent: path.resolve(path.join(__dirname, "src/utils/utils.js"))
 		})
 	],
+	optimization: {
+		sideEffects: true,
+		splitChunks: {
+			chunks: 'all',
+			minChunks: 1,
+			minSize: 500 * 1024,
+			maxSize: 1000 * 1024,
+			maxAsyncRequests: 30,
+			maxInitialRequests: 30,
+			cacheGroups: {
+				core: {
+				  chunks: 'all',
+				  test: /[\\/]node_modules[\\/](vue|vue-router|pinia)/,
+				  priority: 100,
+				  name: 'core',
+				  reuseExistingChunk: true,
+				},
+				vendors: {
+				  chunks: 'all',
+				  test: /[\\/]node_modules[\\/]/,
+				  priority: 10,	
+				  name: 'vendors',
+				  reuseExistingChunk: true,
+				},
+				async: {
+				  chunks: 'async',
+				  priority: 1,
+				  name: 'async',
+				  reuseExistingChunk: true,
+				},
+			  },
+		},
+	},
 	module: {
 		rules: [
 			{
@@ -71,12 +116,6 @@ const config = {
 				type: 'css',
 			}
 		]
-	},
-	builtins: {
-		banner: [{
-			banner: 'Copyright@houyw, 2023-present',
-			footer: true,
-		}]
-	}
+	},	
 };
 module.exports = config;

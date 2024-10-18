@@ -1,6 +1,6 @@
 <template>
 
-  <div class="form">
+  <div class="home">
     <a-form
         :model="formState"
         name="basic"
@@ -54,7 +54,7 @@ const onFinishFailed = errorInfo => {
 
 <style scoped lang="less">
 
-  .form {
+  .home {
     margin-top: 40px;
     display: flex;
     justify-content: center;

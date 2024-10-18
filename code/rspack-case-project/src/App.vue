@@ -14,6 +14,7 @@ import Navs from "@/components/Navs.vue";
       <Navs />
     </header>
     <RouterView style="margin-top: 30px" />
+    <ProviderComponent />
   </div>
   
 </template>

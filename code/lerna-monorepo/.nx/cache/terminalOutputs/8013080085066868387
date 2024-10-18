@@ -1,6 +1,0 @@
-[2K[1G[1myarn run v1.22.22[22m
-[2K[1G[2m$ rollup -c[22m
-[36m
-[1m./src/main.js[22m → [1mdist/javascript-validate-utils.js[22m...[39m
-[32mcreated [1mdist/javascript-validate-utils.js[22m in [1m40ms[22m[39m
-[2K[1GDone in 0.34s.
