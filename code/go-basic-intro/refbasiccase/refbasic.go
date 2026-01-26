@@ -3,6 +3,8 @@ package refbasiccase
 import (
 	"encoding/json"
 	"fmt"
+	"reflect"
+	"sort"
 	"time"
 )
 
@@ -22,6 +24,30 @@ func TestSlice() {
 	letters[0] = "a"
 	fmt.Println("lettters:", letters)
 }
+func TestSlice2() {
+	//2维数组
+	context2D := make([][]string, 2)
+	context2D[0] = []string{"hello", "go", "!"}
+	context2D[1] = []string{"best", "wishes", "!"}
+	fmt.Println("context2D:", context2D)
+}
+func TestDelSlice() {
+	nums := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	//删除头部元素
+	//nums = append(nums[5:])
+	//删除尾部元素
+	//nums = append(nums[:4])
+	//删除中间某一个元素
+	nums = append(nums[:2], nums[3:]...)
+	fmt.Println("nums:", nums)
+}
+func TestSliceSort() {
+	floatNums := []float64{1.1, 0.5, 30.4, 6, 4.2, 0.64, 12.4}
+	sort.Float64s(floatNums)
+	fmt.Println("floatNums:", floatNums)
+	sort.Sort(sort.Reverse(sort.Float64Slice(floatNums)))
+	fmt.Println("floatNums reverse:", floatNums)
+}
 
 func TestMap() {
 	person := make(map[string]string)
@@ -38,6 +64,15 @@ func TestMap() {
 	delete(person, "address")
 	fmt.Println("person.name is:", person)
 }
+func TestMapLoop() {
+	mapValues := make(map[string]string)
+	mapValues["name"] = "houyw"
+	mapValues["address"] = "xi'an"
+
+	for k, v := range mapValues {
+		fmt.Printf("key=%s, value=%s\n", k, v)
+	}
+}
 func TestStruct() {
 	type Employee struct {
 		ID        int
@@ -46,7 +81,8 @@ func TestStruct() {
 		Salary    int
 		ManagerID int
 	}
-	var person Employee = Employee{610001, "houyw", "xi'an", 26, 51000}
+	//var person Employee = Employee{610001, "houyw", "xi'an", 26, 51000}
+	var person Employee = Employee{ID: 610001, Address: "xi'an", Salary: 26, ManagerID: 51000}
 	fmt.Println("name:", person.Name)
 
 	ref := &person.Address
@@ -57,7 +93,18 @@ func TestStruct() {
 	fmt.Println("get Name by Pointer:", person_pointer.Name)
 
 }
+func TestStructValue() {
+	//结构体字面值
+	type Location struct {
+		Lon,
+		Lat float64
+	}
+	loc := Location{32.11222, 43.222}
+	loc2 := Location{Lon: 44.2193356, Lat: 223.22} //这种形式的可以初始化部分字段
 
+	fmt.Println("x:", loc.Lon)
+	fmt.Println("x in loc2:", loc2.Lat)
+}
 func TestSelectOperator() {
 	c1 := make(chan string)
 	c2 := make(chan int)
@@ -114,6 +161,15 @@ func TestStructTags() {
 	new_person := User{}
 	_ = json.Unmarshal(bs, &new_person) // 反序列化
 	fmt.Println(new_person)
+
+	fmt.Println("------------reflect test------")
+	ts := reflect.TypeOf(user)
+	fmt.Println("Field 个数:", ts.NumField())
+	for i := 0; i < ts.NumField(); i++ {
+		f := ts.Field(i)
+		fmt.Println(f.Name, f.Tag.Get("json"))
+	}
+
 }
 func TestStructAndMap() {
 	type Vertex struct {
@@ -139,8 +195,8 @@ type Position struct {
 	Lat, Long int
 }
 
-func (a Animal) Runing() {
-	fmt.Println(a.Name + " is running...")
+func (a Animal) Barking() {
+	fmt.Println(a.Name + " is barking...")
 }
 func (a Animal) Eatting() {
 	fmt.Println(a.Name + " is eating...")
@@ -158,7 +214,7 @@ func TestStructCompose() {
 			2, 4,
 		},
 		Detail: Animal{
-			Name:   "Labrador",
+			Name:   "德牧",
 			Color:  "orange",
 			Weight: 30,
 			Height: 50,
@@ -166,6 +222,6 @@ func TestStructCompose() {
 		},
 	}
 	fmt.Println(dog.Detail.Name)
-	dog.Detail.Runing()
+	dog.Detail.Barking()
 	dog.Detail.Eatting()
 }

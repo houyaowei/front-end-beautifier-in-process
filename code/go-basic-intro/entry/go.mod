@@ -16,4 +16,7 @@ replace example.com/funcs => ../funcs
 
 replace example.com/standard => ../standard
 
-require example.com/standard v0.0.0-00010101000000-000000000000
+require (
+	example.com/methods v0.0.0-00010101000000-000000000000
+	example.com/refbasiccase v0.0.0-00010101000000-000000000000
+)

@@ -74,3 +74,8 @@ func TestReflect() {
 	name := "houyw"
 	getReflectType(name)
 }
+
+func TestNoLengthArray() {
+	names := [...]string{"hyw", "hcc"}
+	fmt.Println("names length:", len(names))
+}
