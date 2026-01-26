@@ -1,23 +1,28 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-	<title>webcomponents test case</title>
-	<style type="text/css">
-		user-card {
-			width: 500px;
-			height: 300px;
-			border: 1px solid #ccc;
-			display: flex;
-		}
-		img {
-			width: 200px;
-			height: 200px;
-		}
-	</style>
-</head>
-<body>
-	<button onClick="update()">更新</button>
-	<user-card id="card" name='a'></user-card>
-	<script type="text/javascript" src="./UserCard.js"></script>
-</body>
+    <head>
+        <title>webcomponent test case</title>
+        <style type="text/css">
+            user-card {
+                width: 340px;
+                height: 200px;
+                border: 1px solid #ccc;
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+            }
+            img {
+                width: 200px;
+                height: 200px;
+            }
+            .name {
+                color: red;
+            }
+        </style>
+    </head>
+    <body>
+        <button onClick="update()">更新</button>
+        <user-card id="card" name="a"></user-card>
+        <script type="text/javascript" src="./UserCard.js"></script>
+    </body>
 </html>

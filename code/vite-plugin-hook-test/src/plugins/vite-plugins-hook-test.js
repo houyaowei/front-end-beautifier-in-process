@@ -1,10 +1,16 @@
 export default function VitePluginsHookTest() {
   return {
     name: "vite-plugin-hook-test",
-    enforce: "pre",
+    enforce: "post",
     apply: "build",
+    options() {
+      console.log("hook options() invoked!");
+    },
     config(config, env) {
       console.log("hook config() invoked");
+    },
+    configResolved(config, env) {
+      console.log("hook configResolved() invoked");
     },
     configureServer() {
       console.log("hook configureServer() invoked");
@@ -27,9 +33,15 @@ export default function VitePluginsHookTest() {
       // console.log("options:", options);
       console.log("hook resolveId() invoked");
     },
-    transformIndexHtml(html) {
-      console.log("hook transformIndexHtml() invoked");
+    transformIndexHtml: {
+      order: "pre",
+      handler: () => {
+        console.log("hook transformIndexHtml() invoked");
+      },
     },
+    // transformIndexHtml() {
+    //   console.log("hook transformIndexHtml() invoked");
+    // },
     renderChunk() {
       console.log("hook renderChunk() invoked");
     },

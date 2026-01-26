@@ -1,0 +1,23 @@
+{
+  "name": "portal",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite --mode development",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "pinia": "^2.0.32",
+    "vue": "^3.5.12",
+    "vue-router": "^4.1.6",
+    "web-vitals": "^5.0.0-rc.0",
+    "wujie": "^1.0.22",
+    "wujie-vue3": "^1.0.22"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.1.5",
+    "@vitejs/plugin-vue-jsx": "^4.1.0",
+    "vite": "^5.4.11"
+  }
+}

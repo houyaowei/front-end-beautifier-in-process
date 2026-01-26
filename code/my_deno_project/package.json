@@ -1,0 +1,19 @@
+{
+  "name": "my_deno_project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "node.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "javascript-common-tools": "^0.3.9",
+    "javascript-validate-utils": "^0.3.4"
+  }
+}

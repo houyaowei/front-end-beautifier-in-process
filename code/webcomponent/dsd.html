@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+    <head>
+        <title>动态Shadow DOM测试</title>
+    </head>
+    <body>
+        <my-clock>
+            <template shadowrootmode="open">
+                <style>
+                    #hour {
+                        color: red;
+                    }
+                    #min {
+                        color: green;
+                    }
+                    #sec {
+                        color: purple;
+                    }
+                </style>
+                <div>
+                    <span id="hour">12</span> : <span id="min">34</span> :
+                    <span id="sec">56</span>
+                </div>
+                <slot>slot占位符</slot>
+            </template>
+            <slot>北京时间</slot>
+        </my-clock>
+        <script type="text/javascript" src="./dsd.js"></script>
+    </body>
+</html>
