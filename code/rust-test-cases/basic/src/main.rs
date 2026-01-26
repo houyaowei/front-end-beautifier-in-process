@@ -1,17 +1,27 @@
-// fn test_string() {
-//     let chinese = "世界，你好".to_string();
-//     let english = "hello，world".to_owned();
-//     let regions = [chinese, english];
-//     for r in regions.iter()  {
-//         println!("{}", &r)
-//     }
-//
-// }
-// fn test_variable() {
-//     let english = "hello,world".to_string();
-//     let sub = &english[6..];
-//     println!("{:?}", sub)
-// }
+fn test_string() {
+    let chinese = "世界，你好".to_string();
+    let english = "hello，world".to_owned();
+    let regions = [chinese, english];
+    for r in regions.iter()  {
+        println!("{}", &r)
+    }
+
+}
+fn test_variable() {
+    let english = "hello,world".to_string();
+    let sub = &english[6..];
+    println!("{:?}", sub)
+}
+fn test_enum() {
+    #[derive(Debug)]
+    enum PokerSuit {
+        Clubs,
+        Spades,
+        Diamonds,
+        Hearts,
+    }
+    println!("{:?}", PokerSuit::Clubs)
+}
 // fn test_string() {
 //     let mut s1 = String::from("hi,rust!");
 //     s1.insert_str(8, "I like it!");
@@ -31,9 +41,9 @@
 //     }
 // }
 type Factory = fn(a:i8, b:i8) -> i8;
-fn calc(fnc: Factory, a: i8, b: i8) -> i8 {
-    fnc(a, b)
-}
+// fn calc(fnc: Factory, a: i8, b: i8) -> i8 {
+//     fnc(a, b)
+// }
 fn calc2(m: &str) -> Factory {
     match m {
         "add" => test_add,
@@ -117,12 +127,25 @@ fn test_if_regular() {
         println!("not matched");
     }
 }
+fn test_iter(){
+    let num_arr = [11,22,33];
+    for num in num_arr.iter() {
+        print!("{} ", num)
+    }
+}
+fn test_vec_iter(){
+    let vec = vec![11,22,33];
+    for v in vec.iter()  {
+        println!("{}",v)
+    }
+}
 fn test_for_loop() {
 
 }
 fn main() {
     // test_string();
     // test_variable();
+    // test_enum()
     // let f = test_diverging(false);
     // println!("diverging functions: {:?}", f);
     // println!("add func ,result: {:?}", test_add(3,6));
@@ -134,5 +157,7 @@ fn main() {
     //
     // println!("HOF add2, {}", calc2("add")(20, 20));
     // println!("HOF sub2, {}", calc2("sub")(60, 21));
-    test_if_regular()
+    // test_if_regular()
+    // test_iter()
+    test_vec_iter()
 }
