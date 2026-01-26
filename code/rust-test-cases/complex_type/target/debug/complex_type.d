@@ -1,1 +1,1 @@
-/Users/houyaowei/Documents/git-resource/github/front-end-beautifier-in-process/code/rust-test-cases/complex_type/target/debug/complex_type: /Users/houyaowei/Documents/git-resource/github/front-end-beautifier-in-process/code/rust-test-cases/complex_type/src/main.rs
+/Users/houyaowei/Documents/git-resource/gitee/front-end-beautifier-in-process/code/rust-test-cases/complex_type/target/debug/complex_type: /Users/houyaowei/Documents/git-resource/gitee/front-end-beautifier-in-process/code/rust-test-cases/complex_type/src/main.rs

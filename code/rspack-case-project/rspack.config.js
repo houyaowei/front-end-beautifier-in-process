@@ -1,6 +1,9 @@
 const rspack = require("@rspack/core");
+const { RsdoctorRspackPlugin } = require('@rsdoctor/rspack-plugin');
 const { VueLoaderPlugin } = require("vue-loader");
 // const  { pluginRem } = require('@rsbuild/plugin-rem');
+
+
 const path = require("path");
 
 const isDev = process.env.NODE_ENV == "development";
@@ -10,6 +13,9 @@ console.log("publicPath in env file: ", process.env.NODE_ENV );
 /** @type {import('@rspack/cli').Configuration} */
 const config = {
 	context: __dirname,
+	experiments: {
+		css: true,
+	},
 	entry: {
 		main: "./src/main.js"
 	},
@@ -40,7 +46,12 @@ const config = {
 		}),
 		new rspack.ProvidePlugin({
 			ProviderComponent: path.resolve(path.join(__dirname, "src/utils/utils.js"))
-		})
+		}),
+		new RsdoctorRspackPlugin({
+			port: 4286,
+			features: ['bundle', 'loader', 'plugins','resolver'],
+		}),
+
 	],
 	optimization: {
 		sideEffects: true,
@@ -107,7 +118,7 @@ const config = {
 				type: "asset/resource"
 			},
 			{
-				test: /\.less$/,
+				test: /\.(css|less)$/,
 				use: [
 					{
 						loader: 'less-loader',
@@ -115,6 +126,7 @@ const config = {
 				],
 				type: 'css',
 			}
+
 		]
 	},	
 };

@@ -2,9 +2,9 @@
 <module type="EMPTY_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/complex_type/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/basic/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/mini-grep/src" isTestSource="false" />
-      <excludeFolder url="file://$MODULE_DIR$/complex_type/target" />
+      <excludeFolder url="file://$MODULE_DIR$/basic/target" />
       <excludeFolder url="file://$MODULE_DIR$/mini-grep/target" />
     </content>
     <orderEntry type="inheritedJdk" />

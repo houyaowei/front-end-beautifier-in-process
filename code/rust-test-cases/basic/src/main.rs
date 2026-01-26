@@ -115,7 +115,7 @@ fn test_if_regular() {
     let a = 22;
     let is_bigger = if a > 10  {
         true
-    }else {
+    } else {
         false
     };
     println!("variable is bigger than 10? {:?}.", is_bigger);
@@ -139,6 +139,20 @@ fn test_vec_iter(){
         println!("{}",v)
     }
 }
+fn test_vec_multi_types(){
+    //vec存储多种类型的值，但是需要借助枚举或者特征对象
+    #[derive(Debug)]
+    enum PersonInfo {
+        Name(String),
+        Age(i32),
+        Weight(f32),
+    }
+    let p = vec![PersonInfo::Name("hyw".to_string()), PersonInfo::Age(20), PersonInfo::Weight(70.2)];
+    for p in p {
+        println!("{:?}",p)
+    }
+
+}
 fn test_for_loop() {
 
 }
@@ -159,5 +173,6 @@ fn main() {
     // println!("HOF sub2, {}", calc2("sub")(60, 21));
     // test_if_regular()
     // test_iter()
-    test_vec_iter()
+    // test_vec_iter()
+    test_vec_multi_types()
 }

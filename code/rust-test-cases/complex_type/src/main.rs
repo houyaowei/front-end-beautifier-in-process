@@ -58,16 +58,16 @@ fn test_struct() {
     println!("build user is: {:?}", user);
     assert_eq!(user.username,"hyw");
 }
-#[derive(Debug)]
-struct Position(f32, f32);
-fn build_couple_struct() -> Position {
-    Position(116.404053,39.915046) //故宫百度坐标
-}
-fn test_couple_struct() {
-    let postion = build_couple_struct();
-    println!("build position is: {:?}", postion);
-    assert_eq!(postion.0, 3.1415926);
-}
+// #[derive(Debug)]
+// struct Position(&str,f32, f32);
+// fn build_couple_struct() -> Position {
+//     Position("ss",116.404053,39.915046) //故宫百度坐标
+// }
+// fn test_couple_struct() {
+//     let postion = build_couple_struct();
+//     println!("GuGong position is: {:?}", postion);
+//     assert_eq!(postion.0, 3.1415926);
+// }
 #[derive(Debug)]
 enum Message {
     Quite,
@@ -101,11 +101,30 @@ fn test_num () {
     test_enum_message(e_move);
     test_enum_message(e_change_color);
 }
+fn test_array(){
+    let arr = ["你好", "hello"];
+    println!("item in index 0 is: {}", arr[0]);
+}
+fn test_vec(){
+    let mut vec = Vec::new();
+    vec.push(1);
+    vec.push(2);
+    vec.push(3);
+    println!("vec[1] is: {:?}", &vec[1]);
+    println!("vec[10] is: {:?}", vec.get(10));
+}
+fn test_string(){
+    let st_text = "hello";
+    println!("st text is: {}", st_text);
+}
 fn main() {
     // test_match1();
     // test_match2();
     // test_struct();
     // test_couple_struct();
     // test_struct_impl();
-    test_num();
+    // test_num();
+    // test_array();
+    // test_string()
+    test_vec()
 }
