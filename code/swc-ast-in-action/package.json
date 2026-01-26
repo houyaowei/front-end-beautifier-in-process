@@ -1,0 +1,15 @@
+{
+  "name": "swc-ast-in-action",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "parser": "node parse.js",
+    "transfer": "node code-transfer.js"
+  },
+  "type": "module",
+  "license": "MIT",
+  "devDependencies": {
+    "@swc/cli": "^0.6.0",
+    "@swc/core": "^1.10.7"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "babel-ast-in-action",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel src --out-dir lib",
+    "build-ast": "node ./src/AstTest.js",
+    "ast": "node src/AstTest2.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "7.26.4",
+    "@babel/core": "7.26.0",
+    "@babel/plugin-transform-runtime": "^7.25.9",
+    "@babel/preset-env": "7.26.0",
+    "babel-plugin-polyfill-corejs3": "0.11.0"
+  },
+  "dependencies": {
+    "core-js": "^3.40.0",
+    "javascript-validate-utils": "0.3.4"
+  }
+}

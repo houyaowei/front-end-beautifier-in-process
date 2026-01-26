@@ -1,0 +1,11 @@
+.search {
+  width: 760px;
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 16px;
+}
+
+.main {
+  min-height: calc(100vh - 32px);
+  margin-bottom: 32px;
+}

@@ -1,0 +1,14 @@
+{
+  "name": "@smart-tracking-sdk/core",
+  "description": "跨平台埋点",
+  "version": "0.0.1",
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "license": "MIT",
+  "dependencies": {
+    "@fingerprintjs/fingerprintjs": "^4.5.1",
+    "javascript-validate-utils": "^0.3.5",
+    "webrtc-ip": "^4.0.5"
+  }
+}

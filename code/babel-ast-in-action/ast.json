@@ -1,0 +1,50 @@
+{
+  "type": "File",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "interpreter": null,
+    "body": [
+      {
+        "type": "FunctionDeclaration",
+        "id": {
+          "type": "Identifier",
+          "name": "square"
+        },
+        "generator": false,
+        "async": false,
+        "params": [
+          {
+            "type": "Identifier",
+            "name": "n"
+          }
+        ],
+        "body": {
+          "type": "BlockStatement",
+          "body": [
+            {
+              "type": "ReturnStatement",
+              "argument": {
+                "type": "BinaryExpression",
+                "left": {
+                  "type": "Identifier",
+                  "name": "n"
+                },
+                "operator": "*",
+                "right": {
+                  "type": "Identifier",
+                  "name": "n"
+                }
+              }
+            }
+          ],
+        }
+      },
+      {
+        "type": "EmptyStatement",
+        "start": 38,
+        "end": 39,
+      }
+    ],
+  },
+}

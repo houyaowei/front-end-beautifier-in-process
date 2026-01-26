@@ -1,0 +1,19 @@
+{
+  "name": "acorn-ast-in-action",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "node parse.js",
+    "build-ast": "node ./src/AstTest.js",
+    "ast": "node src/AstTest2.js"
+  },
+  "devDependencies": {
+    "@babel/types": "^7.26.5",
+    "acorn": "^8.14.0",
+    "acorn-walk": "^8.3.4",
+    "ast-types": "^0.14.2",
+    "astring": "^1.9.0",
+    "escodegen": "^2.1.0"
+  }
+}

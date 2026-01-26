@@ -1,0 +1,28 @@
+{
+  "name": "@smart-tracking-sdk/monorepo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf node_modules **/*/node_modules",
+    "build:rollup": "cross-env NODE_ENV='prod' NODE_OPTIONS=\"--max-old-space-size=6144\" rollup -c",
+    "publish:repo": "pnpm publish --no-git-checks",
+    "dev:core": "pnpm run -C packages/core dev",
+    "build:tools": "pnpm run -C packages/javascript-validate-tools build"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.2",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-swc": "^0.4.0",
+    "@swc/core": "^1.10.8",
+    "@types/node": "^22.10.7",
+    "cross-env": "^7.0.3",
+    "esbuild": "^0.24.2",
+    "esbuild-register": "^3.6.0",
+    "rollup": "^4.31.0",
+    "rollup-plugin-dts": "^6.1.1",
+    "rollup-plugin-esbuild": "^6.1.1",
+    "typescript": "~5.7.3"
+  }
+}

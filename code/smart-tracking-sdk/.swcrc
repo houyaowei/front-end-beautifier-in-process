@@ -1,0 +1,21 @@
+{
+  "$schema": "https://swc.rs/schema.json",
+  "minify": true,
+  "jsc": {
+    "minify": {
+      "mangle": {
+      },
+      "compress": {
+        "drop_debugger": true,
+        "reduce_funcs": true,
+      },
+    },
+  },
+  "env": {
+    "targets": {
+      "chrome": "79"
+    },
+    "mode": "entry",
+    "coreJs": "3.22"
+  },
+}

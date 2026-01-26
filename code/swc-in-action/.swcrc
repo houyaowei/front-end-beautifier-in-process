@@ -1,0 +1,43 @@
+{
+  "$schema": "https://swc.rs/schema.json",
+  "minify": true,
+  "jsc": {
+    "minify": {
+      "mangle": {
+      },
+      "compress": {
+        "drop_debugger": true,
+        "reduce_funcs": true,
+      },
+    },
+    "parser": {
+      "syntax": "ecmascript",
+      "jsx": false,
+      "dynamicImport": false,
+      "privateMethod": false,
+      "functionBind": false,
+      "exportDefaultFrom": false,
+      "exportNamespaceFrom": false,
+      "decorators": false,
+      "decoratorsBeforeExport": false,
+      "topLevelAwait": false,
+      "importMeta": false
+    },
+    "transform": null,
+    "loose": false,
+    "externalHelpers": false,
+    "keepClassNames": false
+  },
+  "module": {
+    "type": "es6"
+  },
+  "env": {
+    "targets": {
+      "chrome": "79"
+    },
+    "mode": "entry",
+    "coreJs": "3.22"
+  },
+  "sourceMaps": 'inline',
+  "sourceRoot": "./"
+}
