@@ -1,0 +1,23 @@
+{
+  "name": "oxc-cases",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "parse": "node src/parse.js",
+    "transform": "node src/transform.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@prettier/plugin-oxc": "^0.0.4",
+    "oxc-minify": "^0.95.0",
+    "oxc-parser": "^0.95.0",
+    "oxc-resolver": "^11.11.1",
+    "oxc-transform": "^0.95.0",
+    "oxfmt": "^0.8.0",
+    "oxlint": "^1.24.0"
+  }
+}
